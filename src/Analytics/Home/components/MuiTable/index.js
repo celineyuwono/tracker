@@ -262,16 +262,33 @@ class Example extends React.Component {
       textLabels: {
         body: {
           noMatch: 'レコードが見つけれませんでした。',
+          toolTip: '並び替え',
+          columnHeaderTooltip: (column) => `${column.label}を並び替え`,
+        },
+        toolbar: {
+          search: '検索',
+          downloadCsv: 'CSVダウンロード',
+          print: '印刷',
+          viewColumns: 'コラム表示',
+          filterTable: 'フィルター',
         },
         filter: {
-          all: '全てのレコード',
+          all: '全レコード',
           title: 'フィルター',
           reset: 'リセット',
         },
+        pagination: {
+          rowsPerPage: '表示件数',
+          displayRows: 'から',
+        },
+        viewColumns: {
+          title: 'カラム表示',
+          titleAria: 'カラムを表示・非表示する',
+        },
       },
       downloadOptions: {
-        filename: 'excel-format.csv',
-        separator: ';',
+        filename: 'tracker.csv',
+        separator: ',',
         filterOptions: {
           useDisplayedColumnsOnly: true,
           useDisplayedRowsOnly: true,

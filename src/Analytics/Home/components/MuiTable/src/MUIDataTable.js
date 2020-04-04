@@ -1,25 +1,31 @@
-import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles';
-import MuiTable from '@material-ui/core/Table';
-import classnames from 'classnames';
-import assignwith from 'lodash.assignwith';
-import cloneDeep from 'lodash.clonedeep';
-import find from 'lodash.find';
-import isUndefined from 'lodash.isundefined';
-import merge from 'lodash.merge';
-import PropTypes from 'prop-types';
-import React from 'react';
-import TableBody from './components/TableBody';
-import TableFilterList from './components/TableFilterList';
-import TableFooter from './components/TableFooter';
-import TableHead from './components/TableHead';
-import TableResize from './components/TableResize';
-import TableToolbar from './components/TableToolbar';
-import TableToolbarSelect from './components/TableToolbarSelect';
-import getTextLabels from './textLabels';
-import { buildMap, getCollatorComparator, sortCompare, getPageValue, warnDeprecated } from './utils';
+import Paper from '@material-ui/core/Paper'
+import { withStyles } from '@material-ui/core/styles'
+import MuiTable from '@material-ui/core/Table'
+import classnames from 'classnames'
+import assignwith from 'lodash.assignwith'
+import cloneDeep from 'lodash.clonedeep'
+import find from 'lodash.find'
+import isUndefined from 'lodash.isundefined'
+import merge from 'lodash.merge'
+import PropTypes from 'prop-types'
+import React from 'react'
+import TableBody from './components/TableBody'
+import TableFilterList from './components/TableFilterList'
+import TableFooter from './components/TableFooter'
+import TableHead from './components/TableHead'
+import TableResize from './components/TableResize'
+import TableToolbar from './components/TableToolbar'
+import TableToolbarSelect from './components/TableToolbarSelect'
+import getTextLabels from './textLabels'
+import {
+  buildMap,
+  getCollatorComparator,
+  sortCompare,
+  getPageValue,
+  warnDeprecated,
+} from './utils'
 
-const defaultTableStyles = theme => ({
+const defaultTableStyles = (theme) => ({
   root: {},
   paper: {},
   paperResponsiveScrollFullHeightFullWidth: {
@@ -71,26 +77,35 @@ const defaultTableStyles = theme => ({
       },
     },
   },
-});
+})
 
 const TABLE_LOAD = {
   INITIAL: 1,
   UPDATE: 2,
-};
+}
 
 // Populate this list with anything that might render in the toolbar to determine if we hide the toolbar
-const TOOLBAR_ITEMS = ['title', 'filter', 'search', 'print', 'download', 'viewColumns', 'customToolbar'];
+const TOOLBAR_ITEMS = [
+  'title',
+  'filter',
+  'search',
+  'print',
+  'download',
+  'viewColumns',
+  'customToolbar',
+]
 
 const hasToolbarItem = (options, title) => {
-  options.title = title;
+  options.title = title
 
-  return !isUndefined(find(TOOLBAR_ITEMS, i => options[i]));
-};
+  return !isUndefined(find(TOOLBAR_ITEMS, (i) => options[i]))
+}
 
 class MUIDataTable extends React.Component {
   static propTypes = {
     /** Title of the table */
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
+      .isRequired,
     /** Data used to describe table */
     data: PropTypes.array.isRequired,
     /** Columns used to describe table */
@@ -119,7 +134,13 @@ class MUIDataTable extends React.Component {
                 display: PropTypes.func,
               }),
             ]),
-            filterType: PropTypes.oneOf(['dropdown', 'checkbox', 'multiselect', 'textField', 'custom']),
+            filterType: PropTypes.oneOf([
+              'dropdown',
+              'checkbox',
+              'multiselect',
+              'textField',
+              'custom',
+            ]),
             customHeadRender: PropTypes.func,
             customBodyRender: PropTypes.func,
             customFilterListOptions: PropTypes.oneOfType([
@@ -133,7 +154,7 @@ class MUIDataTable extends React.Component {
             setCellHeaderProps: PropTypes.func,
           }),
         }),
-      ]),
+      ])
     ).isRequired,
     /** Options used to describe table */
     options: PropTypes.shape({
@@ -144,23 +165,38 @@ class MUIDataTable extends React.Component {
         'scrollFullHeight',
         'scrollFullHeightFullWidth',
       ]),
-      filterType: PropTypes.oneOf(['dropdown', 'checkbox', 'multiselect', 'textField', 'custom']),
+      filterType: PropTypes.oneOf([
+        'dropdown',
+        'checkbox',
+        'multiselect',
+        'textField',
+        'custom',
+      ]),
       getTextLabels: PropTypes.func,
       pagination: PropTypes.bool,
       expandableRows: PropTypes.bool,
       expandableRowsOnClick: PropTypes.bool,
       renderExpandableRow: PropTypes.func,
       customToolbar: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
-      customToolbarSelect: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
+      customToolbarSelect: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.element,
+      ]),
       customFooter: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
-      customSearchRender: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
+      customSearchRender: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.element,
+      ]),
       customRowRender: PropTypes.func,
       customFilterDialogFooter: PropTypes.func,
       onRowClick: PropTypes.func,
       onRowsExpand: PropTypes.func,
       onRowsSelect: PropTypes.func,
       resizableColumns: PropTypes.bool,
-      selectableRows: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['none', 'single', 'multiple'])]),
+      selectableRows: PropTypes.oneOfType([
+        PropTypes.bool,
+        PropTypes.oneOf(['none', 'single', 'multiple']),
+      ]),
       selectableRowsOnClick: PropTypes.bool,
       isRowSelectable: PropTypes.func,
       disableToolbarSelect: PropTypes.bool,
@@ -210,14 +246,14 @@ class MUIDataTable extends React.Component {
     }),
     /** Pass and use className to style MUIDataTable as desired */
     className: PropTypes.string,
-  };
+  }
 
   static defaultProps = {
     title: '',
     options: {},
     data: [],
     columns: [],
-  };
+  }
 
   state = {
     announceText: null,
@@ -241,63 +277,75 @@ class MUIDataTable extends React.Component {
     },
     showResponsive: false,
     searchText: null,
-  };
+  }
 
   constructor() {
-    super();
-    this.tableRef = false;
-    this.tableContent = React.createRef();
-    this.headCellRefs = {};
-    this.setHeadResizeable = () => {};
-    this.updateDividers = () => {};
+    super()
+    this.tableRef = false
+    this.tableContent = React.createRef()
+    this.headCellRefs = {}
+    this.setHeadResizeable = () => {}
+    this.updateDividers = () => {}
   }
 
   UNSAFE_componentWillMount() {
-    this.initializeTable(this.props);
+    this.initializeTable(this.props)
   }
 
   componentDidMount() {
-    this.setHeadResizeable(this.headCellRefs, this.tableRef);
+    this.setHeadResizeable(this.headCellRefs, this.tableRef)
 
     // When we have a search, we must reset page to view it unless on serverSide since paging is handled by the user.
-    if (this.props.options.searchText && !this.props.options.serverSide) this.setState({ page: 0 });
+    if (this.props.options.searchText && !this.props.options.serverSide)
+      this.setState({ page: 0 })
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.data !== prevProps.data || this.props.columns !== prevProps.columns) {
-      this.updateOptions(this.options, this.props);
+    if (
+      this.props.data !== prevProps.data ||
+      this.props.columns !== prevProps.columns
+    ) {
+      this.updateOptions(this.options, this.props)
       this.setTableData(this.props, TABLE_LOAD.INITIAL, () => {
-        this.setTableAction('propsUpdate');
-      });
+        this.setTableAction('propsUpdate')
+      })
     }
 
-    if (this.props.options.searchText !== prevProps.options.searchText && !this.props.options.serverSide) {
+    if (
+      this.props.options.searchText !== prevProps.options.searchText &&
+      !this.props.options.serverSide
+    ) {
       // When we have a search, we must reset page to view it unless on serverSide since paging is handled by the user.
-      this.setState({ page: 0 });
+      this.setState({ page: 0 })
     }
 
     if (this.options.resizableColumns) {
-      this.setHeadResizeable(this.headCellRefs, this.tableRef);
-      this.updateDividers();
+      this.setHeadResizeable(this.headCellRefs, this.tableRef)
+      this.updateDividers()
     }
   }
 
   updateOptions(options, props) {
-    this.options = assignwith(options, props.options, (objValue, srcValue, key) => {
-      // Merge any default options that are objects, as they will be overwritten otherwise
-      if (key === 'textLabels' || key === 'downloadOptions') return merge(objValue, srcValue);
-      return;
-    });
+    this.options = assignwith(
+      options,
+      props.options,
+      (objValue, srcValue, key) => {
+        // Merge any default options that are objects, as they will be overwritten otherwise
+        if (key === 'textLabels' || key === 'downloadOptions')
+          return merge(objValue, srcValue)
+        return
+      }
+    )
 
-    this.handleOptionDeprecation();
+    this.handleOptionDeprecation()
   }
 
   initializeTable(props) {
-    this.mergeDefaultOptions(props);
-    this.setTableOptions();
+    this.mergeDefaultOptions(props)
+    this.setTableOptions()
     this.setTableData(props, TABLE_LOAD.INITIAL, () => {
-      this.setTableInit('tableInitialized');
-    });
+      this.setTableInit('tableInitialized')
+    })
   }
 
   getDefaultOptions = () => ({
@@ -316,7 +364,7 @@ class MUIDataTable extends React.Component {
     disableToolbarSelect: false,
     serverSide: false,
     rowHover: true,
-    elevation: 4,
+    elevation: 1,
     rowsPerPage: 10,
     rowsPerPageOptions: [10, 15, 100],
     filter: true,
@@ -335,107 +383,122 @@ class MUIDataTable extends React.Component {
       separator: ',',
     },
     setTableProps: () => ({}),
-  });
+  })
 
   handleOptionDeprecation = () => {
     if (typeof this.options.selectableRows === 'boolean') {
       warnDeprecated(
-        'Using a boolean for selectableRows has been deprecated. Please use string option: multiple | single | none',
-      );
-      this.options.selectableRows = this.options.selectableRows ? 'multiple' : 'none';
+        'Using a boolean for selectableRows has been deprecated. Please use string option: multiple | single | none'
+      )
+      this.options.selectableRows = this.options.selectableRows
+        ? 'multiple'
+        : 'none'
     }
     if (
-      ['scrollMaxHeight', 'scrollFullHeight', 'stacked', 'stackedFullWidth', 'scrollFullHeightFullWidth'].indexOf(
-        this.options.responsive,
-      ) === -1
+      [
+        'scrollMaxHeight',
+        'scrollFullHeight',
+        'stacked',
+        'stackedFullWidth',
+        'scrollFullHeightFullWidth',
+      ].indexOf(this.options.responsive) === -1
     ) {
       warnDeprecated(
-        'Invalid option value for responsive. Please use string option: scrollMaxHeight | scrollFullHeight | stacked | stackedFullWidth | scrollFullHeightFullWidth',
-      );
+        'Invalid option value for responsive. Please use string option: scrollMaxHeight | scrollFullHeight | stacked | stackedFullWidth | scrollFullHeightFullWidth'
+      )
     }
     if (this.options.responsive === 'scroll') {
-      warnDeprecated('This option has been replaced by scrollMaxHeight');
+      warnDeprecated('This option has been replaced by scrollMaxHeight')
     }
     if (this.options.fixedHeader === false || this.options.fixedHeader) {
       warnDeprecated(
-        'fixedHeader has been deprecated in favor of fixedHeaderOptions: { xAxis: boolean, yAxis: boolean }. Once removed, the new options will be set by default to render like the old fixedHeader. However, if you are setting the fixedHeader value manually, it will no longer work in the next major version.',
-      );
+        'fixedHeader has been deprecated in favor of fixedHeaderOptions: { xAxis: boolean, yAxis: boolean }. Once removed, the new options will be set by default to render like the old fixedHeader. However, if you are setting the fixedHeader value manually, it will no longer work in the next major version.'
+      )
     }
 
-    this.props.columns.map(c => {
+    this.props.columns.map((c) => {
       if (c.options && c.options.customFilterListRender) {
         warnDeprecated(
-          'The customFilterListRender option has been deprecated. It is being replaced by customFilterListOptions.render (Specify customFilterListOptions: { render: Function } in column options.)',
-        );
+          'The customFilterListRender option has been deprecated. It is being replaced by customFilterListOptions.render (Specify customFilterListOptions: { render: Function } in column options.)'
+        )
       }
-    });
-  };
+    })
+  }
 
   /*
    * React currently does not support deep merge for defaultProps. Objects are overwritten
    */
   mergeDefaultOptions(props) {
-    const defaultOptions = this.getDefaultOptions();
+    const defaultOptions = this.getDefaultOptions()
 
-    this.updateOptions(defaultOptions, this.props);
+    this.updateOptions(defaultOptions, this.props)
   }
 
   validateOptions(options) {
     if (options.serverSide && options.onTableChange === undefined) {
-      throw Error('onTableChange callback must be provided when using serverSide option');
+      throw Error(
+        'onTableChange callback must be provided when using serverSide option'
+      )
     }
     if (options.expandableRows && options.renderExpandableRow === undefined) {
-      throw Error('renderExpandableRow must be provided when using expandableRows option');
+      throw Error(
+        'renderExpandableRow must be provided when using expandableRows option'
+      )
     }
     if (this.props.options.filterList) {
       warnDeprecated(
-        'filterList must now be provided under each column option. see https://github.com/gregnb/mui-datatables/tree/master/examples/column-filters example',
-      );
+        'filterList must now be provided under each column option. see https://github.com/gregnb/mui-datatables/tree/master/examples/column-filters example'
+      )
     }
   }
 
-  setTableAction = action => {
+  setTableAction = (action) => {
     if (typeof this.options.onTableChange === 'function') {
-      this.options.onTableChange(action, this.state);
+      this.options.onTableChange(action, this.state)
     }
-  };
+  }
 
-  setTableInit = action => {
+  setTableInit = (action) => {
     if (typeof this.options.onTableInit === 'function') {
-      this.options.onTableInit(action, this.state);
+      this.options.onTableInit(action, this.state)
     }
-  };
+  }
 
   setTableOptions() {
-    const optionNames = ['rowsPerPage', 'page', 'rowsSelected', 'rowsPerPageOptions'];
+    const optionNames = [
+      'rowsPerPage',
+      'page',
+      'rowsSelected',
+      'rowsPerPageOptions',
+    ]
     const optState = optionNames.reduce((acc, cur) => {
       if (this.options[cur] !== undefined) {
-        acc[cur] = this.options[cur];
+        acc[cur] = this.options[cur]
       }
-      return acc;
-    }, {});
+      return acc
+    }, {})
 
-    this.validateOptions(optState);
-    this.setState(optState);
+    this.validateOptions(optState)
+    this.setState(optState)
   }
 
   setHeadCellRef = (index, el) => {
-    this.headCellRefs[index] = el;
-  };
+    this.headCellRefs[index] = el
+  }
 
   // must be arrow function on local field to refer to the correct instance when passed around
   // assigning it as arrow function in the JSX would cause hard to track re-render errors
-  getTableContentRef = () => this.tableContent.current;
+  getTableContentRef = () => this.tableContent.current
 
   /*
    *  Build the source table data
    */
 
-  buildColumns = newColumns => {
-    let columnData = [];
-    let filterData = [];
-    let filterList = [];
-    let sortDirectionSet = false;
+  buildColumns = (newColumns) => {
+    let columnData = []
+    let filterData = []
+    let filterList = []
+    let sortDirectionSet = false
 
     newColumns.forEach((column, colIndex) => {
       let columnOptions = {
@@ -448,28 +511,33 @@ class MUIDataTable extends React.Component {
         download: true,
         viewColumns: true,
         sortDirection: 'none',
-      };
+      }
 
       if (typeof column === 'object') {
-        const options = { ...column.options };
+        const options = { ...column.options }
         if (options) {
           if (options.display !== undefined) {
-            options.display = options.display.toString();
+            options.display = options.display.toString()
           }
 
           if (options.sortDirection === null) {
             warnDeprecated(
-              'The "null" option for sortDirection is deprecated. sortDirection is an enum, use "asc" | "desc" | "none"',
-            );
-            options.sortDirection = 'none';
+              'The "null" option for sortDirection is deprecated. sortDirection is an enum, use "asc" | "desc" | "none"'
+            )
+            options.sortDirection = 'none'
           }
 
-          if (options.sortDirection !== undefined && options.sortDirection !== 'none') {
+          if (
+            options.sortDirection !== undefined &&
+            options.sortDirection !== 'none'
+          ) {
             if (sortDirectionSet) {
-              console.error('sortDirection is set for more than one column. Only the first column will be considered.');
-              options.sortDirection = 'none';
+              console.error(
+                'sortDirection is set for more than one column. Only the first column will be considered.'
+              )
+              options.sortDirection = 'none'
             } else {
-              sortDirectionSet = true;
+              sortDirectionSet = true
             }
           }
         }
@@ -479,143 +547,175 @@ class MUIDataTable extends React.Component {
           label: column.label ? column.label : column.name,
           ...columnOptions,
           ...options,
-        };
+        }
       } else {
-        columnOptions = { ...columnOptions, name: column, label: column };
+        columnOptions = { ...columnOptions, name: column, label: column }
       }
 
-      columnData.push(columnOptions);
+      columnData.push(columnOptions)
 
-      filterData[colIndex] = [];
-      filterList[colIndex] = [];
-    });
+      filterData[colIndex] = []
+      filterList[colIndex] = []
+    })
 
-    return { columns: columnData, filterData, filterList };
-  };
+    return { columns: columnData, filterData, filterList }
+  }
 
   transformData = (columns, data) => {
-    const leaf = (obj, path) => path.split('.').reduce((value, el) => (value ? value[el] : undefined), obj);
+    const leaf = (obj, path) =>
+      path
+        .split('.')
+        .reduce((value, el) => (value ? value[el] : undefined), obj)
 
     const transformedData = Array.isArray(data[0])
-      ? data.map(row => {
-          let i = -1;
+      ? data.map((row) => {
+          let i = -1
 
-          return columns.map(col => {
-            if (!col.empty) i++;
-            return col.empty ? undefined : row[i];
-          });
+          return columns.map((col) => {
+            if (!col.empty) i++
+            return col.empty ? undefined : row[i]
+          })
         })
-      : data.map(row => columns.map(col => leaf(row, col.name)));
+      : data.map((row) => columns.map((col) => leaf(row, col.name)))
 
     // We need to determine if object data exists in the transformed structure, as this is currently not allowed and will cause errors if not handled by a custom renderer
     const hasInvalidData =
       transformedData.filter(
-        data => data.filter(d => typeof d === 'object' && d !== null && !Array.isArray(d)).length > 0,
-      ).length > 0;
+        (data) =>
+          data.filter(
+            (d) => typeof d === 'object' && d !== null && !Array.isArray(d)
+          ).length > 0
+      ).length > 0
     if (hasInvalidData)
       warnDeprecated(
-        'Passing objects in as data is not supported, and will be prevented in a future release. Consider using ids in your data and linking it to external objects if you want to access object data from custom render functions.',
-      );
+        'Passing objects in as data is not supported, and will be prevented in a future release. Consider using ids in your data and linking it to external objects if you want to access object data from custom render functions.'
+      )
 
-    return transformedData;
-  };
+    return transformedData
+  }
 
   setTableData(props, status, callback = () => {}) {
-    let tableData = [];
-    let { columns, filterData, filterList } = this.buildColumns(props.columns);
-    let sortIndex = null;
-    let sortDirection = 'none';
-    let tableMeta;
+    let tableData = []
+    let { columns, filterData, filterList } = this.buildColumns(props.columns)
+    let sortIndex = null
+    let sortDirection = 'none'
+    let tableMeta
 
-    const data = status === TABLE_LOAD.INITIAL ? this.transformData(columns, props.data) : props.data;
-    const searchText = status === TABLE_LOAD.INITIAL ? this.options.searchText : null;
+    const data =
+      status === TABLE_LOAD.INITIAL
+        ? this.transformData(columns, props.data)
+        : props.data
+    const searchText =
+      status === TABLE_LOAD.INITIAL ? this.options.searchText : null
 
     columns.forEach((column, colIndex) => {
       for (let rowIndex = 0; rowIndex < data.length; rowIndex++) {
-        let value = status === TABLE_LOAD.INITIAL ? data[rowIndex][colIndex] : data[rowIndex].data[colIndex];
+        let value =
+          status === TABLE_LOAD.INITIAL
+            ? data[rowIndex][colIndex]
+            : data[rowIndex].data[colIndex]
 
         if (typeof tableData[rowIndex] === 'undefined') {
           tableData.push({
-            index: status === TABLE_LOAD.INITIAL ? rowIndex : data[rowIndex].index,
-            data: status === TABLE_LOAD.INITIAL ? data[rowIndex] : data[rowIndex].data,
-          });
+            index:
+              status === TABLE_LOAD.INITIAL ? rowIndex : data[rowIndex].index,
+            data:
+              status === TABLE_LOAD.INITIAL
+                ? data[rowIndex]
+                : data[rowIndex].data,
+          })
         }
 
         if (typeof column.customBodyRender === 'function') {
-          const rowData = tableData[rowIndex].data;
-          tableMeta = this.getTableMeta(rowIndex, colIndex, rowData, column, data, this.state);
-          const funcResult = column.customBodyRender(value, tableMeta);
+          const rowData = tableData[rowIndex].data
+          tableMeta = this.getTableMeta(
+            rowIndex,
+            colIndex,
+            rowData,
+            column,
+            data,
+            this.state
+          )
+          const funcResult = column.customBodyRender(value, tableMeta)
 
           if (React.isValidElement(funcResult) && funcResult.props.value) {
-            value = funcResult.props.value;
+            value = funcResult.props.value
           } else if (typeof funcResult === 'string') {
-            value = funcResult;
+            value = funcResult
           }
         }
 
         if (filterData[colIndex].indexOf(value) < 0 && !Array.isArray(value)) {
-          filterData[colIndex].push(value);
+          filterData[colIndex].push(value)
         } else if (Array.isArray(value)) {
-          value.forEach(element => {
+          value.forEach((element) => {
             if (filterData[colIndex].indexOf(element) < 0) {
-              filterData[colIndex].push(element);
+              filterData[colIndex].push(element)
             }
-          });
+          })
         }
       }
 
       if (column.filterOptions) {
         if (Array.isArray(column.filterOptions)) {
-          filterData[colIndex] = cloneDeep(column.filterOptions);
+          filterData[colIndex] = cloneDeep(column.filterOptions)
           warnDeprecated(
-            'filterOptions must now be an object. see https://github.com/gregnb/mui-datatables/tree/master/examples/customize-filter example',
-          );
+            'filterOptions must now be an object. see https://github.com/gregnb/mui-datatables/tree/master/examples/customize-filter example'
+          )
         } else if (Array.isArray(column.filterOptions.names)) {
-          filterData[colIndex] = cloneDeep(column.filterOptions.names);
+          filterData[colIndex] = cloneDeep(column.filterOptions.names)
         }
       }
 
       if (column.filterList) {
-        filterList[colIndex] = cloneDeep(column.filterList);
+        filterList[colIndex] = cloneDeep(column.filterList)
       }
 
       if (this.options.sortFilterList) {
-        const comparator = getCollatorComparator();
-        filterData[colIndex].sort(comparator);
+        const comparator = getCollatorComparator()
+        filterData[colIndex].sort(comparator)
       }
 
       if (column.sortDirection !== 'none') {
-        sortIndex = colIndex;
-        sortDirection = column.sortDirection;
+        sortIndex = colIndex
+        sortDirection = column.sortDirection
       }
-    });
+    })
 
     let selectedRowsData = {
       data: [],
       lookup: {},
-    };
+    }
 
     let expandedRowsData = {
       data: [],
       lookup: {},
-    };
+    }
 
     if (TABLE_LOAD.INITIAL) {
       // Multiple row selection customization
-      if (this.options.rowsSelected && this.options.rowsSelected.length && this.options.selectableRows === 'multiple') {
-        this.options.rowsSelected.forEach(row => {
-          let rowPos = row;
+      if (
+        this.options.rowsSelected &&
+        this.options.rowsSelected.length &&
+        this.options.selectableRows === 'multiple'
+      ) {
+        this.options.rowsSelected.forEach((row) => {
+          let rowPos = row
 
-          for (let cIndex = 0; cIndex < this.state.displayData.length; cIndex++) {
+          for (
+            let cIndex = 0;
+            cIndex < this.state.displayData.length;
+            cIndex++
+          ) {
             if (this.state.displayData[cIndex].dataIndex === row) {
-              rowPos = cIndex;
-              break;
+              rowPos = cIndex
+              break
             }
           }
 
-          selectedRowsData.data.push({ index: rowPos, dataIndex: row });
-          selectedRowsData.lookup[row] = true;
-        });
+          selectedRowsData.data.push({ index: rowPos, dataIndex: row })
+          selectedRowsData.lookup[row] = true
+        })
       }
 
       // Single row selection customization
@@ -624,47 +724,61 @@ class MUIDataTable extends React.Component {
         this.options.rowsSelected.length === 1 &&
         this.options.selectableRows === 'single'
       ) {
-        let rowPos = this.options.rowsSelected[0];
+        let rowPos = this.options.rowsSelected[0]
 
         for (let cIndex = 0; cIndex < this.state.displayData.length; cIndex++) {
-          if (this.state.displayData[cIndex].dataIndex === this.options.rowsSelected[0]) {
-            rowPos = cIndex;
-            break;
+          if (
+            this.state.displayData[cIndex].dataIndex ===
+            this.options.rowsSelected[0]
+          ) {
+            rowPos = cIndex
+            break
           }
         }
 
-        selectedRowsData.data.push({ index: rowPos, dataIndex: this.options.rowsSelected[0] });
-        selectedRowsData.lookup[this.options.rowsSelected[0]] = true;
+        selectedRowsData.data.push({
+          index: rowPos,
+          dataIndex: this.options.rowsSelected[0],
+        })
+        selectedRowsData.lookup[this.options.rowsSelected[0]] = true
       } else if (
         this.options.rowsSelected &&
         this.options.rowsSelected.length > 1 &&
         this.options.selectableRows === 'single'
       ) {
         console.error(
-          'Multiple values provided for selectableRows, but selectableRows set to "single". Either supply only a single value or use "multiple".',
-        );
+          'Multiple values provided for selectableRows, but selectableRows set to "single". Either supply only a single value or use "multiple".'
+        )
       }
 
-      if (this.options.rowsExpanded && this.options.rowsExpanded.length && this.options.expandableRows) {
-        this.options.rowsExpanded.forEach(row => {
-          let rowPos = row;
+      if (
+        this.options.rowsExpanded &&
+        this.options.rowsExpanded.length &&
+        this.options.expandableRows
+      ) {
+        this.options.rowsExpanded.forEach((row) => {
+          let rowPos = row
 
-          for (let cIndex = 0; cIndex < this.state.displayData.length; cIndex++) {
+          for (
+            let cIndex = 0;
+            cIndex < this.state.displayData.length;
+            cIndex++
+          ) {
             if (this.state.displayData[cIndex].dataIndex === row) {
-              rowPos = cIndex;
-              break;
+              rowPos = cIndex
+              break
             }
           }
 
-          expandedRowsData.data.push({ index: rowPos, dataIndex: row });
-          expandedRowsData.lookup[row] = true;
-        });
+          expandedRowsData.data.push({ index: rowPos, dataIndex: row })
+          expandedRowsData.lookup[row] = true
+        })
       }
     }
 
     if (!this.options.serverSide && sortIndex !== null) {
-      const sortedData = this.sortTable(tableData, sortIndex, sortDirection);
-      tableData = sortedData.data;
+      const sortedData = this.sortTable(tableData, sortIndex, sortDirection)
+      tableData = sortedData.data
     }
 
     /* set source data and display Data set source set */
@@ -678,39 +792,60 @@ class MUIDataTable extends React.Component {
         expandedRows: expandedRowsData,
         count: this.options.count,
         data: tableData,
-        displayData: this.getDisplayData(columns, tableData, filterList, searchText, tableMeta),
+        displayData: this.getDisplayData(
+          columns,
+          tableData,
+          filterList,
+          searchText,
+          tableMeta
+        ),
         previousSelectedRow: null,
       },
-      callback,
-    );
+      callback
+    )
   }
 
   /*
    *  Build the table data used to display to the user (ie: after filter/search applied)
    */
-  computeDisplayRow(columns, row, rowIndex, filterList, searchText, dataForTableMeta, options) {
-    let isFiltered = false;
-    let isSearchFound = false;
-    let displayRow = [];
+  computeDisplayRow(
+    columns,
+    row,
+    rowIndex,
+    filterList,
+    searchText,
+    dataForTableMeta,
+    options
+  ) {
+    let isFiltered = false
+    let isSearchFound = false
+    let displayRow = []
 
     for (let index = 0; index < row.length; index++) {
-      let columnDisplay = row[index];
-      let columnValue = row[index];
-      let column = columns[index];
+      let columnDisplay = row[index]
+      let columnValue = row[index]
+      let column = columns[index]
 
       if (column.customBodyRender) {
-        const tableMeta = this.getTableMeta(rowIndex, index, row, column, dataForTableMeta, {
-          ...this.state,
-          filterList: filterList,
-          searchText: searchText,
-        });
+        const tableMeta = this.getTableMeta(
+          rowIndex,
+          index,
+          row,
+          column,
+          dataForTableMeta,
+          {
+            ...this.state,
+            filterList: filterList,
+            searchText: searchText,
+          }
+        )
 
         const funcResult = column.customBodyRender(
           columnValue,
           tableMeta,
-          this.updateDataCol.bind(null, rowIndex, index),
-        );
-        columnDisplay = funcResult;
+          this.updateDataCol.bind(null, rowIndex, index)
+        )
+        columnDisplay = funcResult
 
         /* drill down to get the value of a cell */
         columnValue =
@@ -718,35 +853,42 @@ class MUIDataTable extends React.Component {
             ? funcResult
             : funcResult.props && funcResult.props.value
             ? funcResult.props.value
-            : columnValue;
+            : columnValue
       }
 
-      displayRow.push(columnDisplay);
+      displayRow.push(columnDisplay)
 
-      const columnVal = columnValue === null || columnValue === undefined ? '' : columnValue.toString();
+      const columnVal =
+        columnValue === null || columnValue === undefined
+          ? ''
+          : columnValue.toString()
 
-      const filterVal = filterList[index];
-      const caseSensitive = options.caseSensitive;
-      const filterType = column.filterType || options.filterType;
+      const filterVal = filterList[index]
+      const caseSensitive = options.caseSensitive
+      const filterType = column.filterType || options.filterType
       if (filterVal.length || filterType === 'custom') {
         if (column.filterOptions && column.filterOptions.logic) {
-          if (column.filterOptions.logic(columnValue, filterVal)) isFiltered = true;
-        } else if (filterType === 'textField' && !this.hasSearchText(columnVal, filterVal, caseSensitive)) {
-          isFiltered = true;
+          if (column.filterOptions.logic(columnValue, filterVal))
+            isFiltered = true
+        } else if (
+          filterType === 'textField' &&
+          !this.hasSearchText(columnVal, filterVal, caseSensitive)
+        ) {
+          isFiltered = true
         } else if (
           filterType !== 'textField' &&
           Array.isArray(columnValue) === false &&
           filterVal.indexOf(columnValue) < 0
         ) {
-          isFiltered = true;
+          isFiltered = true
         } else if (filterType !== 'textField' && Array.isArray(columnValue)) {
           //true if every filterVal exists in columnVal, false otherwise
-          const isFullMatch = filterVal.every(el => {
-            return columnValue.indexOf(el) >= 0;
-          });
+          const isFullMatch = filterVal.every((el) => {
+            return columnValue.indexOf(el) >= 0
+          })
           //if it is not a fullMatch, filter row out
           if (!isFullMatch) {
-            isFiltered = true;
+            isFiltered = true
           }
         }
       }
@@ -757,78 +899,102 @@ class MUIDataTable extends React.Component {
         column.display !== 'false' &&
         column.searchable
       ) {
-        isSearchFound = true;
+        isSearchFound = true
       }
     }
 
-    const { customSearch } = this.props.options;
+    const { customSearch } = this.props.options
 
     if (searchText && customSearch) {
-      const customSearchResult = customSearch(searchText, row, columns);
+      const customSearchResult = customSearch(searchText, row, columns)
       if (typeof customSearchResult !== 'boolean') {
-        console.error('customSearch must return a boolean');
+        console.error('customSearch must return a boolean')
       } else {
-        isSearchFound = customSearchResult;
+        isSearchFound = customSearchResult
       }
     }
 
     if (options.serverSide) {
       if (customSearch) {
-        console.warn('Server-side filtering is enabled, hence custom search will be ignored.');
+        console.warn(
+          'Server-side filtering is enabled, hence custom search will be ignored.'
+        )
       }
 
-      return displayRow;
+      return displayRow
     }
 
-    if (isFiltered || (searchText && !isSearchFound)) return null;
-    else return displayRow;
+    if (isFiltered || (searchText && !isSearchFound)) return null
+    else return displayRow
   }
 
   hasSearchText = (toSearch, toFind, caseSensitive) => {
-    let stack = toSearch.toString();
-    let needle = toFind.toString();
+    let stack = toSearch.toString()
+    let needle = toFind.toString()
 
     if (!caseSensitive) {
-      needle = needle.toLowerCase();
-      stack = stack.toLowerCase();
+      needle = needle.toLowerCase()
+      stack = stack.toLowerCase()
     }
 
-    return stack.indexOf(needle) >= 0;
-  };
+    return stack.indexOf(needle) >= 0
+  }
 
   updateDataCol = (row, index, value) => {
-    this.setState(prevState => {
-      let changedData = cloneDeep(prevState.data);
-      let filterData = cloneDeep(prevState.filterData);
+    this.setState((prevState) => {
+      let changedData = cloneDeep(prevState.data)
+      let filterData = cloneDeep(prevState.filterData)
 
-      const tableMeta = this.getTableMeta(row, index, row, prevState.columns[index], prevState.data, prevState);
-      const funcResult = prevState.columns[index].customBodyRender(value, tableMeta);
+      const tableMeta = this.getTableMeta(
+        row,
+        index,
+        row,
+        prevState.columns[index],
+        prevState.data,
+        prevState
+      )
+      const funcResult = prevState.columns[index].customBodyRender(
+        value,
+        tableMeta
+      )
 
       const filterValue =
         React.isValidElement(funcResult) && funcResult.props.value
           ? funcResult.props.value
-          : prevState['data'][row][index];
+          : prevState['data'][row][index]
 
-      const prevFilterIndex = filterData[index].indexOf(filterValue);
-      filterData[index].splice(prevFilterIndex, 1, filterValue);
+      const prevFilterIndex = filterData[index].indexOf(filterValue)
+      filterData[index].splice(prevFilterIndex, 1, filterValue)
 
-      changedData[row].data[index] = value;
+      changedData[row].data[index] = value
 
       if (this.options.sortFilterList) {
-        const comparator = getCollatorComparator();
-        filterData[index].sort(comparator);
+        const comparator = getCollatorComparator()
+        filterData[index].sort(comparator)
       }
 
       return {
         data: changedData,
         filterData: filterData,
-        displayData: this.getDisplayData(prevState.columns, changedData, prevState.filterList, prevState.searchText),
-      };
-    });
-  };
+        displayData: this.getDisplayData(
+          prevState.columns,
+          changedData,
+          prevState.filterList,
+          prevState.searchText
+        ),
+      }
+    })
+  }
 
-  getTableMeta = (rowIndex, colIndex, rowData, columnData, tableData, curState) => {
-    const { columns, data, displayData, filterData, ...tableState } = curState;
+  getTableMeta = (
+    rowIndex,
+    colIndex,
+    rowData,
+    columnData,
+    tableData,
+    curState
+  ) => {
+    const { columns, data, displayData, filterData, ...tableState } = curState
 
     return {
       rowIndex: rowIndex,
@@ -837,15 +1003,15 @@ class MUIDataTable extends React.Component {
       rowData: rowData,
       tableData: tableData,
       tableState: tableState,
-    };
-  };
+    }
+  }
 
   getDisplayData(columns, data, filterList, searchText, tableMeta) {
-    let newRows = [];
-    const dataForTableMeta = tableMeta ? tableMeta.tableData : this.props.data;
+    let newRows = []
+    const dataForTableMeta = tableMeta ? tableMeta.tableData : this.props.data
 
     for (let index = 0; index < data.length; index++) {
-      const value = data[index].data;
+      const value = data[index].data
       const displayRow = this.computeDisplayRow(
         columns,
         value,
@@ -853,76 +1019,78 @@ class MUIDataTable extends React.Component {
         filterList,
         searchText,
         dataForTableMeta,
-        this.options,
-      );
+        this.options
+      )
 
       if (displayRow) {
         newRows.push({
           data: displayRow,
           dataIndex: data[index].index,
-        });
+        })
       }
     }
-    return newRows;
+    return newRows
   }
 
-  toggleViewColumn = index => {
+  toggleViewColumn = (index) => {
     this.setState(
-      prevState => {
-        const columns = cloneDeep(prevState.columns);
-        columns[index].display = columns[index].display === 'true' ? 'false' : 'true';
+      (prevState) => {
+        const columns = cloneDeep(prevState.columns)
+        columns[index].display =
+          columns[index].display === 'true' ? 'false' : 'true'
         return {
           columns: columns,
-        };
+        }
       },
       () => {
-        this.setTableAction('columnViewChange');
+        this.setTableAction('columnViewChange')
         if (this.options.onColumnViewChange) {
           this.options.onColumnViewChange(
             this.state.columns[index].name,
-            this.state.columns[index].display === 'true' ? 'add' : 'remove',
-          );
+            this.state.columns[index].display === 'true' ? 'add' : 'remove'
+          )
         }
-      },
-    );
-  };
+      }
+    )
+  }
 
   getSortDirection(column) {
-    return column.sortDirection === 'asc' ? 'ascending' : 'descending';
+    return column.sortDirection === 'asc' ? 'ascending' : 'descending'
   }
 
   getTableProps() {
-    const { classes } = this.props;
-    const tableProps = this.options.setTableProps();
+    const { classes } = this.props
+    const tableProps = this.options.setTableProps()
 
-    tableProps.className = classnames(classes.tableRoot, tableProps.className);
+    tableProps.className = classnames(classes.tableRoot, tableProps.className)
 
-    return tableProps;
+    return tableProps
   }
 
-  toggleSortColumn = index => {
+  toggleSortColumn = (index) => {
     this.setState(
-      prevState => {
-        let columns = cloneDeep(prevState.columns);
-        let data = prevState.data;
-        const newOrder = columns[index].sortDirection === 'desc' ? 'asc' : 'desc';
+      (prevState) => {
+        let columns = cloneDeep(prevState.columns)
+        let data = prevState.data
+        const newOrder =
+          columns[index].sortDirection === 'desc' ? 'asc' : 'desc'
 
         for (let pos = 0; pos < columns.length; pos++) {
           if (index !== pos) {
-            columns[pos].sortDirection = 'none';
+            columns[pos].sortDirection = 'none'
           } else {
-            columns[pos].sortDirection = newOrder;
+            columns[pos].sortDirection = newOrder
           }
         }
 
-        const orderLabel = this.getSortDirection(columns[index]);
-        const announceText = `Table now sorted by ${columns[index].name} : ${orderLabel}`;
+        const orderLabel = this.getSortDirection(columns[index])
+        const announceText = `Table now sorted by ${columns[index].name} : ${orderLabel}`
 
         let newState = {
           columns: columns,
           announceText: announceText,
           activeColumn: index,
-        };
+        }
 
         if (this.options.serverSide) {
           newState = {
@@ -930,35 +1098,40 @@ class MUIDataTable extends React.Component {
             data: prevState.data,
             displayData: prevState.displayData,
             selectedRows: prevState.selectedRows,
-          };
+          }
         } else {
-          const sortedData = this.sortTable(data, index, newOrder);
+          const sortedData = this.sortTable(data, index, newOrder)
 
           newState = {
             ...newState,
             data: sortedData.data,
-            displayData: this.getDisplayData(columns, sortedData.data, prevState.filterList, prevState.searchText),
+            displayData: this.getDisplayData(
+              columns,
+              sortedData.data,
+              prevState.filterList,
+              prevState.searchText
+            ),
             selectedRows: sortedData.selectedRows,
             previousSelectedRow: null,
-          };
+          }
         }
 
-        return newState;
+        return newState
       },
       () => {
-        this.setTableAction('sort');
+        this.setTableAction('sort')
         if (this.options.onColumnSortChange) {
           this.options.onColumnSortChange(
             this.state.columns[index].name,
-            this.getSortDirection(this.state.columns[index]),
-          );
+            this.getSortDirection(this.state.columns[index])
+          )
         }
-      },
-    );
-  };
+      }
+    )
+  }
 
-  changeRowsPerPage = rows => {
-    const rowCount = this.options.count || this.state.displayData.length;
+  changeRowsPerPage = (rows) => {
+    const rowCount = this.options.count || this.state.displayData.length
 
     this.setState(
       () => ({
@@ -966,110 +1139,130 @@ class MUIDataTable extends React.Component {
         page: getPageValue(rowCount, rows, this.state.page),
       }),
       () => {
-        this.setTableAction('changeRowsPerPage');
+        this.setTableAction('changeRowsPerPage')
 
         if (this.options.onChangeRowsPerPage) {
-          this.options.onChangeRowsPerPage(this.state.rowsPerPage);
+          this.options.onChangeRowsPerPage(this.state.rowsPerPage)
         }
-      },
-    );
-  };
+      }
+    )
+  }
 
-  changePage = page => {
+  changePage = (page) => {
     this.setState(
       () => ({
         page: page,
       }),
       () => {
-        this.setTableAction('changePage');
+        this.setTableAction('changePage')
         if (this.options.onChangePage) {
-          this.options.onChangePage(this.state.page);
+          this.options.onChangePage(this.state.page)
         }
-      },
-    );
-  };
+      }
+    )
+  }
 
   searchClose = () => {
     this.setState(
-      prevState => ({
+      (prevState) => ({
         searchText: null,
         displayData: this.options.serverSide
           ? prevState.displayData
-          : this.getDisplayData(prevState.columns, prevState.data, prevState.filterList, null),
+          : this.getDisplayData(
+              prevState.columns,
+              prevState.data,
+              prevState.filterList,
+              null
+            ),
       }),
       () => {
-        this.setTableAction('search');
+        this.setTableAction('search')
         if (this.options.onSearchChange) {
-          this.options.onSearchChange(this.state.searchText);
+          this.options.onSearchChange(this.state.searchText)
         }
-      },
-    );
-  };
+      }
+    )
+  }
 
-  searchTextUpdate = text => {
+  searchTextUpdate = (text) => {
     this.setState(
-      prevState => ({
+      (prevState) => ({
         searchText: text && text.length ? text : null,
         page: 0,
         displayData: this.options.serverSide
           ? prevState.displayData
-          : this.getDisplayData(prevState.columns, prevState.data, prevState.filterList, text),
+          : this.getDisplayData(
+              prevState.columns,
+              prevState.data,
+              prevState.filterList,
+              text
+            ),
       }),
       () => {
-        this.setTableAction('search');
+        this.setTableAction('search')
         if (this.options.onSearchChange) {
-          this.options.onSearchChange(this.state.searchText);
+          this.options.onSearchChange(this.state.searchText)
         }
-      },
-    );
-  };
+      }
+    )
+  }
 
   resetFilters = () => {
     this.setState(
-      prevState => {
-        const filterList = prevState.columns.map(() => []);
+      (prevState) => {
+        const filterList = prevState.columns.map(() => [])
 
         return {
           filterList: filterList,
           displayData: this.options.serverSide
             ? prevState.displayData
-            : this.getDisplayData(prevState.columns, prevState.data, filterList, prevState.searchText),
-        };
-      },
-      () => {
-        this.setTableAction('resetFilters');
-        if (this.options.onFilterChange) {
-          this.options.onFilterChange(null, this.state.filterList, 'reset');
+            : this.getDisplayData(
+                prevState.columns,
+                prevState.data,
+                filterList,
+                prevState.searchText
+              ),
         }
       },
-    );
-  };
+      () => {
+        this.setTableAction('resetFilters')
+        if (this.options.onFilterChange) {
+          this.options.onFilterChange(null, this.state.filterList, 'reset')
+        }
+      }
+    )
+  }
 
   filterUpdate = (index, value, column, type, customUpdate) => {
     this.setState(
-      prevState => {
-        let filterList = prevState.filterList.slice(0);
-        const filterPos = filterList[index].indexOf(value);
+      (prevState) => {
+        let filterList = prevState.filterList.slice(0)
+        const filterPos = filterList[index].indexOf(value)
 
         switch (type) {
           case 'checkbox':
-            filterPos >= 0 ? filterList[index].splice(filterPos, 1) : filterList[index].push(value);
-            break;
+            filterPos >= 0
+              ? filterList[index].splice(filterPos, 1)
+              : filterList[index].push(value)
+            break
           case 'chip':
-            filterPos >= 0 ? filterList[index].splice(filterPos, 1) : filterList[index].push(value);
-            break;
+            filterPos >= 0
+              ? filterList[index].splice(filterPos, 1)
+              : filterList[index].push(value)
+            break
           case 'multiselect':
-            filterList[index] = value === '' ? [] : value;
-            break;
+            filterList[index] = value === '' ? [] : value
+            break
           case 'dropdown':
-            filterList[index] = value;
-            break;
+            filterList[index] = value
+            break
           case 'custom':
-            if (customUpdate) filterList = customUpdate(filterList, filterPos, index);
-            else filterList[index] = value;
-            break;
+            if (customUpdate)
+              filterList = customUpdate(filterList, filterPos, index)
+            else filterList[index] = value
+            break
           default:
-            filterList[index] = filterPos >= 0 || value === '' ? [] : [value];
+            filterList[index] = filterPos >= 0 || value === '' ? [] : [value]
         }
 
         return {
@@ -1077,27 +1270,32 @@ class MUIDataTable extends React.Component {
           filterList: filterList,
           displayData: this.options.serverSide
             ? prevState.displayData
-            : this.getDisplayData(prevState.columns, prevState.data, filterList, prevState.searchText),
+            : this.getDisplayData(
+                prevState.columns,
+                prevState.data,
+                filterList,
+                prevState.searchText
+              ),
           previousSelectedRow: null,
-        };
-      },
-      () => {
-        this.setTableAction('filterChange');
-        if (this.options.onFilterChange) {
-          this.options.onFilterChange(column, this.state.filterList, type);
         }
       },
-    );
-  };
+      () => {
+        this.setTableAction('filterChange')
+        if (this.options.onFilterChange) {
+          this.options.onFilterChange(column, this.state.filterList, type)
+        }
+      }
+    )
+  }
 
   selectRowDelete = () => {
-    const { selectedRows, data, filterList } = this.state;
+    const { selectedRows, data, filterList } = this.state
 
-    const selectedMap = buildMap(selectedRows.data);
-    const cleanRows = data.filter(({ index }) => !selectedMap[index]);
+    const selectedMap = buildMap(selectedRows.data)
+    const cleanRows = data.filter(({ index }) => !selectedMap[index])
 
     if (this.options.onRowsDelete) {
-      if (this.options.onRowsDelete(selectedRows) === false) return;
+      if (this.options.onRowsDelete(selectedRows) === false) return
     }
 
     this.setTableData(
@@ -1110,35 +1308,39 @@ class MUIDataTable extends React.Component {
       },
       TABLE_LOAD.UPDATE,
       () => {
-        this.setTableAction('rowDelete');
-      },
-    );
-  };
+        this.setTableAction('rowDelete')
+      }
+    )
+  }
 
-  toggleExpandRow = row => {
-    const { dataIndex } = row;
-    const { isRowExpandable } = this.options;
-    let { expandedRows } = this.state;
-    const expandedRowsData = [...expandedRows.data];
-    let shouldCollapseExpandedRow = false;
-    let hasRemovedRow = false;
-    let removedRow = [];
+  toggleExpandRow = (row) => {
+    const { dataIndex } = row
+    const { isRowExpandable } = this.options
+    let { expandedRows } = this.state
+    const expandedRowsData = [...expandedRows.data]
+    let shouldCollapseExpandedRow = false
+    let hasRemovedRow = false
+    let removedRow = []
 
     for (var cIndex = 0; cIndex < expandedRowsData.length; cIndex++) {
       if (expandedRowsData[cIndex].dataIndex === dataIndex) {
-        shouldCollapseExpandedRow = true;
-        break;
+        shouldCollapseExpandedRow = true
+        break
       }
     }
 
     if (shouldCollapseExpandedRow) {
-      if ((isRowExpandable && isRowExpandable(dataIndex, expandedRows)) || !isRowExpandable) {
-        removedRow = expandedRowsData.splice(cIndex, 1);
-        hasRemovedRow = true;
+      if (
+        (isRowExpandable && isRowExpandable(dataIndex, expandedRows)) ||
+        !isRowExpandable
+      ) {
+        removedRow = expandedRowsData.splice(cIndex, 1)
+        hasRemovedRow = true
       }
     } else {
-      if (isRowExpandable && isRowExpandable(dataIndex, expandedRows)) expandedRowsData.push(row);
-      else if (!isRowExpandable) expandedRowsData.push(row);
+      if (isRowExpandable && isRowExpandable(dataIndex, expandedRows))
+        expandedRowsData.push(row)
+      else if (!isRowExpandable) expandedRowsData.push(row)
     }
 
     this.setState(
@@ -1150,55 +1352,64 @@ class MUIDataTable extends React.Component {
         },
       },
       () => {
-        this.setTableAction('expandRow');
+        this.setTableAction('expandRow')
         if (this.options.onRowsExpand) {
-          this.options.onRowsExpand(this.state.curExpandedRows, this.state.expandedRows.data);
+          this.options.onRowsExpand(
+            this.state.curExpandedRows,
+            this.state.expandedRows.data
+          )
         }
-      },
-    );
-  };
+      }
+    )
+  }
 
   selectRowUpdate = (type, value, shiftAdjacentRows = []) => {
     // safety check
-    const { selectableRows } = this.options;
+    const { selectableRows } = this.options
     if (selectableRows === 'none') {
-      return;
+      return
     }
 
     if (type === 'head') {
-      const { isRowSelectable } = this.options;
+      const { isRowSelectable } = this.options
       this.setState(
-        prevState => {
-          const { displayData, selectedRows: prevSelectedRows } = prevState;
-          const selectedRowsLen = prevState.selectedRows.data.length;
+        (prevState) => {
+          const { displayData, selectedRows: prevSelectedRows } = prevState
+          const selectedRowsLen = prevState.selectedRows.data.length
           let isDeselect =
-            selectedRowsLen === displayData.length || (selectedRowsLen < displayData.length && selectedRowsLen > 0);
+            selectedRowsLen === displayData.length ||
+            (selectedRowsLen < displayData.length && selectedRowsLen > 0)
 
           let selectedRows = displayData.reduce((arr, d, i) => {
-            const selected = isRowSelectable ? isRowSelectable(displayData[i].dataIndex, prevSelectedRows) : true;
-            selected && arr.push({ index: i, dataIndex: displayData[i].dataIndex });
-            return arr;
-          }, []);
+            const selected = isRowSelectable
+              ? isRowSelectable(displayData[i].dataIndex, prevSelectedRows)
+              : true
+            selected &&
+              arr.push({ index: i, dataIndex: displayData[i].dataIndex })
+            return arr
+          }, [])
 
-          let newRows = [...prevState.selectedRows, ...selectedRows];
-          let selectedMap = buildMap(newRows);
+          let newRows = [...prevState.selectedRows, ...selectedRows]
+          let selectedMap = buildMap(newRows)
 
           // if the select toolbar is disabled, the rules are a little different
           if (this.options.disableToolbarSelect === true) {
             if (selectedRowsLen > displayData.length) {
-              isDeselect = true;
+              isDeselect = true
             } else {
               for (let ii = 0; ii < displayData.length; ii++) {
                 if (!selectedMap[displayData[ii].dataIndex]) {
-                  isDeselect = true;
+                  isDeselect = true
                 }
               }
             }
           }
 
           if (isDeselect) {
-            newRows = prevState.selectedRows.data.filter(({ dataIndex }) => !selectedMap[dataIndex]);
-            selectedMap = buildMap(newRows);
+            newRows = prevState.selectedRows.data.filter(
+              ({ dataIndex }) => !selectedMap[dataIndex]
+            )
+            selectedMap = buildMap(newRows)
           }
 
           return {
@@ -1208,55 +1419,62 @@ class MUIDataTable extends React.Component {
               lookup: selectedMap,
             },
             previousSelectedRow: null,
-          };
-        },
-        () => {
-          this.setTableAction('rowsSelect');
-          if (this.options.onRowsSelect) {
-            this.options.onRowsSelect(this.state.curSelectedRows, this.state.selectedRows.data);
           }
         },
-      );
+        () => {
+          this.setTableAction('rowsSelect')
+          if (this.options.onRowsSelect) {
+            this.options.onRowsSelect(
+              this.state.curSelectedRows,
+              this.state.selectedRows.data
+            )
+          }
+        }
+      )
     } else if (type === 'cell') {
       this.setState(
-        prevState => {
-          const { dataIndex } = value;
-          let selectedRows = [...prevState.selectedRows.data];
-          let rowPos = -1;
+        (prevState) => {
+          const { dataIndex } = value
+          let selectedRows = [...prevState.selectedRows.data]
+          let rowPos = -1
 
           for (let cIndex = 0; cIndex < selectedRows.length; cIndex++) {
             if (selectedRows[cIndex].dataIndex === dataIndex) {
-              rowPos = cIndex;
-              break;
+              rowPos = cIndex
+              break
             }
           }
 
           if (rowPos >= 0) {
-            selectedRows.splice(rowPos, 1);
+            selectedRows.splice(rowPos, 1)
 
             // handle rows affected by shift+click
             if (shiftAdjacentRows.length > 0) {
-              let shiftAdjacentMap = buildMap(shiftAdjacentRows);
-              for (let cIndex = selectedRows.length - 1; cIndex >= 0; cIndex--) {
+              let shiftAdjacentMap = buildMap(shiftAdjacentRows)
+              for (
+                let cIndex = selectedRows.length - 1;
+                cIndex >= 0;
+                cIndex--
+              ) {
                 if (shiftAdjacentMap[selectedRows[cIndex].dataIndex]) {
-                  selectedRows.splice(cIndex, 1);
+                  selectedRows.splice(cIndex, 1)
                 }
               }
             }
           } else if (selectableRows === 'single') {
-            selectedRows = [value];
+            selectedRows = [value]
           } else {
             // multiple
-            selectedRows.push(value);
+            selectedRows.push(value)
 
             // handle rows affected by shift+click
             if (shiftAdjacentRows.length > 0) {
-              let selectedMap = buildMap(selectedRows);
-              shiftAdjacentRows.forEach(aRow => {
+              let selectedMap = buildMap(selectedRows)
+              shiftAdjacentRows.forEach((aRow) => {
                 if (!selectedMap[aRow.dataIndex]) {
-                  selectedRows.push(aRow);
+                  selectedRows.push(aRow)
                 }
-              });
+              })
             }
           }
 
@@ -1266,20 +1484,23 @@ class MUIDataTable extends React.Component {
               data: selectedRows,
             },
             previousSelectedRow: value,
-          };
-        },
-        () => {
-          this.setTableAction('rowsSelect');
-          if (this.options.onRowsSelect) {
-            this.options.onRowsSelect([value], this.state.selectedRows.data);
           }
         },
-      );
+        () => {
+          this.setTableAction('rowsSelect')
+          if (this.options.onRowsSelect) {
+            this.options.onRowsSelect([value], this.state.selectedRows.data)
+          }
+        }
+      )
     } else if (type === 'custom') {
-      const { displayData } = this.state;
+      const { displayData } = this.state
 
-      const data = value.map(row => ({ index: row, dataIndex: displayData[row].dataIndex }));
-      const lookup = buildMap(data);
+      const data = value.map((row) => ({
+        index: row,
+        dataIndex: displayData[row].dataIndex,
+      }))
+      const lookup = buildMap(data)
 
       this.setState(
         {
@@ -1287,37 +1508,42 @@ class MUIDataTable extends React.Component {
           previousSelectedRow: null,
         },
         () => {
-          this.setTableAction('rowsSelect');
+          this.setTableAction('rowsSelect')
           if (this.options.onRowsSelect) {
-            this.options.onRowsSelect(this.state.selectedRows.data, this.state.selectedRows.data);
+            this.options.onRowsSelect(
+              this.state.selectedRows.data,
+              this.state.selectedRows.data
+            )
           }
-        },
-      );
+        }
+      )
     }
-  };
+  }
 
   sortTable(data, col, order) {
-    let dataSrc = this.options.customSort ? this.options.customSort(data, col, order || 'desc') : data;
+    let dataSrc = this.options.customSort
+      ? this.options.customSort(data, col, order || 'desc')
+      : data
 
     let sortedData = dataSrc.map((row, sIndex) => ({
       data: row.data[col],
       rowData: row.data,
       position: sIndex,
       rowSelected: this.state.selectedRows.lookup[row.index] ? true : false,
-    }));
+    }))
 
     if (!this.options.customSort) {
-      sortedData.sort(sortCompare(order));
+      sortedData.sort(sortCompare(order))
     }
 
-    let tableData = [];
-    let selectedRows = [];
+    let tableData = []
+    let selectedRows = []
 
     for (let i = 0; i < sortedData.length; i++) {
-      const row = sortedData[i];
-      tableData.push(dataSrc[row.position]);
+      const row = sortedData[i]
+      tableData.push(dataSrc[row.position])
       if (row.rowSelected) {
-        selectedRows.push({ index: i, dataIndex: dataSrc[row.position].index });
+        selectedRows.push({ index: i, dataIndex: dataSrc[row.position].index })
       }
     }
 
@@ -1327,11 +1553,11 @@ class MUIDataTable extends React.Component {
         lookup: buildMap(selectedRows),
         data: selectedRows,
       },
-    };
+    }
   }
 
   render() {
-    const { classes, className, title } = this.props;
+    const { classes, className, title } = this.props
     const {
       announceText,
       activeColumn,
@@ -1346,56 +1572,65 @@ class MUIDataTable extends React.Component {
       expandedRows,
       searchText,
       serverSideFilterList,
-    } = this.state;
+    } = this.state
 
-    const rowCount = this.state.count || displayData.length;
-    const rowsPerPage = this.options.pagination ? this.state.rowsPerPage : displayData.length;
-    const showToolbar = hasToolbarItem(this.options, title);
-    const columnNames = columns.map(column => ({
+    const rowCount = this.state.count || displayData.length
+    const rowsPerPage = this.options.pagination
+      ? this.state.rowsPerPage
+      : displayData.length
+    const showToolbar = hasToolbarItem(this.options, title)
+    const columnNames = columns.map((column) => ({
       name: column.name,
       filterType: column.filterType || this.options.filterType,
-    }));
-    const responsiveOption = this.options.responsive;
-    let paperClasses = `${classes.paper} ${className}`;
-    let maxHeight;
-    let responsiveClass;
+    }))
+    const responsiveOption = this.options.responsive
+    let paperClasses = `${classes.paper} ${className}`
+    let maxHeight
+    let responsiveClass
 
     switch (responsiveOption) {
       // DEPRECATED: This options is beign transitioned to `responsiveScrollMaxHeight`
       case 'scroll':
-        responsiveClass = classes.responsiveScroll;
-        maxHeight = '499px';
-        break;
+        responsiveClass = classes.responsiveScroll
+        maxHeight = '499px'
+        break
       case 'scrollMaxHeight':
-        responsiveClass = classes.responsiveScrollMaxHeight;
-        maxHeight = '499px';
-        break;
+        responsiveClass = classes.responsiveScrollMaxHeight
+        maxHeight = '499px'
+        break
       case 'scrollFullHeight':
-        responsiveClass = classes.responsiveScrollFullHeight;
-        maxHeight = 'none';
-        break;
+        responsiveClass = classes.responsiveScrollFullHeight
+        maxHeight = 'none'
+        break
       case 'scrollFullHeightFullWidth':
-        responsiveClass = classes.responsiveScrollFullHeight;
-        paperClasses = `${classes.paperResponsiveScrollFullHeightFullWidth} ${className}`;
-        break;
+        responsiveClass = classes.responsiveScrollFullHeight
+        paperClasses = `${classes.paperResponsiveScrollFullHeightFullWidth} ${className}`
+        break
       case 'stacked':
-        responsiveClass = classes.responsiveStacked;
-        maxHeight = 'none';
-        break;
+        responsiveClass = classes.responsiveStacked
+        maxHeight = 'none'
+        break
       case 'stackedFullWidth':
-        responsiveClass = classes.responsiveStackedFullWidth;
-        paperClasses = `${classes.paperResponsiveScrollFullHeightFullWidth} ${className}`;
-        maxHeight = 'none';
-        break;
+        responsiveClass = classes.responsiveStackedFullWidth
+        paperClasses = `${classes.paperResponsiveScrollFullHeightFullWidth} ${className}`
+        maxHeight = 'none'
+        break
     }
 
-    let tableProps = this.options.setTableProps ? this.options.setTableProps() : {};
-    let tableClassNames = classnames(classes.tableRoot, tableProps.className);
-    delete tableProps.className; // remove className from props to avoid the className being applied twice
+    let tableProps = this.options.setTableProps
+      ? this.options.setTableProps()
+      : {}
+    let tableClassNames = classnames(classes.tableRoot, tableProps.className)
+    delete tableProps.className // remove className from props to avoid the className being applied twice
 
     return (
-      <Paper elevation={this.options.elevation} ref={this.tableContent} className={paperClasses}>
-        {selectedRows.data.length && this.options.disableToolbarSelect !== true ? (
+      <Paper
+        elevation={this.options.elevation}
+        ref={this.tableContent}
+        className={paperClasses}
+      >
+        {selectedRows.data.length &&
+        this.options.disableToolbarSelect !== true ? (
           <TableToolbarSelect
             options={this.options}
             selectedRows={selectedRows}
@@ -1427,36 +1662,41 @@ class MUIDataTable extends React.Component {
         <TableFilterList
           options={this.options}
           serverSideFilterList={this.props.options.serverSideFilterList || []}
-          filterListRenderers={columns.map(c => {
-            if (c.customFilterListOptions && c.customFilterListOptions.render) return c.customFilterListOptions.render;
+          filterListRenderers={columns.map((c) => {
+            if (c.customFilterListOptions && c.customFilterListOptions.render)
+              return c.customFilterListOptions.render
             // DEPRECATED: This option is being replaced with customFilterListOptions.render
-            if (c.customFilterListRender) return c.customFilterListRender;
+            if (c.customFilterListRender) return c.customFilterListRender
 
-            return f => f;
+            return (f) => f
           })}
-          customFilterListUpdate={columns.map(c => {
+          customFilterListUpdate={columns.map((c) => {
             return c.customFilterListOptions && c.customFilterListOptions.update
               ? c.customFilterListOptions.update
-              : null;
+              : null
           })}
           filterList={filterList}
           filterUpdate={this.filterUpdate}
           columnNames={columnNames}
         />
-        <div style={{ position: 'relative', maxHeight }} className={responsiveClass}>
+        <div
+          style={{ position: 'relative', maxHeight }}
+          className={responsiveClass}
+        >
           {this.options.resizableColumns && (
             <TableResize
               key={rowCount}
-              updateDividers={fn => (this.updateDividers = fn)}
-              setResizeable={fn => (this.setHeadResizeable = fn)}
+              updateDividers={(fn) => (this.updateDividers = fn)}
+              setResizeable={(fn) => (this.setHeadResizeable = fn)}
             />
           )}
           <MuiTable
-            ref={el => (this.tableRef = el)}
+            ref={(el) => (this.tableRef = el)}
             tabIndex={'0'}
             role={'grid'}
             className={tableClassNames}
-            {...tableProps}>
+            {...tableProps}
+          >
             <caption className={classes.caption}>{title}</caption>
             <TableHead
               columns={columns}
@@ -1465,7 +1705,7 @@ class MUIDataTable extends React.Component {
               count={rowCount}
               page={page}
               rowsPerPage={rowsPerPage}
-              handleHeadUpdateRef={fn => (this.updateToolbarSelect = fn)}
+              handleHeadUpdateRef={(fn) => (this.updateToolbarSelect = fn)}
               selectedRows={selectedRows}
               selectRowUpdate={this.selectRowUpdate}
               toggleSort={this.toggleSortColumn}
@@ -1500,8 +1740,10 @@ class MUIDataTable extends React.Component {
           {announceText}
         </div>
       </Paper>
-    );
+    )
   }
 }
 
-export default withStyles(defaultTableStyles, { name: 'MUIDataTable' })(MUIDataTable);
+export default withStyles(defaultTableStyles, { name: 'MUIDataTable' })(
+  MUIDataTable
+)
