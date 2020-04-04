@@ -9,16 +9,16 @@ import {
   Button,
 } from '@duik/it'
 
-const AnalyticsHeader = (props) => (
+const AnalyticsHeader = props => (
   <TopBar>
     <TopBarSection>
       <TopBarLinkContainer>
-        <TopBarLink href="/twitter">Twitter</TopBarLink>
-        <TopBarLink href="/instagram" className="active" href="/instagram">
-          Instagram
+        <TopBarLink href="/all">All</TopBarLink>
+        <TopBarLink href="/scraped" className="active" href="/scraped">
+          Scraped
         </TopBarLink>
-        <TopBarLink href="/blog" className="active" href="/blog">
-          Blog
+        <TopBarLink href="/points" className="active" href="/points">
+          Points
         </TopBarLink>
       </TopBarLinkContainer>
     </TopBarSection>

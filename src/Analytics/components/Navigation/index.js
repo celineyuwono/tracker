@@ -6,6 +6,7 @@ import {
   NavSection,
   NavLink,
   NavSectionTitle,
+  NavTitle,
   TopBar,
   TopBarSection,
   NavPanel,
@@ -22,18 +23,45 @@ import NavUser from '../NavUser'
 
 import cls from './analytics-navigation.module.scss'
 
-const menuLinks = [
+const stgMenuLinks = [
   {
-    text: '全投稿',
+    text: 'Twitter',
     icon: <Icon>gallery_grid_view</Icon>,
+    component: 'StgTwitter',
+    url: 'stg/twitter',
   },
   {
-    text: 'フィルター後投稿',
+    text: 'Instagram',
     icon: <Icon>calendar</Icon>,
+    component: 'StgInstagram',
+    url: 'stg/instagram',
   },
   {
-    text: 'ポイント対象投稿',
+    text: 'Blog',
     icon: <Icon>inbox_paper_round</Icon>,
+    component: 'StgBlog',
+    url: 'stg/blog',
+  },
+]
+
+const prodMenuLinks = [
+  {
+    text: 'Twitter',
+    icon: <Icon>gallery_grid_view</Icon>,
+    component: 'ProdTwitter',
+    url: '/prod/twitter',
+  },
+  {
+    text: 'Instagram',
+    icon: <Icon>calendar</Icon>,
+    component: 'ProdInstagram',
+    url: '/prod/instagram',
+  },
+  {
+    text: 'Blog',
+    icon: <Icon>inbox_paper_round</Icon>,
+    component: 'ProdBlog',
+    url: '/prod/blog',
   },
 ]
 
@@ -49,17 +77,30 @@ const AnalyticsNavigation = () => (
       </TopBar>
       <ScrollArea>
         <NavUser
-          imgUrl={images.a21}
-          name="Martha Blair"
-          textTop="Art Director"
+          imgUrl={images.radar}
+          name="Tracker"
+          textTop="AP2 Scraping Time Tracker"
         />
-
+        <NavTitle>Staging</NavTitle>
         <NavLinkAnalyticsContainer>
-          {menuLinks.map((link) => (
+          {stgMenuLinks.map(link => (
             <NavLinkAnalytics
               key={link.text}
               className={link.text === 'Dashboard' ? 'active' : null}
               icon=""
+            >
+              <strong>{link.text}</strong>
+            </NavLinkAnalytics>
+          ))}
+        </NavLinkAnalyticsContainer>
+        <NavTitle>Production</NavTitle>
+        <NavLinkAnalyticsContainer>
+          {prodMenuLinks.map(link => (
+            <NavLinkAnalytics
+              key={link.text}
+              className={link.text === 'Dashboard' ? 'active' : null}
+              icon=""
+              url={link.url}
             >
               <strong>{link.text}</strong>
             </NavLinkAnalytics>
