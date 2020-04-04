@@ -1,0 +1,7 @@
+.badge-container {
+  margin: -3px;
+
+  &>* {
+    margin: 3px;
+  }
+}

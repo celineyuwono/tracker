@@ -1,0 +1,35 @@
+@import '@duik/core/_vars.scss';
+.code-highlight-container {
+  background: #303136;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
+
+  &-tabs {
+    flex-shrink: 0;
+    background: $bg-adverse-main;
+    color: $text-secondary;
+    border-bottom: none;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+  }
+  &-tab-item {
+    &:hover {
+      color: rgba(255, 255, 255, 0.8);
+    }
+    &:global(.active) {
+      color: $text-adverse-main;
+    }
+  }
+  &-content {
+    padding: 30px;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    & > *:not(:last-child) {
+      margin-bottom: 30px;
+    }
+  }
+  &-max-height {
+    max-height: 70vh;
+  }
+}

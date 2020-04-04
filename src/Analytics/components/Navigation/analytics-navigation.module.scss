@@ -1,0 +1,11 @@
+.analytics-navigation {
+  display: none;
+
+  @media screen and (min-width: 769px) {
+    display: block;
+  }
+}
+
+.analytics-navigation-top-bar {
+  justify-content: center;
+}

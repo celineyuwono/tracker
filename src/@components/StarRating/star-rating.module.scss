@@ -1,0 +1,15 @@
+@import '@duik/core/_vars.scss';
+
+.star-rating {
+  i {
+    color: $border-color-base;
+
+    &+* {
+      margin-left: 2px;
+    }
+  }
+
+  i.star-rating-fill {
+    color: #FACF55
+  }
+}

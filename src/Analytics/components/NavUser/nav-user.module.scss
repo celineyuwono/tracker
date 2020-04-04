@@ -1,0 +1,33 @@
+@import '@duik/core/_vars.scss';
+
+.analytics-nav-user {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &-avatarWrapper {
+    &+* {
+      margin-top: 14px;
+    }
+
+  }
+
+  &-avatar {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+  }
+
+  &-name {
+    color: $text-main;
+    font-weight: 500;
+    line-height: 1.5rem;
+    font-size: 1rem;
+  }
+
+  &-textTop {
+    color: $text-secondary;
+    font-size: .875rem;
+  }
+}

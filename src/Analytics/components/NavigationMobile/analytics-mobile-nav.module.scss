@@ -1,0 +1,17 @@
+@import '@duik/core/_vars.scss';
+
+.analytics-mobile-nav {
+  background: $bg-main;
+  display: flex;
+  justify-content: space-around;
+  flex-shrink: 0;
+
+  @media screen and (min-width: 769px) {
+    display: none;
+  }
+
+  .analytics-mobile-nav-item {
+    justify-content: center;
+    flex-grow: 1;
+  }
+}

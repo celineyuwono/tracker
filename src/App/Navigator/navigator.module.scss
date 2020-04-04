@@ -1,0 +1,70 @@
+@import '@duik/core/_vars.scss';
+
+.navigator-container {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000000;
+
+  --bg-main: #252529;
+  --bg-base: #2c2c31;
+  --border-color-base: #34343a;
+  --border-color-main: #44444e;
+  --border-color-main-2: #64646e;
+  --text-base: #ccc;
+  --text-main: #ddd;
+
+  :global {
+    .divider-horizontal {
+      margin: 5px 0;
+    }
+  }
+}
+
+.expandButton {
+  border: none;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  background: $color-primary;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  transition: 0.3s all;
+  cursor: pointer;
+
+  &:hover {
+    background: lighten($blue, 5%);
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  &.isExpanded {
+    color: white;
+    border-radius: 4px 50% 50% 50%;
+  }
+}
+
+.list {
+  border-radius: 4px;
+  position: absolute;
+  bottom: 52px;
+  right: 52px;
+  background: $bg-main;
+  padding: 15px 0;
+  transition: 0.3s all;
+  // width: 200px;
+  width: 90vw;
+  max-width: 250px;
+  transform: translate(7px, 7px);
+  opacity: 0;
+  visibility: hidden;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+
+  &.isExpanded {
+    transform: translate(0, 0);
+    opacity: 1;
+    visibility: visible;
+  }
+}

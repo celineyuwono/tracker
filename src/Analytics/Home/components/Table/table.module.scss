@@ -1,0 +1,37 @@
+@import "@duik/core/_vars.scss";
+
+.analytics-card-most-visited {
+  &-icon-trend {
+    float: right;
+    font-size: 20px;
+    color: $text-secondary;
+  }
+
+  &-content-bounce-rate {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &-minichart {
+    flex-basis: 100px;
+    flex-grow: 0;
+    margin-left: 10px;
+  }
+
+  &-page-name {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &-table-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  &-table {
+    tr td {
+      height: 70px;
+    }
+  }
+}

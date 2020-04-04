@@ -1,0 +1,45 @@
+@import '@duik/core/_vars.scss';
+.card-video-preview {
+  display: flex;
+  align-items: center;
+  &-image {
+    transition: 0.2s;
+    width: 74px;
+    height: 56px;
+    border-radius: 4px;
+
+    @include backgroundCover();
+  }
+  &-image + * {
+    margin-left: 20px;
+    flex-shrink: 0;
+  }
+
+  &-title {
+    color: $text-main;
+    flex-grow: 1;
+    @include textOverflow();
+    font-weight: 500;
+    color: $text-main;
+    line-height: 1.5rem;
+  }
+
+  &-views {
+    color: $text-secondary;
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+    display: block;
+    margin-top: 2px;
+  }
+
+  &:hover {
+    .card-video-preview {
+      &-image {
+        transform: scale(1.05);
+      }
+      &-title {
+        color: $color-primary;
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+@import '@duik/core/_vars.scss';
+.navigation-burger {
+  :global {
+    font-size: 8px;
+
+    .burger-lines {
+      &,
+      &:after,
+      &:before {
+        background: $text-main;
+      }
+    }
+  }
+}

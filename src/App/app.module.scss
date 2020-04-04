@@ -1,0 +1,21 @@
+@import '@duik/core/_vars.scss';
+
+body {
+  background: $bg-base;
+}
+
+// Typography
+
+a {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: $text-main;
+    &:hover {
+      color: $color-primary;
+    }
+  }
+}

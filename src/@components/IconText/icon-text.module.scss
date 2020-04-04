@@ -1,0 +1,36 @@
+@import "@duik/core/_vars.scss";
+
+.icon-text {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+
+  & + & {
+    margin-left: 15px;
+  }
+
+  i {
+    color: $text-secondary;
+    margin-right: 10px;
+    font-size: 1.2rem;
+  }
+
+  &-text {
+    color: $text-secondary;
+    font-size: 0.875rem;
+  }
+
+  &-text-highlight {
+    .icon-text-text {
+      color: $text-base;
+    }
+  }
+
+  &-highlight,
+  &-highlighted,
+  &:hover {
+    i {
+      color: $color-primary;
+    }
+  }
+}

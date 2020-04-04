@@ -1,0 +1,33 @@
+@import "@duik/core/_vars.scss";
+.card-link {
+  display: flex;
+  height: 60px;
+  padding: 0 30px;
+  align-items: center;
+  &-icon + * {
+    margin-left: 20px;
+    flex-shrink: 0;
+  }
+  &-title {
+    color: $text-main;
+    flex-grow: 1;
+    @include textOverflow();
+  }
+
+  &-count {
+    color: $text-secondary;
+    margin-left: 20px;
+    flex-shrink: 0;
+    font-size: 0.875rem;
+  }
+
+  &:not(:last-child) {
+    border-bottom: $border-default-base;
+  }
+
+  &:hover {
+    .card-link-title {
+      color: $color-primary;
+    }
+  }
+}

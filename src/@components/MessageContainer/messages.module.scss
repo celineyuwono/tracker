@@ -1,0 +1,25 @@
+@import '@duik/core/_vars.scss';
+
+.message-container {
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+
+  &.right {
+    align-items: flex-end;
+    margin-right: 0;
+    margin-left: auto;
+    padding-left: 50px;
+  }
+
+  &.left {
+    align-items: flex-start;
+    margin-left: 0;
+    margin-right: auto;
+    padding-right: 50px;
+  }
+
+  &:not(:first-child) {
+    margin-top: 30px;
+  }
+}

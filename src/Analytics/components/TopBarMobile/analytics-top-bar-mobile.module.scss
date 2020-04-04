@@ -1,0 +1,19 @@
+@import '@duik/core/_vars.scss';
+
+.analytics-top-bar-mobile {
+  background: $color-primary;
+  justify-content: center;
+
+  * {
+    color: $text-on-color;
+  }
+
+  &-search-wrapper {
+    flex-grow: 1;
+    // padding: 0;
+  }
+
+  @media screen and (min-width: 769px) {
+    display: none;
+  }
+}

@@ -1,0 +1,49 @@
+@import '@duik/core/_vars.scss';
+$gradBlue: linear-gradient(-90deg, #4187EE 0%, #4F95FC 100%);
+$gradviolet: linear-gradient(-90deg, #6758F3 0%, #915CF4 100%);
+$gradGreen: linear-gradient(-269deg, #39B54A 0%, #34AA44 100%);
+
+.map-pin-circle {
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+  background: $color-blue;
+  background-image: $gradBlue;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.125rem;
+  color: $text-on-color;
+
+  &>* {
+    z-index: 10;
+  }
+
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    top: -5px;
+    left: -5px;
+    background: $color-blue;
+    background-image: $gradBlue;
+    opacity: 0.2;
+    z-index: 0;
+  }
+
+  &:global(.green),
+  &:global(.green):before {
+    background: $color-green;
+    background-image: $gradGreen;
+  }
+
+  &:global(.violet),
+  &:global(.violet):before {
+    background: $color-indigo;
+    background-image: $gradviolet;
+  }
+}

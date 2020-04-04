@@ -1,0 +1,14 @@
+.SWITCH {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border-radius: 50%;
+  height: 80px;
+  width: 80px;
+  outline: none !important;
+  box-shadow: none !important;
+  cursor: pointer;
+  background: white;
+  color: black;
+  z-index: 1000000;
+}
