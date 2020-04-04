@@ -8,12 +8,13 @@ import { numberFormatZeros } from '@lib'
 import { barData, lineBlank } from './data/chartData'
 import cls from './analytics-home.module.scss'
 
-import Table from './components/Table'
+import Table from './components/StaticTable'
+import MuiTable from './components/MuiTable'
 
 const AnalyticsHome = () => (
   <ScrollArea className={cls['analytics-home']}>
     <div className={cls['analytics-home-traffic']}>
-      <Table />
+      <MuiTable />
     </div>
   </ScrollArea>
 )
