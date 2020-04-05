@@ -22,12 +22,35 @@ class Example extends React.Component {
   }
 
   componentDidMount() {
-    fetch(
-      'https://ambpf2.s3-ap-northeast-1.amazonaws.com/stg/resources/32/voices/twitter/2020-04.gz'
-    )
-      .then((response) => response.json())
-      .then((json) => console.log(json))
+    async function readFile() {
+      let url =
+        'https://ambpf2.s3-ap-northeast-1.amazonaws.com/stg/resources/32/voices/twitter/2020-04.gz'
+      const { ungzip } = require('node-gzip')
+      const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/gzip',
+        },
+        responseType: 'arraybuffer',
+      })
+      function toBuffer(ab) {
+        var buf = Buffer.alloc(parseInt(ab.byteLength))
+        var view = new Uint8Array(ab)
+        for (var i = 0; i < buf.length; ++i) {
+          buf[i] = view[i]
+        }
+        return buf
+      }
+      const x = toBuffer(res)
+      //change res from arraybuffer to buffer, then from buffer to string
+      const data = await ungzip(x)
+      return data
+    }
+    //base64->binary->Uint8 and then deflate
+
+    readFile().then((data) => console.log(typeof data))
   }
+
   render() {
     const columns = [
       {
