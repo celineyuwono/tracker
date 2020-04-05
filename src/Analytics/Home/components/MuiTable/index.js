@@ -24,14 +24,15 @@ class Example extends React.Component {
   render() {
     const columns = [
       {
-        name: 'Name',
+        name: 'name',
+        label: '氏名',
         options: {
           filter: true,
         },
       },
       {
-        label: 'Modified Title Label',
-        name: 'Title',
+        name: 'title',
+        label: 'タイトル',
         options: {
           filter: true,
           customFilterListOptions: {
@@ -40,8 +41,8 @@ class Example extends React.Component {
         },
       },
       {
-        label: 'Location',
-        name: 'Location',
+        name: 'location',
+        label: '場所',
         options: {
           filter: true,
           display: 'true',
@@ -87,7 +88,8 @@ class Example extends React.Component {
         },
       },
       {
-        name: 'Date',
+        name: 'age',
+        label: '日付',
         options: {
           filter: true,
           filterType: 'custom',
@@ -179,77 +181,66 @@ class Example extends React.Component {
         },
       },
       {
-        name: 'Status',
+        name: 'status',
+        label: 'Status',
         options: {
           filter: true,
           filterType: 'checkbox',
           filterOptions: {
             names: ['Fail', 'Success', 'Pending'],
-            logic(salary, filterVal) {
-              salary = salary.replace(/[^\d]/g, '')
+            logic(status, filterVal) {
+              status = status.replace(/[^\d]/g, '')
               const show =
-                (filterVal.indexOf('Lower wages') >= 0 && salary < 100000) ||
+                (filterVal.indexOf('Lower wages') >= 0 && status < 100000) ||
                 (filterVal.indexOf('Average wages') >= 0 &&
-                  salary >= 100000 &&
-                  salary < 200000) ||
-                (filterVal.indexOf('Higher wages') >= 0 && salary >= 200000)
+                  status >= 100000 &&
+                  status < 200000) ||
+                (filterVal.indexOf('Higher wages') >= 0 && status >= 200000)
               return !show
             },
           },
           sort: false,
         },
       },
+      {
+        name: 'phone.home',
+        label: 'Home Phone',
+      },
     ]
 
     const data = [
-      ['Gabby George', 'Business Analyst', 'Minneapolis', 30, '$100,000'],
-      ['Aiden Lloyd', 'Business Consultant', 'Dallas', 55, '$200,000'],
-      ['Jaden Collins', 'Attorney', 'Santa Ana', 27, '$500,000'],
-      ['Franky Rees', 'Business Analyst', 'St. Petersburg', 22, '$50,000'],
-      ['Aaren Rose', 'Business Consultant', 'Toledo', 28, '$75,000'],
-      [
-        'Blake Duncan',
-        'Business Management Analyst',
-        'San Diego',
-        65,
-        '$94,000',
-      ],
-      ['Frankie Parry', 'Agency Legal Counsel', 'Jacksonville', 71, '$210,000'],
-      ['Lane Wilson', 'Commercial Specialist', 'Omaha', 19, '$65,000'],
-      ['Robin Duncan', 'Business Analyst', 'Los Angeles', 20, '$77,000'],
-      ['Mel Brooks', 'Business Consultant', 'Oklahoma City', 37, '$135,000'],
-      ['Harper White', 'Attorney', 'Pittsburgh', 52, '$420,000'],
-      ['Kris Humphrey', 'Agency Legal Counsel', 'Laredo', 30, '$150,000'],
-      ['Frankie Long', 'Industrial Analyst', 'Austin', 31, '$170,000'],
-      ['Brynn Robbins', 'Business Analyst', 'Norfolk', 22, '$90,000'],
-      ['Justice Mann', 'Business Consultant', 'Chicago', 24, '$133,000'],
-      [
-        'Addison Navarro',
-        'Business Management Analyst',
-        'New York',
-        50,
-        '$295,000',
-      ],
-      ['Jesse Welch', 'Agency Legal Counsel', 'Seattle', 28, '$200,000'],
-      ['Eli Mejia', 'Commercial Specialist', 'Long Beach', 65, '$400,000'],
-      ['Gene Leblanc', 'Industrial Analyst', 'Hartford', 34, '$110,000'],
-      ['Danny Leon', 'Computer Scientist', 'Newark', 60, '$220,000'],
-      ['Lane Lee', 'Corporate Counselor', 'Cincinnati', 52, '$180,000'],
-      ['Jesse Hall', 'Business Analyst', 'Baltimore', 44, '$99,000'],
-      ['Danni Hudson', 'Agency Legal Counsel', 'Tampa', 37, '$90,000'],
-      ['Terry Macdonald', 'Commercial Specialist', 'Miami', 39, '$140,000'],
-      ['Justice Mccarthy', 'Attorney', 'Tucson', 26, '$330,000'],
-      ['Silver Carey', 'Computer Scientist', 'Memphis', 47, '$250,000'],
-      ['Franky Miles', 'Industrial Analyst', 'Buffalo', 49, '$190,000'],
-      ['Glen Nixon', 'Corporate Counselor', 'Arlington', 44, '$80,000'],
-      [
-        'Gabby Strickland',
-        'Business Process Consultant',
-        'Scottsdale',
-        26,
-        '$45,000',
-      ],
-      ['Mason Ray', 'Computer Scientist', 'San Francisco', 39, '$142,000'],
+      {
+        name: 'Gabby George',
+        title: 'Business Analyst',
+        location: 'Minneapolis',
+        age: 30,
+        status: '$100,000',
+        phone: { home: '867-5309', cell: '123-4567' },
+      },
+      {
+        name: 'Aiden Lloyd',
+        title: 'Business Consultant',
+        location: 'Dallas',
+        age: 55,
+        status: '$200,000',
+        phone: { home: '867-5310', cell: '123-4568' },
+      },
+      {
+        name: 'Jaden Collins',
+        title: 'Attorney',
+        location: 'Santa Ana',
+        age: 27,
+        status: '$500,000',
+        phone: { home: '867-5311', cell: '123-4569' },
+      },
+      {
+        name: 'Franky Rees',
+        title: 'Business Analyst',
+        location: 'St. Petersburg',
+        age: 22,
+        status: '$50,000',
+        phone: { home: '867-5312', cell: '123-4569' },
+      },
     ]
 
     const options = {
@@ -257,7 +248,8 @@ class Example extends React.Component {
       selectableRows: false,
       filterType: 'dropdown',
       responsive: 'stacked',
-      rowsPerPage: 10,
+      rowsPerPage: 15,
+      rowsPerPageOptions: [15, 30, 100],
       print: false,
       textLabels: {
         body: {
