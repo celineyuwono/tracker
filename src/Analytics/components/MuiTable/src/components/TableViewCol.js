@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Checkbox from '@material-ui/core/Checkbox';
-import Typography from '@material-ui/core/Typography';
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { withStyles } from '@material-ui/core/styles';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Checkbox from '@material-ui/core/Checkbox'
+import Typography from '@material-ui/core/Typography'
+import FormControl from '@material-ui/core/FormControl'
+import FormGroup from '@material-ui/core/FormGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import { withStyles } from '@material-ui/core/styles'
 
-export const defaultViewColStyles = theme => ({
+export const defaultViewColStyles = (theme) => ({
   root: {
     padding: '16px 24px 16px 24px',
     fontFamily: 'Roboto',
@@ -39,7 +39,7 @@ export const defaultViewColStyles = theme => ({
     marginLeft: '8px',
     color: theme.palette.text.primary,
   },
-});
+})
 
 class TableViewCol extends React.Component {
   static propTypes = {
@@ -51,18 +51,22 @@ class TableViewCol extends React.Component {
     onColumnUpdate: PropTypes.func,
     /** Extend the style applied to components */
     classes: PropTypes.object,
-  };
+  }
 
-  handleColChange = index => {
-    this.props.onColumnUpdate(index);
-  };
+  handleColChange = (index) => {
+    this.props.onColumnUpdate(index)
+  }
 
   render() {
-    const { classes, columns, options } = this.props;
-    const textLabels = options.textLabels.viewColumns;
+    const { classes, columns, options } = this.props
+    const textLabels = options.textLabels.viewColumns
 
     return (
-      <FormControl component={'fieldset'} className={classes.root} aria-label={textLabels.titleAria}>
+      <FormControl
+        component={'fieldset'}
+        className={classes.root}
+        aria-label={textLabels.titleAria}
+      >
         <Typography variant="caption" className={classes.title}>
           {textLabels.title}
         </Typography>
@@ -92,12 +96,14 @@ class TableViewCol extends React.Component {
                   label={column.label}
                 />
               )
-            );
+            )
           })}
         </FormGroup>
       </FormControl>
-    );
+    )
   }
 }
 
-export default withStyles(defaultViewColStyles, { name: 'MUIDataTableViewCol' })(TableViewCol);
+export default withStyles(defaultViewColStyles, {
+  name: 'MUIDataTableViewCol',
+})(TableViewCol)

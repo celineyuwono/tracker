@@ -178,27 +178,27 @@ class Example extends React.Component {
           print: false,
         },
       },
-      {
-        name: 'Status',
-        options: {
-          filter: true,
-          filterType: 'checkbox',
-          filterOptions: {
-            names: ['Fail', 'Success', 'Pending'],
-            logic(salary, filterVal) {
-              salary = salary.replace(/[^\d]/g, '')
-              const show =
-                (filterVal.indexOf('Lower wages') >= 0 && salary < 100000) ||
-                (filterVal.indexOf('Average wages') >= 0 &&
-                  salary >= 100000 &&
-                  salary < 200000) ||
-                (filterVal.indexOf('Higher wages') >= 0 && salary >= 200000)
-              return !show
-            },
-          },
-          sort: false,
-        },
-      },
+      // {
+      //   name: 'Status',
+      //   options: {
+      //     filter: true,
+      //     filterType: 'checkbox',
+      //     filterOptions: {
+      //       names: ['Fail', 'Success', 'Pending'],
+      //       logic(salary, filterVal) {
+      //         salary = salary.replace(/[^\d]/g, '')
+      //         const show =
+      //           (filterVal.indexOf('Lower wages') >= 0 && salary < 100000) ||
+      //           (filterVal.indexOf('Average wages') >= 0 &&
+      //             salary >= 100000 &&
+      //             salary < 200000) ||
+      //           (filterVal.indexOf('Higher wages') >= 0 && salary >= 200000)
+      //         return !show
+      //       },
+      //     },
+      //     sort: false,
+      //   },
+      // },
     ]
 
     const data = [

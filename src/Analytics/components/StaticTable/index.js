@@ -3,7 +3,7 @@ import Icon from '@duik/icon'
 import { Widget, WidgetHeader, WidgetTable } from '@duik/it'
 import { ChartLineOnly } from '@components'
 
-import { lineBlank } from '../../data/chartData'
+// import { lineBlank } from '../../data/chartData'
 
 import cls from './table.module.scss'
 
