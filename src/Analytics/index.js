@@ -1,16 +1,15 @@
 // Libraries
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import React from 'react'
+import { Route, Switch } from 'react-router-dom'
 
-import Home from './Home';
-
-import { ContainerVertical, ContainerHorizontal } from '@duik/it';
+import { ContainerVertical, ContainerHorizontal } from '@duik/it'
+import Home from './home'
 
 // components
-import Header from './components/Header';
-import TopBarMobile from './components/TopBarMobile';
-import Navigation from './components/Navigation';
-import NavigationMobile from './components/NavigationMobile';
+import Header from './components/Header'
+import TopBarMobile from './components/TopBarMobile'
+import Navigation from './components/Navigation'
+import NavigationMobile from './components/NavigationMobile'
 
 export const Analytics = () => {
   return (
@@ -25,7 +24,7 @@ export const Analytics = () => {
         </Switch>
       </ContainerVertical>
     </ContainerHorizontal>
-  );
-};
+  )
+}
 
-export default Analytics;
+export default Analytics
