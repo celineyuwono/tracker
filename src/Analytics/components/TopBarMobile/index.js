@@ -1,11 +1,11 @@
 import * as React from 'react'
-import * as images from '@exampleAssets'
+import * as images from '@assets'
 import Icon from '@duik/icon'
 import { Avatar, TopBar, TopBarSection, TextField, FormGroup } from '@duik/it'
 
 import cls from './analytics-top-bar-mobile.module.scss'
 
-const AnalyticsHeader = props => (
+const AnalyticsHeader = (props) => (
   <TopBar className={cls['analytics-top-bar-mobile']} {...props}>
     <TopBarSection className={cls['analytics-top-bar-mobile-search-wrapper']}>
       <FormGroup className={cls['analytics-top-bar-mobile-search-wrapper']}>

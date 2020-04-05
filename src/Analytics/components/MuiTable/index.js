@@ -21,6 +21,13 @@ class Example extends React.Component {
     ageFilterChecked: false,
   }
 
+  componentDidMount() {
+    fetch(
+      'https://ambpf2.s3-ap-northeast-1.amazonaws.com/stg/resources/32/voices/twitter/2020-04.gz'
+    )
+      .then((response) => response.json())
+      .then((json) => console.log(json))
+  }
   render() {
     const columns = [
       {

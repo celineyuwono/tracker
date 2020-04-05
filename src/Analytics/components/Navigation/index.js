@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Icon from '@duik/icon'
-import * as images from '@exampleAssets'
+import * as images from '@assets'
 
 import {
   NavSection,
@@ -83,7 +83,7 @@ const AnalyticsNavigation = () => (
         />
         <NavTitle>Staging</NavTitle>
         <NavLinkAnalyticsContainer>
-          {stgMenuLinks.map(link => (
+          {stgMenuLinks.map((link) => (
             <NavLinkAnalytics
               key={link.text}
               className={link.text === 'Dashboard' ? 'active' : null}
@@ -95,7 +95,7 @@ const AnalyticsNavigation = () => (
         </NavLinkAnalyticsContainer>
         <NavTitle>Production</NavTitle>
         <NavLinkAnalyticsContainer>
-          {prodMenuLinks.map(link => (
+          {prodMenuLinks.map((link) => (
             <NavLinkAnalytics
               key={link.text}
               className={link.text === 'Dashboard' ? 'active' : null}
