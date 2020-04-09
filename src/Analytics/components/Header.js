@@ -9,16 +9,15 @@ import {
   Button,
 } from '@duik/it'
 
-const AnalyticsHeader = props => (
+const AnalyticsHeader = (props) => (
   <TopBar>
     <TopBarSection>
       <TopBarLinkContainer>
-        <TopBarLink href="/all">All</TopBarLink>
         <TopBarLink href="/scraped" className="active" href="/scraped">
-          Scraped
+          (1) Batch -> DB
         </TopBarLink>
         <TopBarLink href="/points" className="active" href="/points">
-          Points
+          (2) DB -> CSV -> 管理画面
         </TopBarLink>
       </TopBarLinkContainer>
     </TopBarSection>

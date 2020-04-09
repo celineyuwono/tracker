@@ -16,11 +16,13 @@ import ReactDOM from 'react-dom'
 import MUIDataTable from './src/'
 import axios from 'axios'
 import pako from 'pako'
+import moment from 'moment'
 
 class Example extends React.Component {
   state = {
     downloadFile: true,
     ageFilterChecked: false,
+    tweetRecord: [],
   }
 
   componentDidMount() {
@@ -34,134 +36,96 @@ class Example extends React.Component {
           'https://ambpf2.s3-ap-northeast-1.amazonaws.com/stg/resources/32/voices/twitter/2020-04.gz',
         responseType: 'arraybuffer',
       })
-      // return res.headers['last-modified']
-      return pako.ungzip(res.data, { to: 'string' })
+      const tweet = pako.ungzip(res.data, { to: 'string' })
+      console.log(res.headers)
+      const lastModified = res.headers['last-modified']
+      return [tweet, lastModified]
     }
-    readFile().then((data) => console.log(JSON.parse(data)))
+    readFile().then((tweetInfo) => {
+      const parsedTweets = JSON.parse(tweetInfo[0])
+      const lastModified = moment(tweetInfo[1]).format('YYYY-MM-DD HH:mm:ss')
+      console.log(parsedTweets)
+      const tweetRecord = parsedTweets.map((tweet) => {
+        return {
+          ambassadorId: tweet.ambassador_id,
+          programId: tweet.program_id,
+          tweetDate: tweet.tweet_created_at,
+          lastModified: lastModified,
+        }
+      })
+      this.setState({ tweetRecord })
+      console.log(this.state.tweetRecord)
+    })
   }
 
   render() {
     const columns = [
       {
-        name: 'name',
-        label: '氏名',
+        name: 'ambassadorId',
+        label: 'アンバサダーID',
         options: {
           filter: true,
         },
       },
       {
-        name: 'title',
-        label: 'タイトル',
+        name: 'programId',
+        label: 'プログラムID',
         options: {
           filter: true,
-          customFilterListOptions: {
-            render: (v) => v.toLowerCase(),
+        },
+      },
+      {
+        name: 'tweetDate',
+        label: 'ツーイト時間',
+        options: {
+          filter: true,
+          sort: true,
+          sortDirection: 'desc',
+          customBodyRender: (value) => {
+            return new Date(value).toString()
           },
-        },
-      },
-      {
-        name: 'location',
-        label: '場所',
-        options: {
-          filter: true,
-          display: 'true',
           filterType: 'custom',
-          customFilterListOptions: {
-            render: (v) => v.map((l) => l.toUpperCase()),
-          },
-          filterOptions: {
-            logic: (location, filters) => {
-              if (filters.length) return !filters.includes(location)
-              return false
-            },
-            display: (filterList, onChange, index, column) => {
-              const optionValues = ['Minneapolis', 'New York', 'Seattle']
-              return (
-                <FormControl>
-                  <InputLabel htmlFor="select-multiple-chip">
-                    Location
-                  </InputLabel>
-                  <Select
-                    multiple
-                    value={filterList[index]}
-                    renderValue={(selected) => selected.join(', ')}
-                    onChange={(event) => {
-                      filterList[index] = event.target.value
-                      onChange(filterList[index], index, column)
-                    }}
-                  >
-                    {optionValues.map((item) => (
-                      <MenuItem key={item} value={item}>
-                        <Checkbox
-                          color="primary"
-                          checked={filterList[index].indexOf(item) > -1}
-                        />
-                        <ListItemText primary={item} />
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              )
-            },
-          },
-        },
-      },
-      {
-        name: 'age',
-        label: '日付',
-        options: {
-          filter: true,
-          filterType: 'custom',
-          customFilterListOptions: {
-            render: (v) => {
-              if (v[0] && v[1] && this.state.ageFilterChecked) {
-                return [`Min Age: ${v[0]}`, `Max Age: ${v[1]}`]
-              } else if (v[0] && v[1] && !this.state.ageFilterChecked) {
-                return `Min Age: ${v[0]}, Max Age: ${v[1]}`
-              } else if (v[0]) {
-                return `Min Age: ${v[0]}`
-              } else if (v[1]) {
-                return `Max Age: ${v[1]}`
-              }
-              return false
-            },
-            update: (filterList, filterPos, index) => {
-              console.log(
-                'customFilterListOnDelete: ',
-                filterList,
-                filterPos,
-                index
-              )
-
-              if (filterPos === 0) {
-                filterList[index].splice(filterPos, 1, '')
-              } else if (filterPos === 1) {
-                filterList[index].splice(filterPos, 1)
-              } else if (filterPos === -1) {
-                filterList[index] = []
-              }
-
-              return filterList
-            },
+          customFilterListRender: (v) => {
+            if (v[0] && v[1]) {
+              return `Start Date: ${v[0]}, End Date: ${v[1]}`
+            } else if (v[0]) {
+              return `Start Date: ${v[0]}`
+            } else if (v[1]) {
+              return `End Date: ${v[1]}`
+            }
+            return false
           },
           filterOptions: {
             names: [],
-            logic(age, filters) {
-              if (filters[0] && filters[1]) {
-                return age < filters[0] || age > filters[1]
-              } else if (filters[0]) {
-                return age < filters[0]
-              } else if (filters[1]) {
-                return age > filters[1]
+            logic(date, filters) {
+              var check = new Date(date)
+              var from = new Date(filters[0])
+              var to = new Date(filters[1])
+              from.setDate(from.getDate() + 1)
+              to.setDate(to.getDate() + 1)
+              from = new Date(from).setHours(0, 0, 0, 0)
+              to = new Date(to).setHours(23, 59, 59, 59)
+
+              if (filters[0] && filters[1] && check >= to && check <= from) {
+                return true
+              } else if (filters[0] && check >= to) {
+                return true
+              } else if (filters[1] && check <= from) {
+                return true
               }
               return false
             },
             display: (filterList, onChange, index, column) => (
               <div>
-                <FormLabel>Date Range</FormLabel>
+                <FormLabel>ツイート時間</FormLabel>
                 <FormGroup row>
                   <TextField
-                    label="min"
+                    id="startDate"
+                    label="開始日付"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
                     value={filterList[index][0] || ''}
                     onChange={(event) => {
                       filterList[index][0] = event.target.value
@@ -170,27 +134,18 @@ class Example extends React.Component {
                     style={{ width: '45%', marginRight: '5%' }}
                   />
                   <TextField
-                    label="max"
+                    id="endDate"
+                    label="終了日付"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
                     value={filterList[index][1] || ''}
                     onChange={(event) => {
                       filterList[index][1] = event.target.value
                       onChange(filterList[index], index, column)
                     }}
-                    style={{ width: '45%' }}
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={this.state.ageFilterChecked}
-                        onChange={(event) =>
-                          this.setState({
-                            ageFilterChecked: event.target.checked,
-                          })
-                        }
-                      />
-                    }
-                    label="Separate Values"
-                    style={{ marginLeft: '0px' }}
+                    style={{ width: '45%', marginRight: '5%' }}
                   />
                 </FormGroup>
               </div>
@@ -199,63 +154,16 @@ class Example extends React.Component {
           print: false,
         },
       },
-      // {
-      //   name: 'Status',
-      //   options: {
-      //     filter: true,
-      //     filterType: 'checkbox',
-      //     filterOptions: {
-      //       names: ['Fail', 'Success', 'Pending'],
-      //       logic(salary, filterVal) {
-      //         salary = salary.replace(/[^\d]/g, '')
-      //         const show =
-      //           (filterVal.indexOf('Lower wages') >= 0 && salary < 100000) ||
-      //           (filterVal.indexOf('Average wages') >= 0 &&
-      //             salary >= 100000 &&
-      //             salary < 200000) ||
-      //           (filterVal.indexOf('Higher wages') >= 0 && salary >= 200000)
-      //         return !show
-      //       },
-      //     },
-      //     sort: false,
-      //   },
-      // },
+      {
+        name: 'lastModified',
+        label: '収集時間',
+        options: {
+          filter: true,
+        },
+      },
     ]
 
-    const data = [
-      {
-        name: 'Gabby George',
-        title: 'Business Analyst',
-        location: 'Minneapolis',
-        age: 30,
-        status: '$100,000',
-        phone: { home: '867-5309', cell: '123-4567' },
-      },
-      {
-        name: 'Aiden Lloyd',
-        title: 'Business Consultant',
-        location: 'Dallas',
-        age: 55,
-        status: '$200,000',
-        phone: { home: '867-5310', cell: '123-4568' },
-      },
-      {
-        name: 'Jaden Collins',
-        title: 'Attorney',
-        location: 'Santa Ana',
-        age: 27,
-        status: '$500,000',
-        phone: { home: '867-5311', cell: '123-4569' },
-      },
-      {
-        name: 'Franky Rees',
-        title: 'Business Analyst',
-        location: 'St. Petersburg',
-        age: 22,
-        status: '$50,000',
-        phone: { home: '867-5312', cell: '123-4569' },
-      },
-    ]
+    let data = this.state.tweetRecord
 
     const options = {
       filter: true,
@@ -285,7 +193,7 @@ class Example extends React.Component {
         },
         pagination: {
           rowsPerPage: '表示件数',
-          displayRows: 'から',
+          displayRows: '/',
         },
         viewColumns: {
           title: 'カラム表示',
@@ -338,7 +246,7 @@ class Example extends React.Component {
     return (
       <React.Fragment>
         <MUIDataTable
-          title={'Tracker'}
+          title={'Last Scraped Tweets'}
           data={data}
           columns={columns}
           options={options}
