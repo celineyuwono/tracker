@@ -1,11 +1,5 @@
-/**
- * Here we put all root config, such as routing
- * If necessary, styles from the libraries should be put here as well
- */
-
 import React from 'react'
 
-// styles
 import '@duik/it/dist/styles.css'
 import '@duik/icon/dist/styles.css'
 import '@animated-burgers/burger-squeeze/dist/styles.css'
@@ -18,6 +12,7 @@ import { Analytics } from 'Analytics'
 import { useMenuVisibility } from '@utils'
 
 import Navigator from './Navigator'
+import Login from './Login'
 
 const RootRoute = (props) => {
   const uiContext = React.useContext(UiContext)
@@ -32,6 +27,7 @@ const RootRoute = (props) => {
     <>
       <Navigator />
       <Switch>
+        <Route path="/login" component={Login} />
         <Route path="/" component={Analytics} />
       </Switch>
     </>
