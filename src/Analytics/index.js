@@ -3,7 +3,8 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
 import { ContainerVertical, ContainerHorizontal } from '@duik/it'
-import Home from './home'
+import StgInstagramMedia from './pages/staging/InstagramMedia'
+import StgTwitterBatch from './pages/staging/TwitterBatch'
 
 // components
 import Header from './components/Header'
@@ -20,7 +21,18 @@ export const Analytics = () => {
         <NavigationMobile />
         <Header />
         <Switch>
-          <Route component={Home} exact path="/" strict />
+          <Route
+            component={StgInstagramMedia}
+            exact
+            path="/stg/instagram/media"
+            strict
+          />
+          <Route
+            component={StgTwitterBatch}
+            exact
+            path="/stg/twitter/batch"
+            strict
+          />
         </Switch>
       </ContainerVertical>
     </ContainerHorizontal>
