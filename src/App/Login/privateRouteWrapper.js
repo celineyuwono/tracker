@@ -6,20 +6,21 @@ import jwt from 'jsonwebtoken'
 import moment from 'moment'
 
 class PrivateRouteWrapper extends Component<Props> {
-  state = {
-    auth: true,
-  }
-  componentDidMount() {
-    const username = 'Hello'
-    const password = 'hello1'
+  // state = {
+  //   auth: true,
+  // }
+  // componentDidMount() {
+  //   const username = 'Hello'
+  //   const password = 'hello1'
 
-    if ((username === 'Hello') & (password === 'hello1')) {
-      this.setState({ auth: true })
-    }
-  }
+  //   if ((username === 'Hello') & (password === 'hello1')) {
+  //     this.setState({ auth: true })
+  //   }
+  // }
 
   render() {
-    const { auth } = this.state
+    // const { auth } = this.state
+    const auth = false // Change here to redirect to login BOB
     const { children } = this.props
 
     if (auth) {

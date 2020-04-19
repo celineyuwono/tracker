@@ -25,7 +25,23 @@ const styles = (theme) => ({
   },
 })
 
-class LoginTab extends React.Component {
+class Login extends React.Component {
+  state = {
+    username: '',
+    password: '',
+  }
+
+  handleUsernameChange(value) {
+    this.setState({
+      username: value,
+    })
+  }
+  handlePasswordChange(value) {
+    this.setState({
+      password: value,
+    })
+  }
+
   render() {
     const { classes } = this.props
     return (
@@ -44,6 +60,7 @@ class LoginTab extends React.Component {
                   fullWidth
                   autoFocus
                   required
+                  onChange={(e) => this.handleUsernameChange(e.target.value)}
                 />
               </Grid>
             </Grid>
@@ -58,10 +75,11 @@ class LoginTab extends React.Component {
                   type="password"
                   fullWidth
                   required
+                  onChange={(e) => this.handlePasswordChange(e.target.value)}
                 />
               </Grid>
             </Grid>
-            <Grid container alignItems="center" justify="space-between">
+            {/* <Grid container alignItems="center" justify="space-between">
               <Grid item>
                 <FormControlLabel
                   control={<Checkbox color="primary" />}
@@ -79,8 +97,8 @@ class LoginTab extends React.Component {
                   Forgot password ?
                 </Button>
               </Grid>
-            </Grid>
-            <Grid container justify="center" style={{ marginTop: '10px' }}>
+            </Grid> */}
+            <Grid container justify="center" style={{ marginTop: '30px' }}>
               <Button
                 variant="outlined"
                 color="primary"
@@ -96,4 +114,4 @@ class LoginTab extends React.Component {
   }
 }
 
-export default withStyles(styles)(LoginTab)
+export default withStyles(styles)(Login)
