@@ -6,12 +6,15 @@ import { ContainerVertical, ContainerHorizontal } from '@duik/it'
 import StgInstagramMedia from './pages/staging/InstagramMedia'
 import StgInstagramBatch from './pages/staging/InstagramBatch'
 import StgInstagramScrape from './pages/staging/InstagramScrape'
+import StgInstagramBatchErrors from './pages/staging/InstagramBatchErrors'
+import StgInstagramScrapeErrors from './pages/staging/InstagramScrapeErrors'
 
 // components
 import Header from './components/Header'
 import TopBarMobile from './components/TopBarMobile'
 import Navigation from './components/Navigation'
 import NavigationMobile from './components/NavigationMobile'
+import UnderConstruction from './components/UnderConstruction'
 
 export const Analytics = () => {
   return (
@@ -38,6 +41,24 @@ export const Analytics = () => {
             component={StgInstagramScrape}
             exact
             path="/stg/instagram/scrape"
+            strict
+          />
+          <Route
+            component={StgInstagramBatchErrors}
+            exact
+            path="/stg/instagram/batch/errors"
+            strict
+          />
+          <Route
+            component={StgInstagramScrapeErrors}
+            exact
+            path="/stg/instagram/scrape/errors"
+            strict
+          />
+          <Route
+            component={UnderConstruction}
+            exact
+            path="/under-construction"
             strict
           />
         </Switch>

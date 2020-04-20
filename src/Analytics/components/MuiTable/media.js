@@ -16,7 +16,7 @@ import ReactDOM from 'react-dom'
 import MUIDataTable from './src/'
 import moment from 'moment'
 
-class Example extends React.Component {
+class MediaTable extends React.Component {
   state = {
     downloadFile: true,
     ageFilterChecked: false,
@@ -293,4 +293,4 @@ class Example extends React.Component {
   }
 }
 
-export default Example
+export default MediaTable

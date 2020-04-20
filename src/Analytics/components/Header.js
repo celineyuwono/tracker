@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import {
   TopBar,
   TopBarSection,
@@ -9,25 +10,42 @@ import {
   Button,
 } from '@duik/it'
 
+const menuLinks = [
+  {
+    text: 'Batch',
+    url: '/stg/instagram/batch',
+    active: true,
+  },
+  {
+    text: 'BatchErrors',
+    url: '/stg/instagram/batch/errors',
+    active: true,
+  },
+  {
+    text: 'Scrape',
+    url: '/stg/instagram/scrape',
+    active: true,
+  },
+  {
+    text: 'Scrape Errors',
+    url: '/stg/instagram/scrape/errors',
+    active: !!window.location.pathname.includes('stg'),
+  },
+]
+
 const AnalyticsHeader = (props) => (
   <TopBar>
     <TopBarSection>
       <TopBarLinkContainer>
-        <TopBarLink href="/stg/instagram/batch" className="active">
-          Batch
-        </TopBarLink>
-        <TopBarLink href="/stg/instagram/batch/errors" className="active">
-          Batch Errors
-        </TopBarLink>
-        <TopBarLink href="/stg/instagram/scrape" className="active">
-          Scrape
-        </TopBarLink>
-        <TopBarLink href="/stg/instagram/scrape/errors" className="active">
-          Scrape Errors
-        </TopBarLink>
+        {menuLinks.map((link) => (
+          <TopBarLink href={link.active ? link.url : '/under-construction'}>
+            {link.text}
+          </TopBarLink>
+        ))}
       </TopBarLinkContainer>
     </TopBarSection>
     <TopBarSection>
+      <Button style={{ marginRight: '10px' }}>Update</Button>
       <Button primary>Logout</Button>
     </TopBarSection>
   </TopBar>

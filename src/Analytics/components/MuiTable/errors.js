@@ -16,7 +16,7 @@ import ReactDOM from 'react-dom'
 import MUIDataTable from './src/'
 import moment from 'moment'
 
-class BatchTable extends React.Component {
+class ErrorsTable extends React.Component {
   state = {
     downloadFile: true,
     ageFilterChecked: false,
@@ -39,43 +39,36 @@ class BatchTable extends React.Component {
         },
       },
       {
-        name: 'igUsers',
-        label: 'Total Instagram Users',
+        name: 'ambassadorId',
+        label: 'Ambassador ID',
+        options: {
+          filter: false,
+        },
+      },
+      //   {
+      //     name: 'ambassadorName',
+      //     label: 'Ambassador Name',
+      //     options: {
+      //       filter: false,
+      //     },
+      //   },
+      {
+        name: 'errorCode',
+        label: 'Error Code',
         options: {
           filter: false,
         },
       },
       {
-        name: 'igUsersToUpdate',
-        label: 'Instagram Users to Update',
-        options: {
-          filter: false,
-        },
-      },
-      {
-        name: 'updateSucceeded',
-        label: 'Update Succeeded',
-        options: {
-          filter: false,
-        },
-      },
-      {
-        name: 'updateFailed',
-        label: 'Update Failed',
-        options: {
-          filter: false,
-        },
-      },
-      {
-        name: 'successRate',
-        label: 'Success Rate',
+        name: 'errorMessage',
+        label: 'Error Message',
         options: {
           filter: false,
         },
       },
       {
         name: 'lastInvoked',
-        label: 'Last Invoked',
+        label: 'Invoked Time',
         options: {
           filter: true,
           sort: true,
@@ -116,7 +109,7 @@ class BatchTable extends React.Component {
             },
             display: (filterList, onChange, index, column) => (
               <div>
-                <FormLabel>Last Invoked</FormLabel>
+                <FormLabel>Last Scraped</FormLabel>
                 <FormGroup row>
                   <TextField
                     id="startDate"
@@ -238,7 +231,7 @@ class BatchTable extends React.Component {
     return (
       <React.Fragment>
         <MUIDataTable
-          title={'Instagram Posts Batch'}
+          title={'Errors'}
           data={data}
           columns={columns}
           options={options}
@@ -248,4 +241,4 @@ class BatchTable extends React.Component {
   }
 }
 
-export default BatchTable
+export default ErrorsTable

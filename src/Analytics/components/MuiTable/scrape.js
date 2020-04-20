@@ -16,7 +16,7 @@ import ReactDOM from 'react-dom'
 import MUIDataTable from './src/'
 import moment from 'moment'
 
-class Example extends React.Component {
+class ScrapeTable extends React.Component {
   state = {
     downloadFile: true,
     ageFilterChecked: false,
@@ -258,7 +258,7 @@ class Example extends React.Component {
           options={options}
         />
         <p>
-          % Current Success Rate = Update Suceed / (Update Succeed + Update
+          % Current Success Rate = Update Succeed / (Update Succeed + Update
           Failed)
         </p>
         <p></p>
@@ -269,4 +269,4 @@ class Example extends React.Component {
   }
 }
 
-export default Example
+export default ScrapeTable
