@@ -13,11 +13,17 @@ const AnalyticsHeader = (props) => (
   <TopBar>
     <TopBarSection>
       <TopBarLinkContainer>
-        <TopBarLink href="/scraped" className="active" href="/scraped">
-          (1) Batch -> DB
+        <TopBarLink href="/stg/instagram/batch" className="active">
+          Batch
         </TopBarLink>
-        <TopBarLink href="/points" className="active" href="/points">
-          (2) DB -> CSV -> 管理画面
+        <TopBarLink href="/stg/instagram/batch/errors" className="active">
+          Batch Errors
+        </TopBarLink>
+        <TopBarLink href="/stg/instagram/scrape" className="active">
+          Scrape
+        </TopBarLink>
+        <TopBarLink href="/stg/instagram/scrape/errors" className="active">
+          Scrape Errors
         </TopBarLink>
       </TopBarLinkContainer>
     </TopBarSection>

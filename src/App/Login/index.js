@@ -31,19 +31,22 @@ class Login extends React.Component {
     password: '',
   }
 
-  handleUsernameChange(value) {
-    this.setState({
-      username: value,
-    })
-  }
-  handlePasswordChange(value) {
-    this.setState({
-      password: value,
-    })
+  handleLoginInfoChange(e) {
+    const { handleLoginInfo } = this.props
+    const { username, password } = this.state
+    this.setState(
+      {
+        [e.target.id]: e.target.value,
+      },
+      () => {
+        console.log(this.state)
+        console.log(typeof handleLoginInfo)
+      }
+    )
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, handleLoginInfo } = this.props
     return (
       <Grid className={classes.outerDiv}>
         <Paper className={classes.padding}>
@@ -60,7 +63,7 @@ class Login extends React.Component {
                   fullWidth
                   autoFocus
                   required
-                  onChange={(e) => this.handleUsernameChange(e.target.value)}
+                  onChange={(e) => this.handleLoginInfoChange(e)}
                 />
               </Grid>
             </Grid>
@@ -70,12 +73,12 @@ class Login extends React.Component {
               </Grid>
               <Grid item md sm xs>
                 <TextField
-                  id="username"
+                  id="password"
                   label="Password"
                   type="password"
                   fullWidth
                   required
-                  onChange={(e) => this.handlePasswordChange(e.target.value)}
+                  onChange={(e) => this.handleLoginInfoChange(e)}
                 />
               </Grid>
             </Grid>

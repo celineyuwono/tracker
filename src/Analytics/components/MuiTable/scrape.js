@@ -46,8 +46,22 @@ class Example extends React.Component {
         },
       },
       {
-        name: 'igUsersToUpdate',
-        label: 'Instagram Users to Update',
+        name: 'updateCompleted',
+        label: 'Update Completed',
+        options: {
+          filter: false,
+        },
+      },
+      {
+        name: 'updatePending',
+        label: 'Update Pending',
+        options: {
+          filter: false,
+        },
+      },
+      {
+        name: 'updateRate',
+        label: '% Update Finished',
         options: {
           filter: false,
         },
@@ -68,14 +82,14 @@ class Example extends React.Component {
       },
       {
         name: 'successRate',
-        label: 'Success Rate',
+        label: '% Current Success Rate',
         options: {
           filter: false,
         },
       },
       {
-        name: 'lastInvoked',
-        label: 'Last Invoked',
+        name: 'lastScraped',
+        label: 'Last Scraped',
         options: {
           filter: true,
           sort: true,
@@ -116,7 +130,7 @@ class Example extends React.Component {
             },
             display: (filterList, onChange, index, column) => (
               <div>
-                <FormLabel>Last Invoked</FormLabel>
+                <FormLabel>Last Scraped</FormLabel>
                 <FormGroup row>
                   <TextField
                     id="startDate"
@@ -238,11 +252,18 @@ class Example extends React.Component {
     return (
       <React.Fragment>
         <MUIDataTable
-          title={'Instagram Posts Batch'}
+          title={'Instagram Scrape'}
           data={data}
           columns={columns}
           options={options}
         />
+        <p>
+          % Current Success Rate = Update Suceed / (Update Succeed + Update
+          Failed)
+        </p>
+        <p></p>
+        <p></p>
+        <p></p>
       </React.Fragment>
     )
   }

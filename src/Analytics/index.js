@@ -4,7 +4,8 @@ import { Route, Switch } from 'react-router-dom'
 
 import { ContainerVertical, ContainerHorizontal } from '@duik/it'
 import StgInstagramMedia from './pages/staging/InstagramMedia'
-import StgTwitterBatch from './pages/staging/TwitterBatch'
+import StgInstagramBatch from './pages/staging/InstagramBatch'
+import StgInstagramScrape from './pages/staging/InstagramScrape'
 
 // components
 import Header from './components/Header'
@@ -28,9 +29,15 @@ export const Analytics = () => {
             strict
           />
           <Route
-            component={StgTwitterBatch}
+            component={StgInstagramBatch}
             exact
-            path="/stg/twitter/batch"
+            path="/stg/instagram/batch"
+            strict
+          />
+          <Route
+            component={StgInstagramScrape}
+            exact
+            path="/stg/instagram/scrape"
             strict
           />
         </Switch>

@@ -13,10 +13,17 @@ import { useMenuVisibility } from '@utils'
 
 import Navigator from './Navigator'
 import Login from './Login'
-import PrivateRouteWrapper from './Login/PrivateRouteWrapper'
+import PrivateRouteWrapper from './Login/privateRouteWrapper'
 
 const RootRoute = (props) => {
   const uiContext = React.useContext(UiContext)
+
+  const [loginInfo, setLoginInfo] = React.useState('2')
+
+  const handleLoginInfo = (newLoginInfo) => {
+    setLoginInfo(newLoginInfo)
+    console.log('Hello', loginInfo)
+  }
 
   React.useEffect(() => {
     // on route change, we hide the menus
@@ -28,7 +35,10 @@ const RootRoute = (props) => {
     <>
       <Navigator />
       <Switch>
-        <Route path="/login" component={Login} />
+        <Route
+          path="/login"
+          component={() => <Login handleLoginInfo={handleLoginInfo} />}
+        />
         <PrivateRouteWrapper>
           <Switch>
             <Route path="/" component={Analytics} />
