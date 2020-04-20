@@ -46,13 +46,6 @@ class BatchTable extends React.Component {
         },
       },
       {
-        name: 'igUsersToUpdate',
-        label: 'Instagram Users to Update',
-        options: {
-          filter: false,
-        },
-      },
-      {
         name: 'updateSucceeded',
         label: 'Update Succeeded',
         options: {

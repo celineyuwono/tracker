@@ -23,12 +23,36 @@ import NavUser from '../NavUser'
 
 import cls from './analytics-navigation.module.scss'
 
+const prodMenuLinks = [
+  {
+    text: 'Twitter',
+    icon: <Icon>gallery_grid_view</Icon>,
+    component: 'ProdTwitter',
+    url: '/prod/twitter/batch',
+    active: false,
+  },
+  {
+    text: 'Instagram',
+    icon: <Icon>calendar</Icon>,
+    component: 'ProdInstagram',
+    url: '/prod/instagram/batch',
+    active: false,
+  },
+  {
+    text: 'Blog',
+    icon: <Icon>inbox_paper_round</Icon>,
+    component: 'ProdBlog',
+    url: '/prod/blog/batch',
+    active: false,
+  },
+]
+
 const stgMenuLinks = [
   {
     text: 'Twitter',
     icon: <Icon>gallery_grid_view</Icon>,
     component: 'StgTwitter',
-    url: '/stg/twitter',
+    url: '/stg/twitter/batch',
     active: false,
   },
   {
@@ -42,31 +66,31 @@ const stgMenuLinks = [
     text: 'Blog',
     icon: <Icon>inbox_paper_round</Icon>,
     component: 'StgBlog',
-    url: '/stg/blog',
+    url: '/stg/blog/batch',
     active: false,
   },
 ]
 
-const prodMenuLinks = [
+const devMenuLinks = [
   {
     text: 'Twitter',
     icon: <Icon>gallery_grid_view</Icon>,
-    component: 'ProdTwitter',
-    url: '/prod/twitter',
+    component: 'DevTwitter',
+    url: '/dev/twitter/batch',
     active: false,
   },
   {
     text: 'Instagram',
     icon: <Icon>calendar</Icon>,
-    component: 'ProdInstagram',
-    url: '/prod/instagram',
+    component: 'DevInstagram',
+    url: '/dev/instagram/batch',
     active: false,
   },
   {
     text: 'Blog',
     icon: <Icon>inbox_paper_round</Icon>,
-    component: 'ProdBlog',
-    url: '/prod/blog',
+    component: 'DevBlog',
+    url: '/dev/blog/batch',
     active: false,
   },
 ]
@@ -87,6 +111,19 @@ const AnalyticsNavigation = () => (
           name="Tracker"
           textTop="AP2 Scraping Time Tracker"
         />
+        <NavTitle>Production</NavTitle>
+        <NavLinkAnalyticsContainer>
+          {prodMenuLinks.map((link) => (
+            <NavLinkAnalytics
+              key={link.text}
+              className={link.text === 'Dashboard' ? 'active' : null}
+              icon=""
+              url={link.url}
+            >
+              <strong>{link.text}</strong>
+            </NavLinkAnalytics>
+          ))}
+        </NavLinkAnalyticsContainer>
         <NavTitle>Staging</NavTitle>
         <NavLinkAnalyticsContainer>
           {stgMenuLinks.map((link) => (
@@ -100,9 +137,9 @@ const AnalyticsNavigation = () => (
             </NavLinkAnalytics>
           ))}
         </NavLinkAnalyticsContainer>
-        <NavTitle>Production</NavTitle>
+        <NavTitle>Develop</NavTitle>
         <NavLinkAnalyticsContainer>
-          {prodMenuLinks.map((link) => (
+          {devMenuLinks.map((link) => (
             <NavLinkAnalytics
               key={link.text}
               className={link.text === 'Dashboard' ? 'active' : null}

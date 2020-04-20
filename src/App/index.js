@@ -18,11 +18,11 @@ import PrivateRouteWrapper from './Login/privateRouteWrapper'
 const RootRoute = (props) => {
   const uiContext = React.useContext(UiContext)
 
-  const [loginInfo, setLoginInfo] = React.useState('2')
+  const [loginInfo, setLoginInfo] = React.useState(2)
 
   const handleLoginInfo = (newLoginInfo) => {
-    setLoginInfo(newLoginInfo)
-    console.log('Hello', loginInfo)
+    console.log('logininfo', loginInfo)
+    console.log('Hello', newLoginInfo)
   }
 
   React.useEffect(() => {

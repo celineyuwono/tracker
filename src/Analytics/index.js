@@ -25,6 +25,7 @@ export const Analytics = () => {
         <NavigationMobile />
         <Header />
         <Switch>
+          <Route component={UnderConstruction} exact path="/" strict />
           <Route
             component={StgInstagramMedia}
             exact
@@ -57,7 +58,6 @@ export const Analytics = () => {
           />
           <Route
             component={UnderConstruction}
-            exact
             path="/under-construction"
             strict
           />

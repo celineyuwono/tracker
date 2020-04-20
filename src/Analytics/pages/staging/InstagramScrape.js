@@ -22,7 +22,37 @@ class InstagramScrape extends React.Component {
     tweetRecord: [],
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    //   async function readFile() {
+    //     let res = await axios.request({
+    //       method: 'GET',
+    //       headers: {
+    //         Accept: 'application/gzip',
+    //       },
+    //       url:
+    //         'https://ambpf2.s3-ap-northeast-1.amazonaws.com/stg/programs/32/ambassadors',
+    //       responseType: 'arraybuffer',
+    //     })
+    //     const tweet = pako.ungzip(res.data, { to: 'string' })
+    //     console.log(res)
+    //     return tweet
+    //   }
+    //   readFile().then((tweetInfo) => {
+    //     const parsedTweets = JSON.parse(tweetInfo[0])
+    //     const lastModified = moment(tweetInfo[1]).format('YYYY-MM-DD HH:mm:ss')
+    //     console.log(parsedTweets)
+    //     const tweetRecord = parsedTweets.map((tweet) => {
+    //       return {
+    //         ambassadorId: tweet.ambassador_id,
+    //         programId: tweet.program_id,
+    //         tweetDate: tweet.tweet_created_at,
+    //         lastModified: lastModified,
+    //       }
+    //     })
+    //     this.setState({ tweetRecord })
+    //     console.log(this.state.tweetRecord)
+    //   })
+  }
 
   render() {
     const bob = [

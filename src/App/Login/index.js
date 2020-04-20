@@ -39,8 +39,7 @@ class Login extends React.Component {
         [e.target.id]: e.target.value,
       },
       () => {
-        console.log(this.state)
-        console.log(typeof handleLoginInfo)
+        handleLoginInfo(this.state)
       }
     )
   }
