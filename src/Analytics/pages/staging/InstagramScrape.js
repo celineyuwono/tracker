@@ -7,51 +7,50 @@ import { SelectYear, SelectMonth } from '@composed'
 import { numberFormatZeros } from '@lib'
 
 // import { barData, lineBlank } from './data/chartData'
-import cls from '../analytics-home.module.scss'
 
-import MuiTable from '../../components/MuiTable/scrape'
 import ReactDOM from 'react-dom'
 import axios from 'axios'
 import pako from 'pako'
 import moment from 'moment'
+import MuiTable from '../../components/MuiTable/scrape'
+import cls from '../analytics-home.module.scss'
 
 class InstagramScrape extends React.Component {
-  state = {
-    downloadFile: true,
-    ageFilterChecked: false,
-    tweetRecord: [],
-  }
-
   componentDidMount() {
-    //   async function readFile() {
-    //     let res = await axios.request({
-    //       method: 'GET',
-    //       headers: {
-    //         Accept: 'application/gzip',
-    //       },
-    //       url:
-    //         'https://ambpf2.s3-ap-northeast-1.amazonaws.com/stg/programs/32/ambassadors',
-    //       responseType: 'arraybuffer',
-    //     })
-    //     const tweet = pako.ungzip(res.data, { to: 'string' })
-    //     console.log(res)
-    //     return tweet
-    //   }
-    //   readFile().then((tweetInfo) => {
-    //     const parsedTweets = JSON.parse(tweetInfo[0])
-    //     const lastModified = moment(tweetInfo[1]).format('YYYY-MM-DD HH:mm:ss')
-    //     console.log(parsedTweets)
-    //     const tweetRecord = parsedTweets.map((tweet) => {
-    //       return {
-    //         ambassadorId: tweet.ambassador_id,
-    //         programId: tweet.program_id,
-    //         tweetDate: tweet.tweet_created_at,
-    //         lastModified: lastModified,
-    //       }
-    //     })
-    //     this.setState({ tweetRecord })
-    //     console.log(this.state.tweetRecord)
-    //   })
+    async function readFile() {
+      let token = await axios.post(
+        'https://stg-ac-client-api.ambassadors.jp/basic/auth',
+        {
+          email: 'yuwono@agilemedia.jp',
+          password: 'amn',
+        }
+      )
+      token = JSON.parse(token.request.response).data.token
+      console.log('token', token)
+
+      let res = await axios.get(
+        'https://stg-ac-client-api.ambassadors.jp/amb/programs/1/ambassadors',
+        {
+          headers: {
+            Authorization: token,
+            'x-api-key': 'Cfa65VJNXh11klkLOlSoZ11Ec0KvDxdX5RMVEQDo',
+          },
+        }
+      )
+      res = JSON.parse(res.request.response).data.ambassadors
+      console.log('response', typeof res, res)
+      return res
+    }
+    readFile().then((res) => {
+      console.log('fin')
+      // const lastModified = moment(tweetInfo[1]).format('YYYY-MM-DD HH:mm:ss')
+      // console.log(parsedTweets)
+      // const data2 = res.map((tweet) => {
+      //   return {
+      // })
+      // this.setState({ tweetRecord })
+      // console.log(this.state.tweetRecord)
+    })
   }
 
   render() {
