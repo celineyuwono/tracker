@@ -6,60 +6,61 @@ import { Chart, WidgetChartSummary } from '@components'
 import { SelectYear, SelectMonth } from '@composed'
 import { numberFormatZeros } from '@lib'
 
-// import { barData, lineBlank } from './data/chartData'
-import cls from '../analytics-home.module.scss'
-
-import MuiTable from '../../components/MuiTable/errors'
 import ReactDOM from 'react-dom'
 import axios from 'axios'
-import pako from 'pako'
 import moment from 'moment'
+import MuiTable from '../../components/MuiTable/errors'
+import cls from '../analytics-home.module.scss'
 
-class InstagramBatchErrors extends React.Component {
+class InstagramScrape extends React.Component {
   state = {
-    downloadFile: true,
-    ageFilterChecked: false,
-    tweetRecord: [],
+    data: [],
+  }
+  componentDidMount() {
+    async function readFile() {
+      let token = await axios.post(
+        'https://stg-ac-client-api.ambassadors.jp/basic/auth',
+        {
+          email: 'yuwono@agilemedia.jp',
+          password: 'amn',
+        }
+      )
+      token = JSON.parse(token.request.response).data.token
+      const res = await axios.get(
+        'https://stg-ac-client-api.ambassadors.jp/voice/instagramUsers',
+        {
+          headers: {
+            Authorization: token,
+            'x-api-key': 'Cfa65VJNXh11klkLOlSoZ11Ec0KvDxdX5RMVEQDo',
+          },
+        }
+      )
+      return res.data.data.instagram_users
+    }
+    readFile().then((res) => {
+      const data = res.map((data) => {
+        return {
+          ambassadorId: data.ambassador_id,
+          programId: data.program_id,
+          igUid: data.ig_uid,
+          errorCode: data.crawl_error_code,
+          errorMessage: data.crawl_error_message,
+          lastInvoked: moment(data.modified).format('YYYY-MM-DD HH:mm:ss'),
+        }
+      })
+      this.setState({
+        data,
+      })
+    })
   }
 
-  componentDidMount() {}
-
   render() {
-    const bob = [
-      {
-        programId: 1,
-        programName: 'Test Program',
-        ambassadorId: '4524354',
-        ambassadorName: 'boii99',
-        errorCode: 400,
-        errorMessage: "It's an error!",
-      },
-      {
-        programId: 1,
-        programName: 'Test Program',
-        ambassadorId: '1653654',
-        ambassadorName: 'hellokitt4',
-        errorCode: 400,
-        errorMessage: 'Bla',
-      },
-      {
-        programId: 1,
-        programName: 'Test Program',
-        ambassadorId: '012394',
-        ambassadorName: 'orangpp',
-        errorCode: 700,
-        errorMessage: 'ERR',
-      },
-    ]
-
     return (
       <ScrollArea className={cls['analytics-home']}>
-        <MuiTable data={bob} />
-
-        {/* <MuiTable data={this.state.tweetRecord} /> */}
+        <MuiTable data={this.state.data} />
       </ScrollArea>
     )
   }
 }
 
-export default InstagramBatchErrors
+export default InstagramScrape
