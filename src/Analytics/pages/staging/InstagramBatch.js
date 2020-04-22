@@ -22,12 +22,6 @@ class InstagramBatch extends React.Component {
 
   componentDidMount() {
     async function readFile() {
-      //  programId: 1,
-      //   programName: 'Test Program',
-      //   igUsers: 1000,
-      //   updateSucceeded: 1,
-      //   updateFailed: 0,
-      //   successRate: '100%',
       let token = await axios.post(
         'https://stg-ac-client-api.ambassadors.jp/basic/auth',
         {
@@ -51,6 +45,7 @@ class InstagramBatch extends React.Component {
       let programId = new Set()
       let programName = []
       let successRate = []
+      let lastInvoked = []
       res.forEach((user) => {
         if (user.program_id) {
           programId.add(user.program_id)
@@ -77,32 +72,32 @@ class InstagramBatch extends React.Component {
         }
         successRate[idx] =
           ((igUsers[idx] - updateFailed[idx]) / igUsers[idx]) * 100
+
+        if (
+          user.modified &&
+          (!lastInvoked[idx] || moment(user.modified) > lastInvoked[idx])
+        ) {
+          lastInvoked[idx] = moment(user.modified)
+        }
       })
 
-      const array = new Array(length).fill({})
+      const array = []
       for (let i = 0; i < length; i++) {
-        array[i]['programId'] = programId[i]
-        array[i]['programName'] = programName[i]
-        array[i]['igUsers'] = igUsers[i]
-        array[i]['updateSuceeded'] = updateSucceeded[i]
-        array[i]['updateFailed'] = updateFailed[i]
-        array[i]['successRate'] = successRate[i]
-        console.log('asdf')
+        array.push({
+          programId: programId[i],
+          programName: programName[i],
+          igUsers: igUsers[i],
+          updateSucceeded: updateSucceeded[i],
+          updateFailed: updateFailed[i],
+          successRate: successRate[i],
+          lastInvoked: lastInvoked[i],
+        })
       }
-      console.log('arr', array)
-
-      // console.log(programs)
-      // console.log('prorgamName', programName)
-      // console.log('users', igUsers)
-      // console.log('success', updateSucceeded)
-      // console.log('failed', updateFailed)
-      // console.log('successRate', successRate)
 
       const data = array.map((data) => {
         return {
           ...data,
-          updateSucceeded: `${Math.round(data.updateSuceeded * 100) / 100}%`,
-          lastInvoked: moment(data.modified).format('YYYY-MM-DD HH:mm:ss'),
+          successRate: `${Math.round(data.successRate * 100) / 100}%`,
         }
       })
       this.setState({
