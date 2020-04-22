@@ -252,7 +252,7 @@ class ScrapeTable extends React.Component {
     return (
       <React.Fragment>
         <MUIDataTable
-          title={'Instagram Scrape'}
+          title={'Instagram Profile Scraping'}
           data={data}
           columns={columns}
           options={options}

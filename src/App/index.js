@@ -1,5 +1,5 @@
 import React from 'react'
-
+import axios from 'axios'
 import '@duik/it/dist/styles.css'
 import '@duik/icon/dist/styles.css'
 import '@animated-burgers/burger-squeeze/dist/styles.css'
@@ -41,7 +41,7 @@ const RootRoute = (props) => {
         />
         <PrivateRouteWrapper>
           <Switch>
-            <Route path="/" component={Analytics} />
+            <Route path="/" component={() => <Analytics />} />
           </Switch>
         </PrivateRouteWrapper>
       </Switch>

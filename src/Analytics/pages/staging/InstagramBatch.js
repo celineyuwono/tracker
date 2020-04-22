@@ -17,77 +17,104 @@ import moment from 'moment'
 
 class InstagramBatch extends React.Component {
   state = {
-    downloadFile: true,
-    ageFilterChecked: false,
-    tweetRecord: [],
+    data: [],
   }
 
   componentDidMount() {
     async function readFile() {
-      let res = await axios.request({
-        method: 'GET',
-        headers: {
-          Accept: 'application/gzip',
-        },
-        url:
-          'https://ambpf2.s3-ap-northeast-1.amazonaws.com/stg/resources/32/voices/twitter/2020-04.gz',
-        responseType: 'arraybuffer',
-      })
-      const tweet = pako.ungzip(res.data, { to: 'string' })
-      console.log(res.headers)
-      const lastModified = res.headers['last-modified']
-      return [tweet, lastModified]
+      //  programId: 1,
+      //   programName: 'Test Program',
+      //   igUsers: 1000,
+      //   updateSucceeded: 1,
+      //   updateFailed: 0,
+      //   successRate: '100%',
+      let token = await axios.post(
+        'https://stg-ac-client-api.ambassadors.jp/basic/auth',
+        {
+          email: 'yuwono@agilemedia.jp',
+          password: 'amn',
+        }
+      )
+      token = JSON.parse(token.request.response).data.token
+      const res = await axios.get(
+        'https://stg-ac-client-api.ambassadors.jp/voice/instagramUsers',
+        {
+          headers: {
+            Authorization: token,
+            'x-api-key': 'Cfa65VJNXh11klkLOlSoZ11Ec0KvDxdX5RMVEQDo',
+          },
+        }
+      )
+      return res.data.data.instagram_users
     }
-    readFile().then((tweetInfo) => {
-      const parsedTweets = JSON.parse(tweetInfo[0])
-      const lastModified = moment(tweetInfo[1]).format('YYYY-MM-DD HH:mm:ss')
-      console.log(parsedTweets)
-      const tweetRecord = parsedTweets.map((tweet) => {
-        return {
-          ambassadorId: tweet.ambassador_id,
-          programId: tweet.program_id,
-          tweetDate: tweet.tweet_created_at,
-          lastModified: lastModified,
+    readFile().then((res) => {
+      let programId = new Set()
+      let programName = []
+      let successRate = []
+      res.forEach((user) => {
+        if (user.program_id) {
+          programId.add(user.program_id)
         }
       })
-      this.setState({ tweetRecord })
-      console.log(this.state.tweetRecord)
+      programId = Array.from(programId).sort((a, b) => {
+        return a - b
+      })
+
+      let length = programId.length
+      let igUsers = new Array(length).fill(0)
+      let updateSucceeded = new Array(length).fill(0)
+      let updateFailed = new Array(length).fill(0)
+      res.forEach((user) => {
+        const idx = programId.indexOf(user.program_id)
+        if (!programName[idx]) {
+          programName[idx] = user.program_name
+        }
+        igUsers[idx]++
+        if (user.crawl_error_code) {
+          updateSucceeded[idx]++
+        } else {
+          updateFailed[idx]++
+        }
+        successRate[idx] =
+          ((igUsers[idx] - updateFailed[idx]) / igUsers[idx]) * 100
+      })
+
+      const array = new Array(length).fill({})
+      for (let i = 0; i < length; i++) {
+        array[i]['programId'] = programId[i]
+        array[i]['programName'] = programName[i]
+        array[i]['igUsers'] = igUsers[i]
+        array[i]['updateSuceeded'] = updateSucceeded[i]
+        array[i]['updateFailed'] = updateFailed[i]
+        array[i]['successRate'] = successRate[i]
+        console.log('asdf')
+      }
+      console.log('arr', array)
+
+      // console.log(programs)
+      // console.log('prorgamName', programName)
+      // console.log('users', igUsers)
+      // console.log('success', updateSucceeded)
+      // console.log('failed', updateFailed)
+      // console.log('successRate', successRate)
+
+      const data = array.map((data) => {
+        return {
+          ...data,
+          updateSucceeded: `${Math.round(data.updateSuceeded * 100) / 100}%`,
+          lastInvoked: moment(data.modified).format('YYYY-MM-DD HH:mm:ss'),
+        }
+      })
+      this.setState({
+        data,
+      })
     })
   }
 
   render() {
-    const bob = [
-      {
-        programId: 1,
-        programName: 'Test Program',
-        igUsers: 1000,
-        updateSucceeded: 1,
-        updateFailed: 0,
-        successRate: '100%',
-      },
-      {
-        programId: 2,
-        programName: 'Orango213',
-        igUsers: 500,
-        updateSucceeded: 50,
-        updateFailed: 50,
-        successRate: '90%',
-      },
-      {
-        programId: 3,
-        programName: 'Hello hello',
-        igUsers: 5,
-        updateSucceeded: 3,
-        updateFailed: 1,
-        successRate: '80%',
-      },
-    ]
-
     return (
       <ScrollArea className={cls['analytics-home']}>
-        <MuiTable data={bob} />
-
-        {/* <MuiTable data={this.state.tweetRecord} /> */}
+        <MuiTable data={this.state.data} />
       </ScrollArea>
     )
   }

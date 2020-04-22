@@ -25,6 +25,20 @@ class ErrorsTable extends React.Component {
   render() {
     const columns = [
       {
+        name: 'ambassadorId',
+        label: 'Ambassador ID',
+        options: {
+          filter: false,
+        },
+      },
+      {
+        name: 'username',
+        label: 'Username',
+        options: {
+          filter: false,
+        },
+      },
+      {
         name: 'programId',
         label: 'Program ID',
         options: {
@@ -38,20 +52,6 @@ class ErrorsTable extends React.Component {
           filter: true,
         },
       },
-      {
-        name: 'ambassadorId',
-        label: 'Ambassador ID',
-        options: {
-          filter: false,
-        },
-      },
-      //   {
-      //     name: 'ambassadorName',
-      //     label: 'Ambassador Name',
-      //     options: {
-      //       filter: false,
-      //     },
-      //   },
       {
         name: 'errorCode',
         label: 'Error Code',

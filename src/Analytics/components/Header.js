@@ -19,20 +19,20 @@ const menuLinks = [
   },
   {
     name: 'batchErrors',
-    text: 'BatchErrors',
+    text: 'Batch Errors',
     url: '/stg/instagram/batch/errors',
     active: true,
   },
   {
-    name: 'scrape',
-    text: 'Scrape',
-    url: '/stg/instagram/scrape',
+    name: 'profile',
+    text: 'Profile Scraping',
+    url: '/stg/instagram/profile',
     active: true,
   },
   {
-    name: 'scrapeErrors',
-    text: 'Scrape Errors',
-    url: '/stg/instagram/scrape/errors',
+    name: 'profileErrors',
+    text: 'Profile Scraping Errors',
+    url: '/stg/instagram/profile/errors',
     active: !!window.location.pathname.includes('stg'),
   },
 ]

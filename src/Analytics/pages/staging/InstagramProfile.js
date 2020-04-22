@@ -12,7 +12,7 @@ import moment from 'moment'
 import MuiTable from '../../components/MuiTable/scrape'
 import cls from '../analytics-home.module.scss'
 
-class InstagramScrape extends React.Component {
+class InstagramProfile extends React.Component {
   state = {
     data: [],
   }
@@ -109,4 +109,4 @@ class InstagramScrape extends React.Component {
   }
 }
 
-export default InstagramScrape
+export default InstagramProfile

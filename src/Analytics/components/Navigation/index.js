@@ -137,7 +137,7 @@ const AnalyticsNavigation = () => (
             </NavLinkAnalytics>
           ))}
         </NavLinkAnalyticsContainer>
-        <NavTitle>Develop</NavTitle>
+        {/* <NavTitle>Develop</NavTitle>
         <NavLinkAnalyticsContainer>
           {devMenuLinks.map((link) => (
             <NavLinkAnalytics
@@ -149,7 +149,7 @@ const AnalyticsNavigation = () => (
               <strong>{link.text}</strong>
             </NavLinkAnalytics>
           ))}
-        </NavLinkAnalyticsContainer>
+        </NavLinkAnalyticsContainer> */}
       </ScrollArea>
     </ContainerVertical>
   </NavPanel>

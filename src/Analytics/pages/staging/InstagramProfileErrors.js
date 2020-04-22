@@ -6,17 +6,20 @@ import { Chart, WidgetChartSummary } from '@components'
 import { SelectYear, SelectMonth } from '@composed'
 import { numberFormatZeros } from '@lib'
 
-import ReactDOM from 'react-dom'
-import axios from 'axios'
-import moment from 'moment'
-import MuiTable from '../../components/MuiTable/errors'
+// import { barData, lineBlank } from './data/chartData'
 import cls from '../analytics-home.module.scss'
 
-class InstagramBatchErrors extends React.Component {
+import MuiTable from '../../components/MuiTable/errors'
+import ReactDOM from 'react-dom'
+import axios from 'axios'
+import pako from 'pako'
+import moment from 'moment'
+
+class InstagramProfileErrors extends React.Component {
   state = {
     data: [],
   }
-  async componentDidMount() {
+  componentDidMount() {
     async function readFile() {
       let token = await axios.post(
         'https://stg-ac-client-api.ambassadors.jp/basic/auth',
@@ -67,4 +70,4 @@ class InstagramBatchErrors extends React.Component {
   }
 }
 
-export default InstagramBatchErrors
+export default InstagramProfileErrors

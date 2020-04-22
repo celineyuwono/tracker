@@ -5,9 +5,9 @@ import { Route, Switch } from 'react-router-dom'
 import { ContainerVertical, ContainerHorizontal } from '@duik/it'
 import StgInstagramMedia from './pages/staging/InstagramMedia'
 import StgInstagramBatch from './pages/staging/InstagramBatch'
-import StgInstagramScrape from './pages/staging/InstagramScrape'
+import StgInstagramProfile from './pages/staging/InstagramProfile'
 import StgInstagramBatchErrors from './pages/staging/InstagramBatchErrors'
-import StgInstagramScrapeErrors from './pages/staging/InstagramScrapeErrors'
+import StgInstagramProfileErrors from './pages/staging/InstagramProfileErrors'
 
 // components
 import Header from './components/Header'
@@ -16,7 +16,7 @@ import Navigation from './components/Navigation'
 import NavigationMobile from './components/NavigationMobile'
 import UnderConstruction from './components/UnderConstruction'
 
-export const Analytics = () => {
+export const Analytics = (data) => {
   return (
     <ContainerHorizontal>
       <Navigation />
@@ -27,33 +27,33 @@ export const Analytics = () => {
         <Switch>
           <Route component={UnderConstruction} exact path="/" strict />
           <Route
-            component={StgInstagramMedia}
+            component={() => <StgInstagramMedia />}
             exact
             path="/stg/instagram/media"
             strict
           />
           <Route
-            component={StgInstagramBatch}
+            component={() => <StgInstagramBatch />}
             exact
             path="/stg/instagram/batch"
             strict
           />
           <Route
-            component={StgInstagramScrape}
+            component={() => <StgInstagramProfile />}
             exact
-            path="/stg/instagram/scrape"
+            path="/stg/instagram/profile"
             strict
           />
           <Route
-            component={StgInstagramBatchErrors}
+            component={() => <StgInstagramBatchErrors />}
             exact
             path="/stg/instagram/batch/errors"
             strict
           />
           <Route
-            component={StgInstagramScrapeErrors}
+            component={() => <StgInstagramProfileErrors />}
             exact
-            path="/stg/instagram/scrape/errors"
+            path="/stg/instagram/profile/errors"
             strict
           />
           <Route
