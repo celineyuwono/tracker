@@ -11,33 +11,14 @@ import axios from 'axios'
 import moment from 'moment'
 import MuiTable from '../../components/MuiTable/errors'
 import cls from '../analytics-home.module.scss'
+import { getStgInstagramUsers } from '@utils/auth'
 
 class InstagramBatchErrors extends React.Component {
   state = {
     data: [],
   }
   async componentDidMount() {
-    async function readFile() {
-      let token = await axios.post(
-        'https://stg-ac-client-api.ambassadors.jp/basic/auth',
-        {
-          email: 'yuwono@agilemedia.jp',
-          password: 'amn',
-        }
-      )
-      token = JSON.parse(token.request.response).data.token
-      const res = await axios.get(
-        'https://stg-ac-client-api.ambassadors.jp/voice/instagramUsers',
-        {
-          headers: {
-            Authorization: token,
-            'x-api-key': 'Cfa65VJNXh11klkLOlSoZ11Ec0KvDxdX5RMVEQDo',
-          },
-        }
-      )
-      return res.data.data.instagram_users
-    }
-    readFile().then((res) => {
+    getStgInstagramUsers().then((res) => {
       const data = res
         .filter((data) => data.crawl_error_code && data.ambassador_id)
         .map((data) => {

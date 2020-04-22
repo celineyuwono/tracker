@@ -1,19 +1,13 @@
 import React from 'react'
 
-import { Widget, WidgetHeader, WidgetContent, ScrollArea } from '@duik/it'
-
-import { Chart, WidgetChartSummary } from '@components'
-import { SelectYear, SelectMonth } from '@composed'
-import { numberFormatZeros } from '@lib'
-
-// import { barData, lineBlank } from './data/chartData'
+import { ScrollArea } from '@duik/it'
 import cls from '../analytics-home.module.scss'
 
 import MuiTable from '../../components/MuiTable/batch'
 import ReactDOM from 'react-dom'
 import axios from 'axios'
-import pako from 'pako'
 import moment from 'moment'
+import { getStgInstagramUsers } from '@utils/auth'
 
 class InstagramBatch extends React.Component {
   state = {
@@ -21,27 +15,7 @@ class InstagramBatch extends React.Component {
   }
 
   componentDidMount() {
-    async function readFile() {
-      let token = await axios.post(
-        'https://stg-ac-client-api.ambassadors.jp/basic/auth',
-        {
-          email: 'yuwono@agilemedia.jp',
-          password: 'amn',
-        }
-      )
-      token = JSON.parse(token.request.response).data.token
-      const res = await axios.get(
-        'https://stg-ac-client-api.ambassadors.jp/voice/instagramUsers',
-        {
-          headers: {
-            Authorization: token,
-            'x-api-key': 'Cfa65VJNXh11klkLOlSoZ11Ec0KvDxdX5RMVEQDo',
-          },
-        }
-      )
-      return res.data.data.instagram_users
-    }
-    readFile().then((res) => {
+    getStgInstagramUsers().then((res) => {
       let programId = new Set()
       let programName = []
       let successRate = []

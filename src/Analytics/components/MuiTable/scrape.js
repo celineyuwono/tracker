@@ -87,86 +87,86 @@ class ScrapeTable extends React.Component {
           filter: false,
         },
       },
-      {
-        name: 'lastScraped',
-        label: 'Last Scraped',
-        options: {
-          filter: true,
-          sort: true,
-          sortDirection: 'desc',
-          customBodyRender: (value) => {
-            return new moment(value).format('YYYY-MM-DD HH:mm:ss')
-          },
-          filterType: 'custom',
-          customFilterListRender: (v) => {
-            if (v[0] && v[1]) {
-              return `Start Date: ${v[0]}, End Date: ${v[1]}`
-            } else if (v[0]) {
-              return `Start Date: ${v[0]}`
-            } else if (v[1]) {
-              return `End Date: ${v[1]}`
-            }
-            return false
-          },
-          filterOptions: {
-            names: [],
-            logic(date, filters) {
-              var check = new Date(date)
-              var from = new Date(filters[0])
-              var to = new Date(filters[1])
-              from.setDate(from.getDate() + 1)
-              to.setDate(to.getDate() + 1)
-              from = new Date(from).setHours(0, 0, 0, 0)
-              to = new Date(to).setHours(23, 59, 59, 59)
+      // {
+      //   name: 'lastScraped',
+      //   label: 'Last Scraped',
+      //   options: {
+      //     filter: true,
+      //     sort: true,
+      //     sortDirection: 'desc',
+      //     customBodyRender: (value) => {
+      //       return new moment(value).format('YYYY-MM-DD HH:mm:ss')
+      //     },
+      //     filterType: 'custom',
+      //     customFilterListRender: (v) => {
+      //       if (v[0] && v[1]) {
+      //         return `Start Date: ${v[0]}, End Date: ${v[1]}`
+      //       } else if (v[0]) {
+      //         return `Start Date: ${v[0]}`
+      //       } else if (v[1]) {
+      //         return `End Date: ${v[1]}`
+      //       }
+      //       return false
+      //     },
+      //     filterOptions: {
+      //       names: [],
+      //       logic(date, filters) {
+      //         var check = new Date(date)
+      //         var from = new Date(filters[0])
+      //         var to = new Date(filters[1])
+      //         from.setDate(from.getDate() + 1)
+      //         to.setDate(to.getDate() + 1)
+      //         from = new Date(from).setHours(0, 0, 0, 0)
+      //         to = new Date(to).setHours(23, 59, 59, 59)
 
-              if (filters[0] && filters[1] && check >= to && check <= from) {
-                return true
-              } else if (filters[0] && check >= to) {
-                return true
-              } else if (filters[1] && check <= from) {
-                return true
-              }
-              return false
-            },
-            display: (filterList, onChange, index, column) => (
-              <div>
-                <FormLabel>Last Scraped</FormLabel>
-                <FormGroup row>
-                  <TextField
-                    id="startDate"
-                    label="Start Date"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    value={filterList[index][0] || ''}
-                    onChange={(event) => {
-                      filterList[index][0] = event.target.value
-                      onChange(filterList[index], index, column)
-                    }}
-                    style={{ width: '45%', marginRight: '5%' }}
-                  />
-                  <TextField
-                    id="endDate"
-                    label="End Date"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    value={filterList[index][1] || ''}
-                    onChange={(event) => {
-                      filterList[index][1] = event.target.value
-                      onChange(filterList[index], index, column)
-                    }}
-                    style={{ width: '45%', marginRight: '5%' }}
-                  />
-                </FormGroup>
-              </div>
-            ),
-          },
-          print: false,
-        },
-      },
+      //         if (filters[0] && filters[1] && check >= to && check <= from) {
+      //           return true
+      //         } else if (filters[0] && check >= to) {
+      //           return true
+      //         } else if (filters[1] && check <= from) {
+      //           return true
+      //         }
+      //         return false
+      //       },
+      //       display: (filterList, onChange, index, column) => (
+      //         <div>
+      //           <FormLabel>Last Scraped</FormLabel>
+      //           <FormGroup row>
+      //             <TextField
+      //               id="startDate"
+      //               label="Start Date"
+      //               type="date"
+      //               InputLabelProps={{
+      //                 shrink: true,
+      //               }}
+      //               value={filterList[index][0] || ''}
+      //               onChange={(event) => {
+      //                 filterList[index][0] = event.target.value
+      //                 onChange(filterList[index], index, column)
+      //               }}
+      //               style={{ width: '45%', marginRight: '5%' }}
+      //             />
+      //             <TextField
+      //               id="endDate"
+      //               label="End Date"
+      //               type="date"
+      //               InputLabelProps={{
+      //                 shrink: true,
+      //               }}
+      //               value={filterList[index][1] || ''}
+      //               onChange={(event) => {
+      //                 filterList[index][1] = event.target.value
+      //                 onChange(filterList[index], index, column)
+      //               }}
+      //               style={{ width: '45%', marginRight: '5%' }}
+      //             />
+      //           </FormGroup>
+      //         </div>
+      //       ),
+      //     },
+      //     print: false,
+      //   },
+      // },
     ]
 
     let data = this.props.data
