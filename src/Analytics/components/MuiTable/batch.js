@@ -68,7 +68,7 @@ class BatchTable extends React.Component {
       },
       {
         name: 'lastInvoked',
-        label: 'Last Invoked',
+        label: 'Last Modified',
         options: {
           filter: true,
           sort: true,
@@ -109,7 +109,7 @@ class BatchTable extends React.Component {
             },
             display: (filterList, onChange, index, column) => (
               <div>
-                <FormLabel>Last Invoked</FormLabel>
+                <FormLabel>Last Modified</FormLabel>
                 <FormGroup row>
                   <TextField
                     id="startDate"

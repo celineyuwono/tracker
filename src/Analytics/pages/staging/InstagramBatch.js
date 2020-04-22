@@ -74,10 +74,11 @@ class InstagramBatch extends React.Component {
           ((igUsers[idx] - updateFailed[idx]) / igUsers[idx]) * 100
 
         if (
-          user.modified &&
-          (!lastInvoked[idx] || moment(user.modified) > lastInvoked[idx])
+          user.performances_last_updated &&
+          (!lastInvoked[idx] ||
+            moment(user.performances_last_updated) > lastInvoked[idx])
         ) {
-          lastInvoked[idx] = moment(user.modified)
+          lastInvoked[idx] = moment(user.performances_last_updated)
         }
       })
 
