@@ -7,6 +7,7 @@ import {
   Button,
   FormControlLabel,
   Checkbox,
+  CircularProgress,
 } from '@material-ui/core'
 import { Face, Fingerprint } from '@material-ui/icons'
 import { getStgToken, getProdToken } from '@utils'
@@ -29,18 +30,23 @@ class Login extends React.Component {
     email: '',
     password: '',
     loginError: '',
+    loading: false,
   }
 
-  handleLoginInfoChange(e) {
+  handleLoginInfo(e) {
     this.setState({
       [e.target.id]: e.target.value,
     })
   }
 
   async login() {
-    const { handleLogin } = this.props
     const { email, password } = this.state
+    const { handleLogin } = this.props
     if (email.includes('@agilemedia.jp')) {
+      this.setState({
+        loginError: '',
+        loading: true,
+      })
       let stgToken = ''
       let prodToken = ''
       try {
@@ -55,31 +61,29 @@ class Login extends React.Component {
       }
       if (stgToken || prodToken) {
         console.log('auth is true')
-        this.setState({
-          loginError: '',
-        })
-        handleLogin(true)
+        handleLogin()
       } else {
         this.setState({
           loginError: 'Wrong email and/or password.',
         })
       }
+      this.setState({
+        loading: false,
+      })
     } else if (!email || !password) {
       this.setState({
         loginError: 'Please input both your email and password.',
       })
-      handleLogin(false)
     } else {
       this.setState({
         loginError: 'Please use an @agilemedia.jp email.',
       })
-      handleLogin(false)
     }
   }
 
   render() {
-    const { loginError } = this.state
-    const { classes, handleLoginInfo } = this.props
+    const { loading, loginError } = this.state
+    const { classes } = this.props
     return (
       <Grid className={classes.outerDiv}>
         <Paper className={classes.padding}>
@@ -96,7 +100,7 @@ class Login extends React.Component {
                   fullWidth
                   autoFocus
                   required
-                  onChange={(e) => this.handleLoginInfoChange(e)}
+                  onChange={(e) => this.handleLoginInfo(e)}
                 />
               </Grid>
             </Grid>
@@ -111,7 +115,7 @@ class Login extends React.Component {
                   type="password"
                   fullWidth
                   required
-                  onChange={(e) => this.handleLoginInfoChange(e)}
+                  onChange={(e) => this.handleLoginInfo(e)}
                 />
               </Grid>
             </Grid>
@@ -125,14 +129,18 @@ class Login extends React.Component {
               justify="center"
               style={{ marginTop: '20px', marginBottom: '15px' }}
             >
-              <Button
-                variant="outlined"
-                color="primary"
-                style={{ textTransform: 'none' }}
-                onClick={() => this.login()}
-              >
-                Login
-              </Button>
+              {!loading ? (
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  style={{ textTransform: 'none' }}
+                  onClick={() => this.login()}
+                >
+                  Login
+                </Button>
+              ) : (
+                <CircularProgress />
+              )}
             </Grid>
           </Grid>
         </Paper>

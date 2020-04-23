@@ -26,21 +26,18 @@ import cls from './analytics-navigation.module.scss'
 const prodMenuLinks = [
   {
     text: 'Twitter',
-    icon: <Icon>gallery_grid_view</Icon>,
     component: 'ProdTwitter',
     url: '/prod/twitter/batch',
     active: false,
   },
   {
     text: 'Instagram',
-    icon: <Icon>calendar</Icon>,
     component: 'ProdInstagram',
     url: '/prod/instagram/batch',
-    active: false,
+    active: true,
   },
   {
     text: 'Blog',
-    icon: <Icon>inbox_paper_round</Icon>,
     component: 'ProdBlog',
     url: '/prod/blog/batch',
     active: false,
@@ -50,21 +47,18 @@ const prodMenuLinks = [
 const stgMenuLinks = [
   {
     text: 'Twitter',
-    icon: <Icon>gallery_grid_view</Icon>,
     component: 'StgTwitter',
     url: '/stg/twitter/batch',
     active: false,
   },
   {
     text: 'Instagram',
-    icon: <Icon>calendar</Icon>,
     component: 'StgInstagram',
     url: '/stg/instagram/batch',
     active: true,
   },
   {
     text: 'Blog',
-    icon: <Icon>inbox_paper_round</Icon>,
     component: 'StgBlog',
     url: '/stg/blog/batch',
     active: false,
@@ -74,21 +68,18 @@ const stgMenuLinks = [
 const devMenuLinks = [
   {
     text: 'Twitter',
-    icon: <Icon>gallery_grid_view</Icon>,
     component: 'DevTwitter',
     url: '/dev/twitter/batch',
     active: false,
   },
   {
     text: 'Instagram',
-    icon: <Icon>calendar</Icon>,
     component: 'DevInstagram',
     url: '/dev/instagram/batch',
     active: false,
   },
   {
     text: 'Blog',
-    icon: <Icon>inbox_paper_round</Icon>,
     component: 'DevBlog',
     url: '/dev/blog/batch',
     active: false,
@@ -118,7 +109,7 @@ const AnalyticsNavigation = () => (
               key={link.text}
               className={link.text === 'Dashboard' ? 'active' : null}
               icon=""
-              url={link.url}
+              href={link.active ? link.url : '/under-construction'}
             >
               <strong>{link.text}</strong>
             </NavLinkAnalytics>

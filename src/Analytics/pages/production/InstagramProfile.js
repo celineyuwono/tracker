@@ -11,14 +11,14 @@ import axios from 'axios'
 import moment from 'moment'
 import MuiTable from '../../components/MuiTable/scrape'
 import cls from '../analytics-home.module.scss'
-import { getStgInstagramUsers } from '@utils/auth'
+import { getProdInstagramUsers } from '@utils/auth'
 
 class InstagramProfile extends React.Component {
   state = {
     data: [],
   }
   componentDidMount() {
-    getStgInstagramUsers().then((res) => {
+    getProdInstagramUsers().then((res) => {
       let programId = new Set()
       let programName = []
       let updateRate = []

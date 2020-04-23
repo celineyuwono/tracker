@@ -3,6 +3,10 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
 import { ContainerVertical, ContainerHorizontal } from '@duik/it'
+import ProdInstagramBatch from './pages/production/InstagramBatch'
+import ProdInstagramProfile from './pages/production/InstagramProfile'
+import ProdInstagramBatchErrors from './pages/production/InstagramBatchErrors'
+import ProdInstagramProfileErrors from './pages/production/InstagramProfileErrors'
 import StgInstagramMedia from './pages/staging/InstagramMedia'
 import StgInstagramBatch from './pages/staging/InstagramBatch'
 import StgInstagramProfile from './pages/staging/InstagramProfile'
@@ -30,6 +34,30 @@ export const Analytics = (data) => {
             component={() => <StgInstagramMedia />}
             exact
             path="/stg/instagram/media"
+            strict
+          />
+          <Route
+            component={() => <ProdInstagramBatch />}
+            exact
+            path="/prod/instagram/batch"
+            strict
+          />
+          <Route
+            component={() => <ProdInstagramProfile />}
+            exact
+            path="/prod/instagram/profile"
+            strict
+          />
+          <Route
+            component={() => <ProdInstagramBatchErrors />}
+            exact
+            path="/prod/instagram/batch/errors"
+            strict
+          />
+          <Route
+            component={() => <ProdInstagramProfileErrors />}
+            exact
+            path="/prod/instagram/profile/errors"
             strict
           />
           <Route

@@ -6,7 +6,6 @@ import moment from 'moment'
 
 class PrivateRouteWrapper extends Component<Props> {
   render() {
-    // const { auth } = this.state
     const auth = true // Change here to redirect to login BOB
     const { children } = this.props
 

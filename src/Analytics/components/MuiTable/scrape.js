@@ -181,7 +181,7 @@ class ScrapeTable extends React.Component {
       print: false,
       textLabels: {
         body: {
-          noMatch: 'レコードが見つけれませんでした。',
+          noMatch: 'アンバサダーが見つけれませんでした。',
           toolTip: '並び替え',
           columnHeaderTooltip: (column) => `${column.label}を並び替え`,
         },
@@ -193,7 +193,7 @@ class ScrapeTable extends React.Component {
           filterTable: 'フィルター',
         },
         filter: {
-          all: '全レコード',
+          all: '全部',
           title: 'フィルター',
           reset: 'リセット',
         },
