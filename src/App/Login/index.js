@@ -9,14 +9,13 @@ import {
   Checkbox,
 } from '@material-ui/core'
 import { Face, Fingerprint } from '@material-ui/icons'
+import { getStgToken, getProdToken } from '@utils'
 
 const styles = (theme) => ({
   padding: {
     padding: theme.spacing.unit,
+    width: '800px',
     marginTop: '10%',
-    minHeight: '200px',
-    minWidth: '400px',
-    display: 'inline-block',
     margin: '0 auto',
   },
   outerDiv: {
@@ -27,24 +26,59 @@ const styles = (theme) => ({
 
 class Login extends React.Component {
   state = {
-    username: '',
+    email: '',
     password: '',
+    loginError: '',
   }
 
   handleLoginInfoChange(e) {
-    const { handleLoginInfo } = this.props
-    const { username, password } = this.state
-    this.setState(
-      {
-        [e.target.id]: e.target.value,
-      },
-      () => {
-        handleLoginInfo(this.state)
+    this.setState({
+      [e.target.id]: e.target.value,
+    })
+  }
+
+  async login() {
+    const { handleLogin } = this.props
+    const { email, password } = this.state
+    if (email.includes('@agilemedia.jp')) {
+      let stgToken = ''
+      let prodToken = ''
+      try {
+        stgToken = await getStgToken({ email: email, password: password })
+      } catch {
+        stgToken = ''
       }
-    )
+      try {
+        prodToken = await getProdToken({ email: email, password: password })
+      } catch {
+        prodToken = ''
+      }
+      if (stgToken || prodToken) {
+        console.log('auth is true')
+        this.setState({
+          loginError: '',
+        })
+        handleLogin(true)
+      } else {
+        this.setState({
+          loginError: 'Wrong email and/or password.',
+        })
+      }
+    } else if (!email || !password) {
+      this.setState({
+        loginError: 'Please input both your email and password.',
+      })
+      handleLogin(false)
+    } else {
+      this.setState({
+        loginError: 'Please use an @agilemedia.jp email.',
+      })
+      handleLogin(false)
+    }
   }
 
   render() {
+    const { loginError } = this.state
     const { classes, handleLoginInfo } = this.props
     return (
       <Grid className={classes.outerDiv}>
@@ -54,10 +88,10 @@ class Login extends React.Component {
               <Grid item>
                 <Face />
               </Grid>
-              <Grid item md sm xs>
+              <Grid item lg>
                 <TextField
-                  id="username"
-                  label="Username"
+                  id="email"
+                  label="Email"
                   type="email"
                   fullWidth
                   autoFocus
@@ -70,7 +104,7 @@ class Login extends React.Component {
               <Grid item>
                 <Fingerprint />
               </Grid>
-              <Grid item md sm xs>
+              <Grid item lg>
                 <TextField
                   id="password"
                   label="Password"
@@ -81,30 +115,21 @@ class Login extends React.Component {
                 />
               </Grid>
             </Grid>
-            {/* <Grid container alignItems="center" justify="space-between">
-              <Grid item>
-                <FormControlLabel
-                  control={<Checkbox color="primary" />}
-                  label="Remember me"
-                />
+            <Grid container justify="center" style={{ marginTop: '20px' }}>
+              <Grid item xs style={{ color: 'red' }}>
+                {loginError}
               </Grid>
-              <Grid item>
-                <Button
-                  disableFocusRipple
-                  disableRipple
-                  style={{ textTransform: 'none' }}
-                  variant="text"
-                  color="primary"
-                >
-                  Forgot password ?
-                </Button>
-              </Grid>
-            </Grid> */}
-            <Grid container justify="center" style={{ marginTop: '30px' }}>
+            </Grid>
+            <Grid
+              container
+              justify="center"
+              style={{ marginTop: '20px', marginBottom: '15px' }}
+            >
               <Button
                 variant="outlined"
                 color="primary"
                 style={{ textTransform: 'none' }}
+                onClick={() => this.login()}
               >
                 Login
               </Button>

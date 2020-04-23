@@ -46,6 +46,20 @@ class ScrapeTable extends React.Component {
         },
       },
       {
+        name: 'updateSucceeded',
+        label: 'Update Succeeded',
+        options: {
+          filter: false,
+        },
+      },
+      {
+        name: 'updateFailed',
+        label: 'Update Failed',
+        options: {
+          filter: false,
+        },
+      },
+      {
         name: 'updateCompleted',
         label: 'Update Completed',
         options: {
@@ -62,20 +76,6 @@ class ScrapeTable extends React.Component {
       {
         name: 'updateRate',
         label: '% Update Finished',
-        options: {
-          filter: false,
-        },
-      },
-      {
-        name: 'updateSucceeded',
-        label: 'Update Succeeded',
-        options: {
-          filter: false,
-        },
-      },
-      {
-        name: 'updateFailed',
-        label: 'Update Failed',
         options: {
           filter: false,
         },

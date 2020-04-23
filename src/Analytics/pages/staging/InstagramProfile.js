@@ -47,14 +47,15 @@ class InstagramProfile extends React.Component {
         igUsers[idx]++
         if (user.last_scraped && !user.scrape_error_code) {
           updateSucceeded[idx]++
-        } else {
-          updateFailed[idx]++
         }
         if (user.last_scraped && user.last_scraped < moment().startOf('day')) {
           updateCompleted[idx]++
         } else {
           updatePending[idx]++
         }
+
+        updateFailed[idx] =
+          igUsers[idx] - updatePending[idx] - updateSucceeded[idx]
 
         updateRate[idx] =
           ((igUsers[idx] - updatePending[idx]) / igUsers[idx]) * 100
@@ -75,11 +76,11 @@ class InstagramProfile extends React.Component {
           programId: programId[i],
           programName: programName[i],
           igUsers: igUsers[i],
+          updateSucceeded: updateSucceeded[i],
+          updateFailed: updateFailed[i],
           updateCompleted: updateCompleted[i],
           updatePending: updatePending[i],
           updateRate: updateRate[i],
-          updateSucceeded: updateSucceeded[i],
-          updateFailed: updateFailed[i],
           successRate: successRate[i],
           lastInvoked: lastInvoked[i],
         })
@@ -88,6 +89,7 @@ class InstagramProfile extends React.Component {
       const data = array.map((data) => {
         return {
           ...data,
+          updateRate: `${Math.round(data.updateRate * 100) / 100}%`,
           successRate: `${Math.round(data.successRate * 100) / 100}%`,
         }
       })

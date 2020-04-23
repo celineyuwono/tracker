@@ -20,9 +20,8 @@ const RootRoute = (props) => {
 
   const [loginInfo, setLoginInfo] = React.useState(2)
 
-  const handleLoginInfo = (newLoginInfo) => {
-    console.log('logininfo', loginInfo)
-    console.log('Hello', newLoginInfo)
+  const handleLogin = (allowLogin) => {
+    console.log('allow login: ', allowLogin)
   }
 
   React.useEffect(() => {
@@ -37,7 +36,7 @@ const RootRoute = (props) => {
       <Switch>
         <Route
           path="/login"
-          component={() => <Login handleLoginInfo={handleLoginInfo} />}
+          component={() => <Login handleLogin={handleLogin} />}
         />
         <PrivateRouteWrapper>
           <Switch>

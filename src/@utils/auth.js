@@ -5,12 +5,23 @@ const AP_USER = {
   password: 'amn',
 }
 
-const getStgInfo = async (url) => {
-  let token = await axios.post(
+export const getStgToken = async (user) => {
+  const token = await axios.post(
     'https://stg-ac-client-api.ambassadors.jp/basic/auth',
-    AP_USER
+    user
   )
-  token = JSON.parse(token.request.response).data.token
+  return JSON.parse(token.request.response).data.token
+}
+
+export const getProdToken = async (user) => {
+  const token = await axios.post(
+    'https://ac-client-api.ambassadors.jp/basic/auth',
+    user
+  )
+  return JSON.parse(token.request.response).data.token
+}
+
+const getStgInfo = async (url, token) => {
   const res = await axios.get(url, {
     headers: {
       Authorization: token,
@@ -20,12 +31,7 @@ const getStgInfo = async (url) => {
   return res.data.data.user_list
 }
 
-const getProdInfo = async (url) => {
-  let token = await axios.post(
-    'https://ac-client-api.ambassadors.jp/basic/auth',
-    AP_USER
-  )
-  token = JSON.parse(token.request.response).data.token
+const getProdInfo = async (url, token) => {
   const res = await axios.get(url, {
     headers: {
       Authorization: token,
@@ -35,14 +41,20 @@ const getProdInfo = async (url) => {
   return res.data.data.user_list
 }
 
-export const getStgInstagramUsers = () => {
+export const getLogin = () => {}
+
+export const getStgInstagramUsers = async () => {
+  const token = await getStgToken(AP_USER)
   return getStgInfo(
-    'https://stg-ac-client-api.ambassadors.jp/voice/instagramUsers'
+    'https://stg-ac-client-api.ambassadors.jp/voice/instagramUsers',
+    token
   )
 }
 
-export const getProdInstagramUsers = () => {
+export const getProdInstagramUsers = async () => {
+  const token = await getProdToken(AP_USER)
   return getProdInfo(
-    'https://ac-client-api.ambassadors.jp/voice/instagramUsers'
+    'https://ac-client-api.ambassadors.jp/voice/instagramUsers',
+    token
   )
 }
