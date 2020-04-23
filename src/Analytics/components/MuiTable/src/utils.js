@@ -9,7 +9,7 @@ function escapeDangerousCSVCharacters(data) {
   if (typeof data === 'string') {
     // Places single quote before the appearance of dangerous characters if they
     // are the first in the data string.
-    return data.replace(/^\+|^\-|^\=|^\@/g, "'$&")
+    return data.replace(/^\+|^-|^=|^@/g, "'$&")
   }
 
   return data
@@ -55,9 +55,7 @@ function sortCompare(order) {
 
 function buildCSV(columns, data, options) {
   const replaceDoubleQuoteInString = (columnData) =>
-    typeof columnData === 'string'
-      ? columnData.replace(/\"/g, '""')
-      : columnData
+    typeof columnData === 'string' ? columnData.replace(/"/g, '""') : columnData
 
   const buildHead = (columns) => {
     return `${columns

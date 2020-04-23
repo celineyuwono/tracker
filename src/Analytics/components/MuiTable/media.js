@@ -12,7 +12,6 @@ import {
   MenuItem,
 } from '@material-ui/core'
 import React from 'react'
-import ReactDOM from 'react-dom'
 import MUIDataTable from './src/'
 import moment from 'moment'
 

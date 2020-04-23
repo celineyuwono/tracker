@@ -1,9 +1,9 @@
-import React from 'react';
-import classNames from 'classnames';
-import TableCell from '@material-ui/core/TableCell';
-import { withStyles } from '@material-ui/core/styles';
+import React from 'react'
+import classNames from 'classnames'
+import TableCell from '@material-ui/core/TableCell'
+import { withStyles } from '@material-ui/core/styles'
 
-const defaultBodyCellStyles = theme => ({
+const defaultBodyCellStyles = (theme) => ({
   root: {},
   cellHide: {
     display: 'none',
@@ -15,7 +15,6 @@ const defaultBodyCellStyles = theme => ({
       height: '24px',
       whiteSpace: 'nowrap',
       width: 'calc(50% - 80px)',
-      whiteSpace: 'nowrap',
       '&:last-child': {
         borderBottom: 'none',
       },
@@ -34,15 +33,15 @@ const defaultBodyCellStyles = theme => ({
       width: '50%',
     },
   },
-});
+})
 
 class TableBodyCell extends React.Component {
-  handleClick = event => {
-    const { colIndex, options, children, dataIndex, rowIndex } = this.props;
+  handleClick = (event) => {
+    const { colIndex, options, children, dataIndex, rowIndex } = this.props
     if (options.onCellClick) {
-      options.onCellClick(children, { colIndex, rowIndex, dataIndex, event });
+      options.onCellClick(children, { colIndex, rowIndex, dataIndex, event })
     }
-  };
+  }
 
   render() {
     const {
@@ -56,7 +55,7 @@ class TableBodyCell extends React.Component {
       className,
       print,
       ...otherProps
-    } = this.props;
+    } = this.props
 
     return [
       <TableCell
@@ -65,15 +64,19 @@ class TableBodyCell extends React.Component {
           {
             [classes.root]: true,
             [classes.cellHide]: true,
-            [classes.stackedCommon]: options.responsive === 'stacked' || options.responsive === 'stackedFullWidth',
+            [classes.stackedCommon]:
+              options.responsive === 'stacked' ||
+              options.responsive === 'stackedFullWidth',
             [classes.cellStackedSmall]:
               options.responsive === 'stacked' ||
               (options.responsive === 'stackedFullWidth' &&
-                (options.setTableProps().padding === 'none' || options.setTableProps().size === 'small')),
+                (options.setTableProps().padding === 'none' ||
+                  options.setTableProps().size === 'small')),
             'datatables-noprint': !print,
           },
-          className,
-        )}>
+          className
+        )}
+      >
         {columnHeader}
       </TableCell>,
       <TableCell
@@ -82,20 +85,26 @@ class TableBodyCell extends React.Component {
         className={classNames(
           {
             [classes.root]: true,
-            [classes.stackedCommon]: options.responsive === 'stacked' || options.responsive === 'stackedFullWidth',
+            [classes.stackedCommon]:
+              options.responsive === 'stacked' ||
+              options.responsive === 'stackedFullWidth',
             [classes.responsiveStackedSmall]:
               options.responsive === 'stacked' ||
               (options.responsive === 'stackedFullWidth' &&
-                (options.setTableProps().padding === 'none' || options.setTableProps().size === 'small')),
+                (options.setTableProps().padding === 'none' ||
+                  options.setTableProps().size === 'small')),
             'datatables-noprint': !print,
           },
-          className,
+          className
         )}
-        {...otherProps}>
+        {...otherProps}
+      >
         {children}
       </TableCell>,
-    ];
+    ]
   }
 }
 
-export default withStyles(defaultBodyCellStyles, { name: 'MUIDataTableBodyCell' })(TableBodyCell);
+export default withStyles(defaultBodyCellStyles, {
+  name: 'MUIDataTableBodyCell',
+})(TableBodyCell)

@@ -17,7 +17,7 @@ const AnalyticsHeader = (props) => (
       </FormGroup>
     </TopBarSection>
     <TopBarSection>
-      <Avatar imgUrl={images.eye} />
+      <Avatar imgUrl={images.radar} />
     </TopBarSection>
   </TopBar>
 )

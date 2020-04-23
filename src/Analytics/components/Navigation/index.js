@@ -1,11 +1,7 @@
 import * as React from 'react'
-import Icon from '@duik/icon'
 import * as images from '@assets'
 
 import {
-  NavSection,
-  NavLink,
-  NavSectionTitle,
   NavTitle,
   TopBar,
   TopBarSection,
@@ -65,26 +61,26 @@ const stgMenuLinks = [
   },
 ]
 
-const devMenuLinks = [
-  {
-    text: 'Twitter',
-    component: 'DevTwitter',
-    url: '/dev/twitter/batch',
-    active: false,
-  },
-  {
-    text: 'Instagram',
-    component: 'DevInstagram',
-    url: '/dev/instagram/batch',
-    active: false,
-  },
-  {
-    text: 'Blog',
-    component: 'DevBlog',
-    url: '/dev/blog/batch',
-    active: false,
-  },
-]
+// const devMenuLinks = [
+//   {
+//     text: 'Twitter',
+//     component: 'DevTwitter',
+//     url: '/dev/twitter/batch',
+//     active: false,
+//   },
+//   {
+//     text: 'Instagram',
+//     component: 'DevInstagram',
+//     url: '/dev/instagram/batch',
+//     active: false,
+//   },
+//   {
+//     text: 'Blog',
+//     component: 'DevBlog',
+//     url: '/dev/blog/batch',
+//     active: false,
+//   },
+// ]
 
 const AnalyticsNavigation = () => (
   <NavPanel className={cls['analytics-navigation']}>

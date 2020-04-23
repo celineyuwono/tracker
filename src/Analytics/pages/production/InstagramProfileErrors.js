@@ -1,18 +1,8 @@
 import React from 'react'
-
-import { Widget, WidgetHeader, WidgetContent, ScrollArea } from '@duik/it'
-
-import { Chart, WidgetChartSummary } from '@components'
-import { SelectYear, SelectMonth } from '@composed'
-import { numberFormatZeros } from '@lib'
-
-// import { barData, lineBlank } from './data/chartData'
 import cls from '../analytics-home.module.scss'
-
 import MuiTable from '../../components/MuiTable/errors'
-import ReactDOM from 'react-dom'
-import axios from 'axios'
 import moment from 'moment'
+import { ScrollArea } from '@duik/it'
 import { getProdInstagramUsers } from '@utils/auth'
 
 class InstagramProfileErrors extends React.Component {

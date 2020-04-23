@@ -1,16 +1,8 @@
 import React from 'react'
-
-import { Widget, WidgetHeader, WidgetContent, ScrollArea } from '@duik/it'
-
-import { Chart, WidgetChartSummary } from '@components'
-import { SelectYear, SelectMonth } from '@composed'
-import { numberFormatZeros } from '@lib'
-
-import ReactDOM from 'react-dom'
-import axios from 'axios'
 import moment from 'moment'
 import MuiTable from '../../components/MuiTable/scrape'
 import cls from '../analytics-home.module.scss'
+import { ScrollArea } from '@duik/it'
 import { getProdInstagramUsers } from '@utils/auth'
 
 class InstagramProfile extends React.Component {

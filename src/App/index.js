@@ -1,5 +1,4 @@
 import React from 'react'
-import axios from 'axios'
 import '@duik/it/dist/styles.css'
 import '@duik/icon/dist/styles.css'
 import '@animated-burgers/burger-squeeze/dist/styles.css'
@@ -7,7 +6,7 @@ import './app.module.scss'
 
 import { UiContext } from '@context'
 
-import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom'
+import { Switch, Route, BrowserRouter } from 'react-router-dom'
 import { Analytics } from 'Analytics'
 import { useMenuVisibility } from '@utils'
 

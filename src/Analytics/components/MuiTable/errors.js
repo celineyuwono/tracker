@@ -1,18 +1,5 @@
-import {
-  FormGroup,
-  FormLabel,
-  FormControl,
-  ListItemText,
-  TextField,
-  Checkbox,
-  FormControlLabel,
-  Grid,
-  Select,
-  InputLabel,
-  MenuItem,
-} from '@material-ui/core'
+import { FormGroup, FormLabel, TextField } from '@material-ui/core'
 import React from 'react'
-import ReactDOM from 'react-dom'
 import MUIDataTable from './src/'
 import moment from 'moment'
 

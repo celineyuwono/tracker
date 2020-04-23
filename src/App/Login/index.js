@@ -5,8 +5,6 @@ import {
   Grid,
   TextField,
   Button,
-  FormControlLabel,
-  Checkbox,
   CircularProgress,
 } from '@material-ui/core'
 import { Face, Fingerprint } from '@material-ui/icons'
