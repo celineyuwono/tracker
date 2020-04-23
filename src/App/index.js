@@ -17,24 +17,16 @@ import PrivateRouteWrapper from './Login/privateRouteWrapper'
 
 const RootRoute = (props) => {
   const uiContext = React.useContext(UiContext)
-  const [login, setLogin] = React.useState(false)
 
   const handleLogin = () => {
-    console.log('Login in...')
-    setLogin(true)
-    console.log('login', login)
-    // I am trying to set the state here
+    window.location = '/'
   }
-  React.useEffect(() => {
-    setLogin(false)
-    console.log('login', login)
-  }, [])
 
-  // React.useEffect(() => {
-  //   // on route change, we hide the menus
-  //   uiContext.menu.handleClose()
-  //   uiContext.filter.handleClose()
-  // }, [props.location.pathname]) // eslint-disable-line
+  React.useEffect(() => {
+    // on route change, we hide the menus
+    uiContext.menu.handleClose()
+    uiContext.filter.handleClose()
+  }, [props.location.pathname]) // eslint-disable-line
 
   return (
     <>
@@ -44,7 +36,7 @@ const RootRoute = (props) => {
           path="/login"
           component={() => <Login handleLogin={handleLogin} />}
         />
-        <PrivateRouteWrapper auth={login}>
+        <PrivateRouteWrapper>
           <Switch>
             <Route path="/" component={() => <Analytics />} />
           </Switch>

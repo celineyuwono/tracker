@@ -60,7 +60,6 @@ class Login extends React.Component {
         prodToken = ''
       }
       if (stgToken || prodToken) {
-        console.log('auth is true')
         handleLogin()
       } else {
         this.setState({

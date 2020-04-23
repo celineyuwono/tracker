@@ -172,7 +172,7 @@ class BatchTable extends React.Component {
           filterTable: 'フィルター',
         },
         filter: {
-          all: '全レコード',
+          all: '全部',
           title: 'フィルター',
           reset: 'リセット',
         },
