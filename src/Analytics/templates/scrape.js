@@ -1,5 +1,5 @@
 import React from 'react'
-import MUIDataTable from './src/'
+import MUIDataTable from '../components/MuiTable/src/'
 
 class ScrapeTable extends React.Component {
   state = {

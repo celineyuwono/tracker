@@ -1,9 +1,9 @@
 import { FormGroup, FormLabel, TextField } from '@material-ui/core'
 import React from 'react'
-import MUIDataTable from './src/'
+import MUIDataTable from '../components/MuiTable/src/'
 import moment from 'moment'
 
-class ErrorsTable extends React.Component {
+class BatchTable extends React.Component {
   state = {
     downloadFile: true,
     ageFilterChecked: false,
@@ -11,20 +11,6 @@ class ErrorsTable extends React.Component {
 
   render() {
     const columns = [
-      {
-        name: 'ambassadorId',
-        label: 'Ambassador ID',
-        options: {
-          filter: false,
-        },
-      },
-      {
-        name: 'username',
-        label: 'Username',
-        options: {
-          filter: false,
-        },
-      },
       {
         name: 'programId',
         label: 'Program ID',
@@ -40,22 +26,36 @@ class ErrorsTable extends React.Component {
         },
       },
       {
-        name: 'errorCode',
-        label: 'Error Code',
+        name: 'igUsers',
+        label: 'Total Instagram Users',
         options: {
           filter: false,
         },
       },
       {
-        name: 'errorMessage',
-        label: 'Error Message',
+        name: 'updateSucceeded',
+        label: 'Update Succeeded',
+        options: {
+          filter: false,
+        },
+      },
+      {
+        name: 'updateFailed',
+        label: 'Update Failed',
+        options: {
+          filter: false,
+        },
+      },
+      {
+        name: 'successRate',
+        label: 'Success Rate',
         options: {
           filter: false,
         },
       },
       {
         name: 'lastInvoked',
-        label: 'Invoked Time',
+        label: 'Last Modified',
         options: {
           filter: true,
           sort: true,
@@ -96,7 +96,7 @@ class ErrorsTable extends React.Component {
             },
             display: (filterList, onChange, index, column) => (
               <div>
-                <FormLabel>Invoked Time</FormLabel>
+                <FormLabel>Last Modified</FormLabel>
                 <FormGroup row>
                   <TextField
                     id="startDate"
@@ -218,7 +218,7 @@ class ErrorsTable extends React.Component {
     return (
       <React.Fragment>
         <MUIDataTable
-          title={'Errors'}
+          title={'Instagram Posts Batch'}
           data={data}
           columns={columns}
           options={options}
@@ -228,4 +228,4 @@ class ErrorsTable extends React.Component {
   }
 }
 
-export default ErrorsTable
+export default BatchTable

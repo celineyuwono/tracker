@@ -2,7 +2,7 @@ import React from 'react'
 
 import { ScrollArea } from '@duik/it'
 import cls from '../analytics-home.module.scss'
-import MuiTable from '../../components/MuiTable/batch'
+import MuiTable from '../../templates/batch'
 import moment from 'moment'
 import { getProdInstagramUsers } from '@utils/auth'
 

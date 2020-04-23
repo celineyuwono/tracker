@@ -1,7 +1,7 @@
 import React from 'react'
 import { ScrollArea } from '@duik/it'
 import cls from '../analytics-home.module.scss'
-import MuiTable from '../../components/MuiTable/batch'
+import MuiTable from '../../templates/batch'
 import axios from 'axios'
 import pako from 'pako'
 import moment from 'moment'

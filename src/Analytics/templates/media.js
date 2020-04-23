@@ -1,9 +1,21 @@
-import { FormGroup, FormLabel, TextField } from '@material-ui/core'
+import {
+  FormGroup,
+  FormLabel,
+  FormControl,
+  ListItemText,
+  TextField,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  Select,
+  InputLabel,
+  MenuItem,
+} from '@material-ui/core'
 import React from 'react'
-import MUIDataTable from './src/'
+import MUIDataTable from '../components/MuiTable/src/'
 import moment from 'moment'
 
-class BatchTable extends React.Component {
+class MediaTable extends React.Component {
   state = {
     downloadFile: true,
     ageFilterChecked: false,
@@ -12,50 +24,22 @@ class BatchTable extends React.Component {
   render() {
     const columns = [
       {
+        name: 'ambassadorId',
+        label: 'アンバサダーID',
+        options: {
+          filter: true,
+        },
+      },
+      {
         name: 'programId',
-        label: 'Program ID',
+        label: 'プログラムID',
         options: {
           filter: true,
         },
       },
       {
-        name: 'programName',
-        label: 'Program Name',
-        options: {
-          filter: true,
-        },
-      },
-      {
-        name: 'igUsers',
-        label: 'Total Instagram Users',
-        options: {
-          filter: false,
-        },
-      },
-      {
-        name: 'updateSucceeded',
-        label: 'Update Succeeded',
-        options: {
-          filter: false,
-        },
-      },
-      {
-        name: 'updateFailed',
-        label: 'Update Failed',
-        options: {
-          filter: false,
-        },
-      },
-      {
-        name: 'successRate',
-        label: 'Success Rate',
-        options: {
-          filter: false,
-        },
-      },
-      {
-        name: 'lastInvoked',
-        label: 'Last Modified',
+        name: 'tweetDate',
+        label: 'ツーイト時間',
         options: {
           filter: true,
           sort: true,
@@ -96,11 +80,11 @@ class BatchTable extends React.Component {
             },
             display: (filterList, onChange, index, column) => (
               <div>
-                <FormLabel>Last Modified</FormLabel>
+                <FormLabel>ツイート時間</FormLabel>
                 <FormGroup row>
                   <TextField
                     id="startDate"
-                    label="Start Date"
+                    label="開始日付"
                     type="date"
                     InputLabelProps={{
                       shrink: true,
@@ -114,7 +98,87 @@ class BatchTable extends React.Component {
                   />
                   <TextField
                     id="endDate"
-                    label="End Date"
+                    label="終了日付"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    value={filterList[index][1] || ''}
+                    onChange={(event) => {
+                      filterList[index][1] = event.target.value
+                      onChange(filterList[index], index, column)
+                    }}
+                    style={{ width: '45%', marginRight: '5%' }}
+                  />
+                </FormGroup>
+              </div>
+            ),
+          },
+          print: false,
+        },
+      },
+      {
+        name: 'lastModified',
+        label: '収集時間',
+        options: {
+          filter: true,
+          sort: true,
+          sortDirection: 'desc',
+          customBodyRender: (value) => {
+            return new moment(value).format('YYYY-MM-DD HH:mm:ss')
+          },
+          filterType: 'custom',
+          customFilterListRender: (v) => {
+            if (v[0] && v[1]) {
+              return `Start Date: ${v[0]}, End Date: ${v[1]}`
+            } else if (v[0]) {
+              return `Start Date: ${v[0]}`
+            } else if (v[1]) {
+              return `End Date: ${v[1]}`
+            }
+            return false
+          },
+          filterOptions: {
+            names: [],
+            logic(date, filters) {
+              var check = new Date(date)
+              var from = new Date(filters[0])
+              var to = new Date(filters[1])
+              from.setDate(from.getDate() + 1)
+              to.setDate(to.getDate() + 1)
+              from = new Date(from).setHours(0, 0, 0, 0)
+              to = new Date(to).setHours(23, 59, 59, 59)
+
+              if (filters[0] && filters[1] && check >= to && check <= from) {
+                return true
+              } else if (filters[0] && check >= to) {
+                return true
+              } else if (filters[1] && check <= from) {
+                return true
+              }
+              return false
+            },
+            display: (filterList, onChange, index, column) => (
+              <div>
+                <FormLabel>ツイート時間</FormLabel>
+                <FormGroup row>
+                  <TextField
+                    id="startDate"
+                    label="開始日付"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    value={filterList[index][0] || ''}
+                    onChange={(event) => {
+                      filterList[index][0] = event.target.value
+                      onChange(filterList[index], index, column)
+                    }}
+                    style={{ width: '45%', marginRight: '5%' }}
+                  />
+                  <TextField
+                    id="endDate"
+                    label="終了日付"
                     type="date"
                     InputLabelProps={{
                       shrink: true,
@@ -147,7 +211,7 @@ class BatchTable extends React.Component {
       print: false,
       textLabels: {
         body: {
-          noMatch: 'アンバサダーが見つけれませんでした。',
+          noMatch: 'レコードが見つけれませんでした。',
           toolTip: '並び替え',
           columnHeaderTooltip: (column) => `${column.label}を並び替え`,
         },
@@ -159,7 +223,7 @@ class BatchTable extends React.Component {
           filterTable: 'フィルター',
         },
         filter: {
-          all: '全部',
+          all: '全レコード',
           title: 'フィルター',
           reset: 'リセット',
         },
@@ -218,7 +282,7 @@ class BatchTable extends React.Component {
     return (
       <React.Fragment>
         <MUIDataTable
-          title={'Instagram Posts Batch'}
+          title={'Last Scraped Tweets'}
           data={data}
           columns={columns}
           options={options}
@@ -228,4 +292,4 @@ class BatchTable extends React.Component {
   }
 }
 
-export default BatchTable
+export default MediaTable

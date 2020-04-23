@@ -1,21 +1,9 @@
-import {
-  FormGroup,
-  FormLabel,
-  FormControl,
-  ListItemText,
-  TextField,
-  Checkbox,
-  FormControlLabel,
-  Grid,
-  Select,
-  InputLabel,
-  MenuItem,
-} from '@material-ui/core'
+import { FormGroup, FormLabel, TextField } from '@material-ui/core'
 import React from 'react'
-import MUIDataTable from './src/'
+import MUIDataTable from '../components/MuiTable/src/'
 import moment from 'moment'
 
-class MediaTable extends React.Component {
+class ErrorsTable extends React.Component {
   state = {
     downloadFile: true,
     ageFilterChecked: false,
@@ -25,21 +13,49 @@ class MediaTable extends React.Component {
     const columns = [
       {
         name: 'ambassadorId',
-        label: 'アンバサダーID',
+        label: 'Ambassador ID',
         options: {
-          filter: true,
+          filter: false,
+        },
+      },
+      {
+        name: 'username',
+        label: 'Username',
+        options: {
+          filter: false,
         },
       },
       {
         name: 'programId',
-        label: 'プログラムID',
+        label: 'Program ID',
         options: {
           filter: true,
         },
       },
       {
-        name: 'tweetDate',
-        label: 'ツーイト時間',
+        name: 'programName',
+        label: 'Program Name',
+        options: {
+          filter: true,
+        },
+      },
+      {
+        name: 'errorCode',
+        label: 'Error Code',
+        options: {
+          filter: false,
+        },
+      },
+      {
+        name: 'errorMessage',
+        label: 'Error Message',
+        options: {
+          filter: false,
+        },
+      },
+      {
+        name: 'lastInvoked',
+        label: 'Invoked Time',
         options: {
           filter: true,
           sort: true,
@@ -80,11 +96,11 @@ class MediaTable extends React.Component {
             },
             display: (filterList, onChange, index, column) => (
               <div>
-                <FormLabel>ツイート時間</FormLabel>
+                <FormLabel>Invoked Time</FormLabel>
                 <FormGroup row>
                   <TextField
                     id="startDate"
-                    label="開始日付"
+                    label="Start Date"
                     type="date"
                     InputLabelProps={{
                       shrink: true,
@@ -98,87 +114,7 @@ class MediaTable extends React.Component {
                   />
                   <TextField
                     id="endDate"
-                    label="終了日付"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    value={filterList[index][1] || ''}
-                    onChange={(event) => {
-                      filterList[index][1] = event.target.value
-                      onChange(filterList[index], index, column)
-                    }}
-                    style={{ width: '45%', marginRight: '5%' }}
-                  />
-                </FormGroup>
-              </div>
-            ),
-          },
-          print: false,
-        },
-      },
-      {
-        name: 'lastModified',
-        label: '収集時間',
-        options: {
-          filter: true,
-          sort: true,
-          sortDirection: 'desc',
-          customBodyRender: (value) => {
-            return new moment(value).format('YYYY-MM-DD HH:mm:ss')
-          },
-          filterType: 'custom',
-          customFilterListRender: (v) => {
-            if (v[0] && v[1]) {
-              return `Start Date: ${v[0]}, End Date: ${v[1]}`
-            } else if (v[0]) {
-              return `Start Date: ${v[0]}`
-            } else if (v[1]) {
-              return `End Date: ${v[1]}`
-            }
-            return false
-          },
-          filterOptions: {
-            names: [],
-            logic(date, filters) {
-              var check = new Date(date)
-              var from = new Date(filters[0])
-              var to = new Date(filters[1])
-              from.setDate(from.getDate() + 1)
-              to.setDate(to.getDate() + 1)
-              from = new Date(from).setHours(0, 0, 0, 0)
-              to = new Date(to).setHours(23, 59, 59, 59)
-
-              if (filters[0] && filters[1] && check >= to && check <= from) {
-                return true
-              } else if (filters[0] && check >= to) {
-                return true
-              } else if (filters[1] && check <= from) {
-                return true
-              }
-              return false
-            },
-            display: (filterList, onChange, index, column) => (
-              <div>
-                <FormLabel>ツイート時間</FormLabel>
-                <FormGroup row>
-                  <TextField
-                    id="startDate"
-                    label="開始日付"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    value={filterList[index][0] || ''}
-                    onChange={(event) => {
-                      filterList[index][0] = event.target.value
-                      onChange(filterList[index], index, column)
-                    }}
-                    style={{ width: '45%', marginRight: '5%' }}
-                  />
-                  <TextField
-                    id="endDate"
-                    label="終了日付"
+                    label="End Date"
                     type="date"
                     InputLabelProps={{
                       shrink: true,
@@ -211,7 +147,7 @@ class MediaTable extends React.Component {
       print: false,
       textLabels: {
         body: {
-          noMatch: 'レコードが見つけれませんでした。',
+          noMatch: 'アンバサダーが見つけれませんでした。',
           toolTip: '並び替え',
           columnHeaderTooltip: (column) => `${column.label}を並び替え`,
         },
@@ -223,7 +159,7 @@ class MediaTable extends React.Component {
           filterTable: 'フィルター',
         },
         filter: {
-          all: '全レコード',
+          all: '全部',
           title: 'フィルター',
           reset: 'リセット',
         },
@@ -282,7 +218,7 @@ class MediaTable extends React.Component {
     return (
       <React.Fragment>
         <MUIDataTable
-          title={'Last Scraped Tweets'}
+          title={'Errors'}
           data={data}
           columns={columns}
           options={options}
@@ -292,4 +228,4 @@ class MediaTable extends React.Component {
   }
 }
 
-export default MediaTable
+export default ErrorsTable

@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import MuiTable from '../../components/MuiTable/errors'
+import MuiTable from '../../templates/errors'
 import cls from '../analytics-home.module.scss'
 import { ScrollArea } from '@duik/it'
 import { getProdInstagramUsers } from '@utils/auth'
