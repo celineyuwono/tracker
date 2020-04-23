@@ -12,7 +12,7 @@ import { useMenuVisibility } from '@utils'
 
 import Navigator from './Navigator'
 import Login from './Login'
-import PrivateRouteWrapper from './Login/privateRouteWrapper'
+import PrivateRouteWrapper from './PrivateRouteWrapper'
 
 const RootRoute = (props) => {
   const uiContext = React.useContext(UiContext)

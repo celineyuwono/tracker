@@ -3,12 +3,11 @@ import { hydrate, render } from 'react-dom'
 import { Provider } from 'react-redux'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
-import store from './store'
 
 const rootElement = document.getElementById('root')
 if (rootElement.hasChildNodes()) {
   hydrate(
-    <Provider store={store}>
+    <Provider>
       <App />
     </Provider>,
     rootElement
@@ -17,7 +16,4 @@ if (rootElement.hasChildNodes()) {
   render(<App />, rootElement)
 }
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister()
