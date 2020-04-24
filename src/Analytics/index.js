@@ -7,7 +7,6 @@ import ProdInstagramBatch from './pages/production/InstagramBatch'
 import ProdInstagramProfile from './pages/production/InstagramProfile'
 import ProdInstagramBatchErrors from './pages/production/InstagramBatchErrors'
 import ProdInstagramProfileErrors from './pages/production/InstagramProfileErrors'
-import StgInstagramMedia from './pages/staging/InstagramMedia'
 import StgInstagramBatch from './pages/staging/InstagramBatch'
 import StgInstagramProfile from './pages/staging/InstagramProfile'
 import StgInstagramBatchErrors from './pages/staging/InstagramBatchErrors'
@@ -30,12 +29,6 @@ export const Analytics = (data) => {
         <Header />
         <Switch>
           <Route component={UnderConstruction} exact path="/" strict />
-          <Route
-            component={() => <StgInstagramMedia />}
-            exact
-            path="/stg/instagram/media"
-            strict
-          />
           <Route
             component={() => <ProdInstagramBatch />}
             exact

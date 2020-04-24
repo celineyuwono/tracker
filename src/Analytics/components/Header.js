@@ -7,7 +7,7 @@ import {
   Button,
 } from '@duik/it'
 
-const prodMenuLinks = [
+const prodIgMenuLinks = [
   {
     name: 'batch',
     text: 'Batch',
@@ -34,7 +34,7 @@ const prodMenuLinks = [
   },
 ]
 
-const stgMenuLinks = [
+const stgIgMenuLinks = [
   {
     name: 'batch',
     text: 'Batch',
@@ -61,15 +61,15 @@ const stgMenuLinks = [
   },
 ]
 
-const isStg = window.location.pathname.includes('stg/instagram/')
-const isProd = window.location.pathname.includes('prod/instagram/')
+const igProd = window.location.pathname.includes('prod/instagram/')
+const igStg = window.location.pathname.includes('stg/instagram/')
 
 const AnalyticsHeader = (props) => (
   <TopBar>
     <TopBarSection>
       <TopBarLinkContainer>
-        {isProd &&
-          prodMenuLinks.map((link) => (
+        {igProd &&
+          prodIgMenuLinks.map((link) => (
             <TopBarLink
               key={link.name}
               href={link.active ? link.url : '/under-construction'}
@@ -77,8 +77,8 @@ const AnalyticsHeader = (props) => (
               {link.text}
             </TopBarLink>
           ))}
-        {isStg &&
-          stgMenuLinks.map((link) => (
+        {igStg &&
+          stgIgMenuLinks.map((link) => (
             <TopBarLink
               key={link.name}
               href={link.active ? link.url : '/under-construction'}
