@@ -92,7 +92,11 @@ const AnalyticsHeader = (props) => (
     </TopBarSection>
     <TopBarSection>
       <Link to={window.location.pathname} style={{ color: 'gray' }}>
-        <Button style={{ marginRight: '10px' }}>Update</Button>
+        {igProd || igStg ? (
+          <Button style={{ marginRight: '10px' }}>Update</Button>
+        ) : (
+          ''
+        )}
       </Link>
       <Link to="/login" style={{ color: 'white' }}>
         <Button primary style={{ backgroundColor: '#303FA0' }}>
