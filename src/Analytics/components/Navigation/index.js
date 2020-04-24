@@ -124,19 +124,6 @@ const AnalyticsNavigation = () => (
             </NavLinkAnalytics>
           ))}
         </NavLinkAnalyticsContainer>
-        {/* <NavTitle>Develop</NavTitle>
-        <NavLinkAnalyticsContainer>
-          {devMenuLinks.map((link) => (
-            <NavLinkAnalytics
-              key={link.text}
-              className={link.text === 'Dashboard' ? 'active' : null}
-              icon=""
-              url={link.url}
-            >
-              <strong>{link.text}</strong>
-            </NavLinkAnalytics>
-          ))}
-        </NavLinkAnalyticsContainer> */}
       </ScrollArea>
     </ContainerVertical>
   </NavPanel>

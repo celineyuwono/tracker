@@ -1,6 +1,0 @@
-.tutorial-list {
-  display: grid;
-  grid-auto-rows: minmax(125px, auto);
-  grid-gap: 30px;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-}

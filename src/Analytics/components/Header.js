@@ -91,7 +91,7 @@ const AnalyticsHeader = (props) => (
     </TopBarSection>
     <TopBarSection>
       <Button style={{ marginRight: '10px' }}>Update</Button>
-      <Button primary>
+      <Button primary style={{ backgroundColor: '#303FA0' }}>
         <Link to="/login" style={{ color: 'white' }}>
           Logout
         </Link>

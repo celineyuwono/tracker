@@ -14,6 +14,24 @@
   padding: 15px;
 }
 
+.analytics-links {
+  h2 {
+    color: black;
+    margin-bottom: 7px;
+  }
+  ul {
+    list-style-type: none;
+  }
+  a {
+    color: #303FA0;
+    margin: 0px 10px;
+  }
+  a:hover {
+    text-decoration: none;
+    font-weight: 500;
+  }
+}
+
 .analytics-card-section {
   display: flex;
   flex-wrap: wrap;
