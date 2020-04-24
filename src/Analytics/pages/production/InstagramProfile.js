@@ -37,24 +37,39 @@ class InstagramProfile extends React.Component {
           programName[idx] = user.program_name
         }
         igUsers[idx]++
-        if (user.last_scraped && !user.scrape_error_code) {
+        if (
+          user.last_scraped &&
+          moment(user.last_scraped) > moment().startOf('day') &&
+          !user.scrape_error_code
+        ) {
           updateSucceeded[idx]++
-        }
-        if (user.last_scraped && user.last_scraped < moment().startOf('day')) {
           updateCompleted[idx]++
-        } else {
+        } else if (
+          user.last_scraped &&
+          moment(user.last_scraped) > moment().startOf('day') &&
+          user.scrape_error_code
+        ) {
+          updateFailed[idx]++
+          updateCompleted[idx]++
+        } else if (
+          !user.last_scraped ||
+          moment(user.last_scraped) < moment().startOf('day')
+        ) {
           updatePending[idx]++
         }
 
-        updateFailed[idx] =
-          igUsers[idx] - updatePending[idx] - updateSucceeded[idx]
+        if (moment(user.last_scraped) < moment().startOf('day')) {
+          console.log(user.last_scraped)
+        } else {
+          console.log('nottt', user.last_scraped)
+        }
 
-        updateRate[idx] =
-          ((igUsers[idx] - updatePending[idx]) / igUsers[idx]) * 100
-        successRate[idx] =
-          ((igUsers[idx] - updatePending[idx] - updateFailed[idx]) /
-            igUsers[idx]) *
-          100
+        updateRate[idx] = (updateCompleted[idx] / igUsers[idx]) * 100
+        if (updateCompleted[idx] > 0) {
+          successRate[idx] = (updateSucceeded[idx] / updateCompleted[idx]) * 100
+        } else {
+          successRate[idx] = 0
+        }
 
         if (
           user.last_scraped &&

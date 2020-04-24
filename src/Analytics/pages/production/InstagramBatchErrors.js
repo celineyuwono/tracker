@@ -34,7 +34,7 @@ class InstagramBatchErrors extends React.Component {
   render() {
     return (
       <ScrollArea className={cls['analytics-home']}>
-        <MuiTable data={this.state.data} />
+        <MuiTable data={this.state.data} title={'Instagram Batch Errors'} />
       </ScrollArea>
     )
   }

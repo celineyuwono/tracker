@@ -218,7 +218,7 @@ class ErrorsTable extends React.Component {
     return (
       <React.Fragment>
         <MUIDataTable
-          title={'Errors'}
+          title={this.props.title}
           data={data}
           columns={columns}
           options={options}

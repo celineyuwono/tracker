@@ -59,15 +59,15 @@ class ScrapeTable extends React.Component {
         },
       },
       {
-        name: 'updateRate',
-        label: '% Update Finished',
+        name: 'successRate',
+        label: '% Success Rate',
         options: {
           filter: false,
         },
       },
       {
-        name: 'successRate',
-        label: '% Current Success Rate',
+        name: 'updateRate',
+        label: '% Update Finished',
         options: {
           filter: false,
         },
@@ -162,13 +162,6 @@ class ScrapeTable extends React.Component {
           columns={columns}
           options={options}
         />
-        <p>
-          % Current Success Rate = Update Succeed / (Update Succeed + Update
-          Failed)
-        </p>
-        <p></p>
-        <p></p>
-        <p></p>
       </React.Fragment>
     )
   }

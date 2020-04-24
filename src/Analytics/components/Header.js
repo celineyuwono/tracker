@@ -7,7 +7,34 @@ import {
   Button,
 } from '@duik/it'
 
-const menuLinks = [
+const prodMenuLinks = [
+  {
+    name: 'batch',
+    text: 'Batch',
+    url: '/prod/instagram/batch',
+    active: true,
+  },
+  {
+    name: 'batchErrors',
+    text: 'Batch Errors',
+    url: '/prod/instagram/batch/errors',
+    active: true,
+  },
+  {
+    name: 'profile',
+    text: 'Profile Scraping',
+    url: '/prod/instagram/profile',
+    active: true,
+  },
+  {
+    name: 'profileErrors',
+    text: 'Profile Scraping Errors',
+    url: '/prod/instagram/profile/errors',
+    active: true,
+  },
+]
+
+const stgMenuLinks = [
   {
     name: 'batch',
     text: 'Batch',
@@ -30,22 +57,35 @@ const menuLinks = [
     name: 'profileErrors',
     text: 'Profile Scraping Errors',
     url: '/stg/instagram/profile/errors',
-    active: !!window.location.pathname.includes('stg'),
+    active: true,
   },
 ]
+
+const isStg = window.location.pathname.includes('stg/instagram/')
+const isProd = window.location.pathname.includes('prod/instagram/')
 
 const AnalyticsHeader = (props) => (
   <TopBar>
     <TopBarSection>
       <TopBarLinkContainer>
-        {menuLinks.map((link) => (
-          <TopBarLink
-            key={link.name}
-            href={link.active ? link.url : '/under-construction'}
-          >
-            {link.text}
-          </TopBarLink>
-        ))}
+        {isProd &&
+          prodMenuLinks.map((link) => (
+            <TopBarLink
+              key={link.name}
+              href={link.active ? link.url : '/under-construction'}
+            >
+              {link.text}
+            </TopBarLink>
+          ))}
+        {isStg &&
+          stgMenuLinks.map((link) => (
+            <TopBarLink
+              key={link.name}
+              href={link.active ? link.url : '/under-construction'}
+            >
+              {link.text}
+            </TopBarLink>
+          ))}
       </TopBarLinkContainer>
     </TopBarSection>
     <TopBarSection>
