@@ -142,8 +142,8 @@ class ErrorsTable extends React.Component {
       selectableRows: false,
       filterType: 'dropdown',
       responsive: 'stacked',
-      rowsPerPage: 15,
-      rowsPerPageOptions: [15, 30, 100],
+      rowsPerPage: 10,
+      rowsPerPageOptions: [10, 30, 100],
       print: false,
       textLabels: {
         body: {

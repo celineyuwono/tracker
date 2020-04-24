@@ -62,9 +62,9 @@ const stgIgMenuLinks = [
     active: true,
   },
 ]
-
-const igProd = window.location.pathname.includes('prod/instagram/')
-const igStg = window.location.pathname.includes('stg/instagram/')
+const path = window.location.pathname
+const igProd = path.includes('prod/instagram/')
+const igStg = path.includes('stg/instagram/')
 
 const AnalyticsHeader = (props) => (
   <TopBar className={cls['analytics-header-links']}>
@@ -91,12 +91,14 @@ const AnalyticsHeader = (props) => (
       </TopBarLinkContainer>
     </TopBarSection>
     <TopBarSection>
-      <Button style={{ marginRight: '10px' }}>Update</Button>
-      <Button primary style={{ backgroundColor: '#303FA0' }}>
-        <Link to="/login" style={{ color: 'white' }}>
+      <Link to={window.location.pathname} style={{ color: 'gray' }}>
+        <Button style={{ marginRight: '10px' }}>Update</Button>
+      </Link>
+      <Link to="/login" style={{ color: 'white' }}>
+        <Button primary style={{ backgroundColor: '#303FA0' }}>
           Logout
-        </Link>
-      </Button>
+        </Button>
+      </Link>
     </TopBarSection>
   </TopBar>
 )
