@@ -8,6 +8,7 @@ import {
   CircularProgress,
 } from '@material-ui/core'
 import { Face, Fingerprint } from '@material-ui/icons'
+import { UiContext } from '@context'
 import { getStgToken, getProdToken } from '@utils'
 
 const styles = (theme) => ({
@@ -24,13 +25,17 @@ const styles = (theme) => ({
 })
 
 class Login extends React.Component {
+  static contextType = UiContext
+
   state = {
     email: '',
     password: '',
     loginError: '',
     loading: false,
   }
-
+  componentDidMount() {
+    console.log('Auth: (Login)', this.context.auth)
+  }
   handleLoginInfo(e) {
     this.setState({
       [e.target.id]: e.target.value,
@@ -39,7 +44,7 @@ class Login extends React.Component {
 
   async login() {
     const { email, password } = this.state
-    const { handleLogin } = this.props
+    const { handleLoginInfo } = this.props
     if (email.includes('@agilemedia.jp')) {
       this.setState({
         loginError: '',
@@ -58,7 +63,8 @@ class Login extends React.Component {
         prodToken = ''
       }
       if (stgToken || prodToken) {
-        handleLogin()
+        this.context.setAuth(true)
+        // window.location.href = '/'
       } else {
         this.setState({
           loginError: 'メールアドレスもしくはパスワードが正しくありません。',
