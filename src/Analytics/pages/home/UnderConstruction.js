@@ -9,7 +9,7 @@ class UnderConstruction extends React.Component {
       <div
         style={{
           textAlign: 'center',
-          margin: '40px',
+          margin: '50px',
         }}
       >
         <h1>Trackerへようこそ。</h1>

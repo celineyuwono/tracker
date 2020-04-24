@@ -12,23 +12,20 @@ import Login from './Login'
 import PrivateRouteWrapper from './PrivateRouteWrapper'
 import GlobalStateWrapper from './GlobalStateWrapper'
 
-class App extends React.Component {
-  render() {
-    return (
-      <GlobalStateWrapper>
-        <BrowserRouter>
-          <Switch>
-            <Route path="/login" component={Login} />
-            <PrivateRouteWrapper>
-              <Switch>
-                <Route path="/" component={Analytics} />
-              </Switch>
-            </PrivateRouteWrapper>
-          </Switch>
-        </BrowserRouter>
-      </GlobalStateWrapper>
-    )
-  }
+const App = () => {
+  return (
+    <GlobalStateWrapper>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/login" component={Login} />
+          <PrivateRouteWrapper>
+            <Switch>
+              <Route path="/" component={Analytics} />
+            </Switch>
+          </PrivateRouteWrapper>
+        </Switch>
+      </BrowserRouter>
+    </GlobalStateWrapper>
+  )
 }
-
 export default App
