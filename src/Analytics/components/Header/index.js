@@ -7,6 +7,7 @@ import {
   Button,
 } from '@duik/it'
 import { Link } from 'react-router-dom'
+import cls from './analytics-header.module.scss'
 
 const prodIgMenuLinks = [
   {
@@ -66,7 +67,7 @@ const igProd = window.location.pathname.includes('prod/instagram/')
 const igStg = window.location.pathname.includes('stg/instagram/')
 
 const AnalyticsHeader = (props) => (
-  <TopBar>
+  <TopBar className={cls['analytics-header-links']}>
     <TopBarSection>
       <TopBarLinkContainer>
         {igProd &&

@@ -6,7 +6,12 @@ import cls from '../analytics-home.module.scss'
 class UnderConstruction extends React.Component {
   render() {
     return (
-      <div style={{ textAlign: 'center', margin: '40px' }}>
+      <div
+        style={{
+          textAlign: 'center',
+          margin: '40px',
+        }}
+      >
         <h1>Trackerへようこそ。</h1>
         <img src={images.pompom} style={{ display: 'inline-block' }} />
         <h2>

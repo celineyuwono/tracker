@@ -1,6 +1,8 @@
 .analytics-navigation {
   display: none;
-
+  a:hover {
+    color: #303FA0;
+  }
   @media screen and (min-width: 769px) {
     display: block;
   }
@@ -8,4 +10,9 @@
 
 .analytics-navigation-top-bar {
   justify-content: center;
+}
+
+.analytics-navigation-menu {
+  padding-top: 5px;
+  padding-bottom: 0px;
 }

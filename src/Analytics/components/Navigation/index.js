@@ -98,7 +98,9 @@ const AnalyticsNavigation = () => (
           name="Tracker"
           textTop="AP2 Scraping Time Tracker"
         />
-        <NavTitle>Production</NavTitle>
+        <NavTitle className={cls['analytics-navigation-menu']}>
+          Production
+        </NavTitle>
         <NavLinkAnalyticsContainer>
           {prodMenuLinks.map((link) => (
             <NavLinkAnalytics
@@ -111,7 +113,9 @@ const AnalyticsNavigation = () => (
             </NavLinkAnalytics>
           ))}
         </NavLinkAnalyticsContainer>
-        <NavTitle>Staging</NavTitle>
+        <NavTitle className={cls['analytics-navigation-menu']}>
+          Staging
+        </NavTitle>
         <NavLinkAnalyticsContainer>
           {stgMenuLinks.map((link) => (
             <NavLinkAnalytics
