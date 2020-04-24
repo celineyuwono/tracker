@@ -4,24 +4,36 @@ import '@duik/icon/dist/styles.css'
 import '@animated-burgers/burger-squeeze/dist/styles.css'
 import './app.module.scss'
 
+import { UiContext } from '@context'
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 import { Analytics } from 'Analytics'
+import { useMenuVisibility } from '@utils'
+
 import Login from './Login'
 import PrivateRouteWrapper from './PrivateRouteWrapper'
 
-const App = () => {
-  const UiContext = React.createContext()
-  const handleLogin = () => {
-    window.location = '/'
+const RootRoute = (props) => {
+  const uiContext = React.useContext(UiContext)
+
+  const [loginInfo, setLoginInfo] = React.useState(2)
+
+  const handleLoginInfo = (newLoginInfo) => {
+    console.log('logininfo', loginInfo)
+    console.log('Hello', newLoginInfo)
   }
-  // <UiContext.Provider> wrap around Browser Router
+
+  React.useEffect(() => {
+    // on route change, we hide the menus
+    uiContext.menu.handleClose()
+    uiContext.filter.handleClose()
+  }, [props.location.pathname]) // eslint-disable-line
 
   return (
-    <BrowserRouter>
+    <>
       <Switch>
         <Route
           path="/login"
-          component={() => <Login handleLogin={handleLogin} />}
+          component={() => <Login handleLoginInfo={handleLoginInfo} />}
         />
         <PrivateRouteWrapper>
           <Switch>
@@ -29,7 +41,25 @@ const App = () => {
           </Switch>
         </PrivateRouteWrapper>
       </Switch>
-    </BrowserRouter>
+    </>
+  )
+}
+
+const App = () => {
+  const menu = useMenuVisibility(false)
+  const filter = useMenuVisibility(false)
+
+  const contextValue = {
+    menu,
+    filter,
+  }
+
+  return (
+    <UiContext.Provider value={contextValue}>
+      <BrowserRouter>
+        <Route path="/" component={RootRoute} />
+      </BrowserRouter>
+    </UiContext.Provider>
   )
 }
 

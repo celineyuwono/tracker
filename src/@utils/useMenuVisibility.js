@@ -1,24 +1,25 @@
-import React from 'react';
+import React from 'react'
 
 export const useMenuVisibility = () => {
-  const [value, setValue] = React.useState(false);
-
+  const [value, setValue] = React.useState(false)
   const handleOpen = () => {
-    setValue(true);
-  };
+    setValue(true)
+  }
 
   const handleClose = () => {
-    setValue(false);
-  };
+    setValue(false)
+  }
 
   const handleToggle = () => {
-    setValue(!value);
-  };
+    setValue(!value)
+  }
+
+  console.log('value', value)
 
   return {
     isVisible: value,
     handleOpen,
     handleClose,
-    handleToggle
-  };
-};
+    handleToggle,
+  }
+}

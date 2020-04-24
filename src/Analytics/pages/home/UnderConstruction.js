@@ -13,7 +13,11 @@ class UnderConstruction extends React.Component {
         }}
       >
         <h1>Trackerへようこそ。</h1>
-        <img src={images.pompom} style={{ display: 'inline-block' }} />
+        <img
+          src={images.pompom}
+          style={{ display: 'inline-block' }}
+          alt="Under Construction"
+        />
         <h2>
           <b>このページはただいま準備中です。</b>
         </h2>
