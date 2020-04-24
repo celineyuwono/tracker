@@ -6,6 +6,7 @@ import {
   TopBarLink,
   Button,
 } from '@duik/it'
+import { Link } from 'react-router-dom'
 
 const prodIgMenuLinks = [
   {
@@ -90,7 +91,11 @@ const AnalyticsHeader = (props) => (
     </TopBarSection>
     <TopBarSection>
       <Button style={{ marginRight: '10px' }}>Update</Button>
-      <Button primary>Logout</Button>
+      <Button primary>
+        <Link to="/login" style={{ color: 'white' }}>
+          Logout
+        </Link>
+      </Button>
     </TopBarSection>
   </TopBar>
 )

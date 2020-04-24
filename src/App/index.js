@@ -10,54 +10,29 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom'
 import { Analytics } from 'Analytics'
 import { useMenuVisibility } from '@utils'
 
-import Navigator from './Navigator'
 import Login from './Login'
 import PrivateRouteWrapper from './PrivateRouteWrapper'
 
-const RootRoute = (props) => {
+const App = () => {
   const uiContext = React.useContext(UiContext)
 
   const handleLogin = () => {
     window.location = '/'
   }
-
-  React.useEffect(() => {
-    // on route change, we hide the menus
-    uiContext.menu.handleClose()
-    uiContext.filter.handleClose()
-  }, [props.location.pathname]) // eslint-disable-line
-
   return (
-    <>
-      <Navigator />
-      <Switch>
-        <Route
-          path="/login"
-          component={() => <Login handleLogin={handleLogin} />}
-        />
-        <PrivateRouteWrapper>
-          <Switch>
-            <Route path="/" component={() => <Analytics />} />
-          </Switch>
-        </PrivateRouteWrapper>
-      </Switch>
-    </>
-  )
-}
-
-const App = () => {
-  const menu = useMenuVisibility(false)
-  const filter = useMenuVisibility(false)
-
-  const contextValue = {
-    menu,
-    filter,
-  }
-
-  return (
-    <UiContext.Provider value={contextValue}>
+    <UiContext.Provider>
       <BrowserRouter>
-        <Route path="/" component={RootRoute} />
+        <Switch>
+          <Route
+            path="/login"
+            component={() => <Login handleLogin={handleLogin} />}
+          />
+          <PrivateRouteWrapper>
+            <Switch>
+              <Route path="/" component={Analytics} />
+            </Switch>
+          </PrivateRouteWrapper>
+        </Switch>
       </BrowserRouter>
     </UiContext.Provider>
   )
