@@ -1,49 +1,71 @@
 import React from 'react'
 import { UiContext } from '@context'
-import { processInstagramBatch, getStgInstagramUsers } from '@utils'
+import {
+  useLocalStorage,
+  processInstagramBatch,
+  getStgInstagramUsers,
+} from '@utils'
 
-class GlobalStateWrapper extends React.Component {
-  state = {
-    auth: false,
-    stgInstagramUsersBatch: [{ this: 'asf' }],
-    loadStgInstagramUsersBatch: () => {},
-  }
+const GlobalStateWrapper = ({ children }) => {
+  const [auth, setAuth] = useLocalStorage('auth', false)
 
-  loadStgInstagramUsersBatch = () => {
-    getStgInstagramUsers()
-      .then((res) => {
-        return processInstagramBatch(res)
-      })
-      .then((data) => {
-        this.setState({
-          stgInstagramUsersBatch: data,
-        })
-      })
-    console.log(this.state)
-  }
-
-  setAuth = (value) => {
-    this.setState({
-      auth: value,
-    })
-    console.log('asdfasdfasdfasdf')
-  }
-
-  render() {
-    const { children } = this.props
-    return (
-      <UiContext.Provider
-        value={{
-          auth: this.state.auth,
-          stgInstagramUsersBatch: this.state.stgInstagramUsersBatch,
-          setAuth: this.setAuth,
-          // loadStgInstagramUsersBatch: this.loadStgInstagramUsersBatch(),
-        }}
-      >
-        {children}
-      </UiContext.Provider>
-    )
-  }
+  return (
+    <UiContext.Provider
+      value={{
+        auth,
+        setAuth,
+      }}
+    >
+      {children}
+    </UiContext.Provider>
+  )
 }
+
+// class GlobalStateWrapper extends React.Component {
+//   state = {
+//     auth: false,
+//     stgInstagramUsersBatch: [{ this: 'asf' }],
+//     loadStgInstagramUsersBatch: () => {},
+//   }
+
+//   loadStgInstagramUsersBatch = () => {
+//     getStgInstagramUsers()
+//       .then((res) => {
+//         return processInstagramBatch(res)
+//       })
+//       .then((data) => {
+//         this.setState({
+//           stgInstagramUsersBatch: data,
+//         })
+//       })
+//     console.log(this.state)
+//   }
+
+//   setAuth = (value) => {
+//     this.setState({
+//       auth: value,
+//     })
+//   }
+
+//   componentDidMount = () => {
+//     console.log('state', this.state)
+//   }
+
+//   render() {
+//     const { children } = this.props
+//     return (
+//       <UiContext.Provider
+//         value={{
+//           auth: this.state.auth,
+//           stgInstagramUsersBatch: this.state.stgInstagramUsersBatch,
+//           setAuth: this.setAuth,
+//           // loadStgInstagramUsersBatch: this.loadStgInstagramUsersBatch(),
+//         }}
+//       >
+//         {children}
+//       </UiContext.Provider>
+//     )
+//   }
+// }
 
 export default GlobalStateWrapper

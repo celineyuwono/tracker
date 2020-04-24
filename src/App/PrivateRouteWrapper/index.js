@@ -4,13 +4,12 @@ import { UiContext } from '@context'
 
 class PrivateRouteWrapper extends Component<Props> {
   static contextType = UiContext
-  componentDidMount() {
-    console.log('Auth: (Private Route)', this.context.auth)
-  }
+
   render() {
+    const auth = this.context.auth
     const { children } = this.props
 
-    if (this.context.auth) {
+    if (auth) {
       return <Route>{children}</Route>
     } else {
       return (

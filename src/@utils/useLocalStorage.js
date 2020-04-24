@@ -17,8 +17,6 @@ export const useLocalStorage = (key, initialValue) => {
       console.log(error)
       return initialValue
     }
-
-    console.log('stored', storedValue)
   })
 
   // Return a wrapped version of useState's setter function that ...

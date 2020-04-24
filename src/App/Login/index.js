@@ -33,18 +33,18 @@ class Login extends React.Component {
     loginError: '',
     loading: false,
   }
-  componentDidMount() {
-    console.log('Auth: (Login)', this.context.auth)
-  }
   handleLoginInfo(e) {
     this.setState({
       [e.target.id]: e.target.value,
     })
   }
+  componentDidMount() {
+    this.context.setAuth(false)
+  }
 
   async login() {
     const { email, password } = this.state
-    const { handleLoginInfo } = this.props
+    const { handleLoginInfo, history } = this.props
     if (email.includes('@agilemedia.jp')) {
       this.setState({
         loginError: '',
@@ -64,7 +64,7 @@ class Login extends React.Component {
       }
       if (stgToken || prodToken) {
         this.context.setAuth(true)
-        // window.location.href = '/'
+        history.push('/')
       } else {
         this.setState({
           loginError: 'メールアドレスもしくはパスワードが正しくありません。',
