@@ -61,7 +61,7 @@ class Login extends React.Component {
         handleLogin()
       } else {
         this.setState({
-          loginError: 'Wrong email and/or password.',
+          loginError: 'メールアドレスもしくはパスワードが正しくありません。',
         })
       }
       this.setState({
@@ -69,11 +69,11 @@ class Login extends React.Component {
       })
     } else if (!email || !password) {
       this.setState({
-        loginError: 'Please input both your email and password.',
+        loginError: 'メールアドレスとパスワードを入力してください。',
       })
     } else {
       this.setState({
-        loginError: 'Please use an @agilemedia.jp email.',
+        loginError: '@agilemedia.jpのメールアドレスでログインしてください。',
       })
     }
   }

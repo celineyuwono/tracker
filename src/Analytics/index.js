@@ -11,13 +11,13 @@ import StgInstagramBatch from './pages/staging/InstagramBatch'
 import StgInstagramProfile from './pages/staging/InstagramProfile'
 import StgInstagramBatchErrors from './pages/staging/InstagramBatchErrors'
 import StgInstagramProfileErrors from './pages/staging/InstagramProfileErrors'
+import UnderConstruction from './pages/home/UnderConstruction'
 
 // components
 import Header from './components/Header'
 import TopBarMobile from './components/TopBarMobile'
 import Navigation from './components/Navigation'
 import NavigationMobile from './components/NavigationMobile'
-import UnderConstruction from './components/UnderConstruction'
 
 export const Analytics = (data) => {
   return (
