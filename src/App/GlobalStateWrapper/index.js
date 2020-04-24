@@ -8,12 +8,17 @@ import {
 
 const GlobalStateWrapper = ({ children }) => {
   const [auth, setAuth] = useLocalStorage('auth', false)
-
+  const [stgIgUsersBatch, setStgIgUsersBatch] = useLocalStorage(
+    'stgIgUsersBatch',
+    []
+  )
   return (
     <UiContext.Provider
       value={{
         auth,
         setAuth,
+        stgIgUsersBatch,
+        setStgIgUsersBatch,
       }}
     >
       {children}
