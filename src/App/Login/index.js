@@ -40,6 +40,7 @@ class Login extends React.Component {
   }
   componentDidMount() {
     this.context.setAuth(false)
+    this.context.setStgIgUsersBatch([]) // Bob don't forget this or put it in home page
   }
 
   async login() {

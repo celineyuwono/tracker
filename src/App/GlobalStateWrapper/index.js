@@ -12,6 +12,34 @@ const GlobalStateWrapper = ({ children }) => {
     'stgIgUsersBatch',
     []
   )
+  const [stgIgUsersBatchErr, setStgIgUsersBatchErr] = useLocalStorage(
+    'stgIgUsersBatchErr',
+    []
+  )
+  const [stgIgUsersProf, setStgIgUsersProf] = useLocalStorage(
+    'stgIgUsersProf',
+    []
+  )
+  const [stgIgUsersProfErr, setStgIgUsersProfErr] = useLocalStorage(
+    'stgIgUsersProfErr',
+    []
+  )
+  const [prodIgUsersBatch, setProdIgUsersBatch] = useLocalStorage(
+    'prodIgUsersBatch',
+    []
+  )
+  const [prodIgUsersBatchErr, setProdIgUsersBatchErr] = useLocalStorage(
+    'prodIgUsersBatchErr',
+    []
+  )
+  const [prodIgUsersProf, setProdIgUsersProf] = useLocalStorage(
+    'prodIgUsersProf',
+    []
+  )
+  const [prodIgUsersProfErr, setProdIgUsersProfErr] = useLocalStorage(
+    'prodIgUsersProfErr',
+    []
+  )
   return (
     <UiContext.Provider
       value={{
@@ -19,58 +47,25 @@ const GlobalStateWrapper = ({ children }) => {
         setAuth,
         stgIgUsersBatch,
         setStgIgUsersBatch,
+        stgIgUsersBatchErr,
+        setStgIgUsersBatchErr,
+        stgIgUsersProf,
+        setStgIgUsersProf,
+        stgIgUsersProfErr,
+        setStgIgUsersProfErr,
+        prodIgUsersBatch,
+        setProdIgUsersBatch,
+        prodIgUsersBatchErr,
+        setProdIgUsersBatchErr,
+        prodIgUsersProf,
+        setProdIgUsersProf,
+        prodIgUsersProfErr,
+        setProdIgUsersProfErr,
       }}
     >
       {children}
     </UiContext.Provider>
   )
 }
-
-// class GlobalStateWrapper extends React.Component {
-//   state = {
-//     auth: false,
-//     stgInstagramUsersBatch: [{ this: 'asf' }],
-//     loadStgInstagramUsersBatch: () => {},
-//   }
-
-//   loadStgInstagramUsersBatch = () => {
-//     getStgInstagramUsers()
-//       .then((res) => {
-//         return processInstagramBatch(res)
-//       })
-//       .then((data) => {
-//         this.setState({
-//           stgInstagramUsersBatch: data,
-//         })
-//       })
-//     console.log(this.state)
-//   }
-
-//   setAuth = (value) => {
-//     this.setState({
-//       auth: value,
-//     })
-//   }
-
-//   componentDidMount = () => {
-//     console.log('state', this.state)
-//   }
-
-//   render() {
-//     const { children } = this.props
-//     return (
-//       <UiContext.Provider
-//         value={{
-//           auth: this.state.auth,
-//           stgInstagramUsersBatch: this.state.stgInstagramUsersBatch,
-//           setAuth: this.setAuth,
-//           // loadStgInstagramUsersBatch: this.loadStgInstagramUsersBatch(),
-//         }}
-//       >
-//         {children}
-//       </UiContext.Provider>
-//     )
-//   }
-// }
 
 export default GlobalStateWrapper

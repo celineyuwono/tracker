@@ -9,10 +9,6 @@ import { UiContext } from '@context'
 class InstagramBatch extends React.Component {
   static contextType = UiContext
 
-  state = {
-    data: [],
-  }
-
   componentDidMount() {
     if (this.context.stgIgUsersBatch.length < 1) {
       console.log(this.context.stgIgUsersBatch)

@@ -1,32 +1,30 @@
 import React from 'react'
-
-import { ScrollArea } from '@duik/it'
 import cls from '../analytics-home.module.scss'
 import MuiTable from '../../templates/batch'
+import { ScrollArea } from '@duik/it'
 import { getProdInstagramUsers } from '@utils'
 import { processInstagramBatch } from '@utils'
+import { UiContext } from '@context'
 
 class InstagramBatch extends React.Component {
-  state = {
-    data: [],
-  }
+  static contextType = UiContext
 
   componentDidMount() {
-    getProdInstagramUsers()
-      .then((res) => {
-        return processInstagramBatch(res)
-      })
-      .then((data) => {
-        this.setState({
-          data,
+    if (this.context.prodIgUsersBatch.length < 1) {
+      getProdInstagramUsers()
+        .then((res) => {
+          return processInstagramBatch(res)
         })
-      })
+        .then((data) => {
+          this.context.setProdIgUsersBatch(data)
+        })
+    }
   }
 
   render() {
     return (
       <ScrollArea className={cls['analytics-home']}>
-        <MuiTable data={this.state.data} />
+        <MuiTable data={this.context.prodIgUsersBatch} />
       </ScrollArea>
     )
   }

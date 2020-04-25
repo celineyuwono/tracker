@@ -66,6 +66,10 @@ const path = window.location.pathname
 const igProd = path.includes('prod/instagram/')
 const igStg = path.includes('stg/instagram/')
 
+const clearLocalState = () => {
+  console.log('Clearing local state...')
+}
+
 const AnalyticsHeader = (props) => (
   <TopBar className={cls['analytics-header-links']}>
     <TopBarSection>
@@ -93,7 +97,9 @@ const AnalyticsHeader = (props) => (
     <TopBarSection>
       <Link to={window.location.pathname} style={{ color: 'gray' }}>
         {igProd || igStg ? (
-          <Button style={{ marginRight: '10px' }}>Update</Button>
+          <Button style={{ marginRight: '10px' }} onClick={clearLocalState()}>
+            Update
+          </Button>
         ) : (
           ''
         )}

@@ -4,27 +4,30 @@ import MuiTable from '../../templates/errors'
 import { ScrollArea } from '@duik/it'
 import { getStgInstagramUsers } from '@utils'
 import { processInstagramProfileErrors } from '@utils'
+import { UiContext } from '@context'
 
 class InstagramProfileErrors extends React.Component {
-  state = {
-    data: [],
-  }
+  static contextType = UiContext
+
   componentDidMount() {
-    getStgInstagramUsers()
-      .then((res) => {
-        return processInstagramProfileErrors(res)
-      })
-      .then((data) => {
-        this.setState({
-          data,
+    if (this.context.stgIgUsersProfErr.length < 1) {
+      getStgInstagramUsers()
+        .then((res) => {
+          return processInstagramProfileErrors(res)
         })
-      })
+        .then((data) => {
+          this.context.setStgIgUsersProfErr(data)
+        })
+    }
   }
 
   render() {
     return (
       <ScrollArea className={cls['analytics-home']}>
-        <MuiTable data={this.state.data} title={'Instagram Profile Errors'} />
+        <MuiTable
+          data={this.context.stgIgUsersProfErr}
+          title={'Instagram Profile Errors'}
+        />
       </ScrollArea>
     )
   }

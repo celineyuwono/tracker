@@ -4,27 +4,27 @@ import cls from '../analytics-home.module.scss'
 import { ScrollArea } from '@duik/it'
 import { getStgInstagramUsers } from '@utils'
 import { processInstagramProfile } from '@utils'
+import { UiContext } from '@context'
 
 class InstagramProfile extends React.Component {
-  state = {
-    data: [],
-  }
+  static contextType = UiContext
+
   componentDidMount() {
-    getStgInstagramUsers()
-      .then((res) => {
-        return processInstagramProfile(res)
-      })
-      .then((data) => {
-        this.setState({
-          data,
+    if (this.context.stgIgUsersProf.length < 1) {
+      getStgInstagramUsers()
+        .then((res) => {
+          return processInstagramProfile(res)
         })
-      })
+        .then((data) => {
+          this.context.setStgIgUsersProf(data)
+        })
+    }
   }
 
   render() {
     return (
       <ScrollArea className={cls['analytics-home']}>
-        <MuiTable data={this.state.data} />
+        <MuiTable data={this.context.stgIgUsersProf} />
       </ScrollArea>
     )
   }
