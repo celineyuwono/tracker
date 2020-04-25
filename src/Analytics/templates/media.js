@@ -211,7 +211,7 @@ class MediaTable extends React.Component {
       print: false,
       textLabels: {
         body: {
-          noMatch: 'アンバサダーが見つけれませんでした。',
+          noMatch: 'アンバサダーが見つけられませんでした。',
           toolTip: '並び替え',
           columnHeaderTooltip: (column) => `${column.label}を並び替え`,
         },

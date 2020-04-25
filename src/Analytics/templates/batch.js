@@ -147,7 +147,7 @@ class BatchTable extends React.Component {
       print: false,
       textLabels: {
         body: {
-          noMatch: 'プログラムが見つけれませんでした。',
+          noMatch: 'プログラムが見つけられませんでした。',
           toolTip: '並び替え',
           columnHeaderTooltip: (column) => `${column.label}を並び替え`,
         },

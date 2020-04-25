@@ -9,19 +9,19 @@ import { UiContext } from '@context'
 class InstagramProfile extends React.Component {
   static contextType = UiContext
 
-  componentDidMount() {
+  async componentDidMount() {
     if (
       this.context.prodIgUsersProf.length < 1 ||
       this.context.updateUrl === '/prod/instagram/profile'
     ) {
-      getProdInstagramUsers()
-        .then((res) => {
-          return processInstagramProfile(res)
-        })
-        .then((data) => {
-          this.context.setProdIgUsersProf(data)
-          this.context.setUpdateUrl('')
-        })
+      try {
+        const users = await getProdInstagramUsers()
+        const data = await processInstagramProfile(users)
+        this.context.setProdIgUsersProf(data)
+        this.context.setUpdateUrl('')
+      } catch {
+        this.context.setUpdateUrl('')
+      }
     }
   }
 

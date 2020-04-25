@@ -6,6 +6,7 @@ import {
   TopBarLink,
   Button,
 } from '@duik/it'
+import { CircularProgress } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import { UiContext } from '@context'
 import cls from './analytics-header.module.scss'
@@ -97,20 +98,27 @@ const AnalyticsHeader = (props) => (
           <Link to={window.location.pathname} style={{ color: 'gray' }}>
             {igProd || igStg ? (
               <Button
-                style={{ marginRight: '10px' }}
+                style={{ marginRight: '10px', width: '80px' }}
                 onClick={() => {
                   context.setUpdateUrl(path)
                   window.location.reload()
                 }}
               >
-                Update
+                {!context.updateUrl ? (
+                  'Update'
+                ) : (
+                  <CircularProgress style={{ zoom: 0.5 }} />
+                )}
               </Button>
             ) : (
               ''
             )}
           </Link>
           <Link to="/login" style={{ color: 'white' }}>
-            <Button primary style={{ backgroundColor: '#303FA0' }}>
+            <Button
+              primary
+              style={{ backgroundColor: '#303FA0', width: '80px' }}
+            >
               Logout
             </Button>
           </Link>

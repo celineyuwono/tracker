@@ -9,19 +9,19 @@ import { UiContext } from '@context'
 class InstagramProfileErrors extends React.Component {
   static contextType = UiContext
 
-  componentDidMount() {
+  async componentDidMount() {
     if (
       this.context.stgIgUsersProfErr.length < 1 ||
       this.context.updateUrl === '/stg/instagram/profile/errors'
     ) {
-      getStgInstagramUsers()
-        .then((res) => {
-          return processInstagramProfileErrors(res)
-        })
-        .then((data) => {
-          this.context.setStgIgUsersProfErr(data)
-          this.context.setUpdateUrl('')
-        })
+      try {
+        const users = await getStgInstagramUsers()
+        const data = await processInstagramProfileErrors(users)
+        this.context.setStgIgUsersProfErr(data)
+        this.context.setUpdateUrl('')
+      } catch {
+        this.context.setUpdateUrl('')
+      }
     }
   }
 
@@ -30,7 +30,7 @@ class InstagramProfileErrors extends React.Component {
       <ScrollArea className={cls['analytics-home']}>
         <MuiTable
           data={this.context.stgIgUsersProfErr}
-          title={'Instagram Profile Errors'}
+          title={'Instagram Profile Scraping Errors'}
         />
       </ScrollArea>
     )

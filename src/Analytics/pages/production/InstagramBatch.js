@@ -9,19 +9,19 @@ import { UiContext } from '@context'
 class InstagramBatch extends React.Component {
   static contextType = UiContext
 
-  componentDidMount() {
+  async componentDidMount() {
     if (
       this.context.prodIgUsersBatch.length < 1 ||
       this.context.updateUrl === '/prod/instagram/batch'
     ) {
-      getProdInstagramUsers()
-        .then((res) => {
-          return processInstagramBatch(res)
-        })
-        .then((data) => {
-          this.context.setProdIgUsersBatch(data)
-          this.context.setUpdateUrl('')
-        })
+      try {
+        const users = await getProdInstagramUsers()
+        const data = await processInstagramBatch(users)
+        this.context.setProdIgUsersBatch(data)
+        this.context.setUpdateUrl('')
+      } catch {
+        this.context.setUpdateUrl('')
+      }
     }
   }
 

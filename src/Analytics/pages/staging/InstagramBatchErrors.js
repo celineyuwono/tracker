@@ -9,19 +9,19 @@ import { UiContext } from '@context'
 class InstagramBatchErrors extends React.Component {
   static contextType = UiContext
 
-  componentDidMount() {
+  async componentDidMount() {
     if (
       this.context.stgIgUsersBatchErr.length < 1 ||
       this.context.updateUrl === '/stg/instagram/batch/errors'
     ) {
-      getStgInstagramUsers()
-        .then((res) => {
-          return processInstagramBatchErrors(res)
-        })
-        .then((data) => {
-          this.context.setStgIgUsersBatchErr(data)
-          this.context.setUpdateUrl('')
-        })
+      try {
+        const users = await getStgInstagramUsers()
+        const data = await processInstagramBatchErrors(users)
+        this.context.setStgIgUsersBatchErr(data)
+        this.context.setUpdateUrl('')
+      } catch {
+        this.context.setUpdateUrl('')
+      }
     }
   }
 
