@@ -1,10 +1,6 @@
 import React from 'react'
 import { UiContext } from '@context'
-import {
-  useLocalStorage,
-  processInstagramBatch,
-  getStgInstagramUsers,
-} from '@utils'
+import { useLocalStorage } from '@utils'
 
 const GlobalStateWrapper = ({ children }) => {
   const [token, setToken] = useLocalStorage('token', '')

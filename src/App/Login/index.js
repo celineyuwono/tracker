@@ -44,7 +44,7 @@ class Login extends React.Component {
 
   async login() {
     const { email, password } = this.state
-    const { handleLoginInfo, history } = this.props
+    const { history } = this.props
     if (email.includes('@agilemedia.jp')) {
       this.setState({
         loginError: '',
