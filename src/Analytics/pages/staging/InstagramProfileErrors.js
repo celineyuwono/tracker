@@ -10,13 +10,17 @@ class InstagramProfileErrors extends React.Component {
   static contextType = UiContext
 
   componentDidMount() {
-    if (this.context.stgIgUsersProfErr.length < 1) {
+    if (
+      this.context.stgIgUsersProfErr.length < 1 ||
+      this.context.updateUrl === '/stg/instagram/profile/errors'
+    ) {
       getStgInstagramUsers()
         .then((res) => {
           return processInstagramProfileErrors(res)
         })
         .then((data) => {
           this.context.setStgIgUsersProfErr(data)
+          this.context.setUpdateUrl('')
         })
     }
   }

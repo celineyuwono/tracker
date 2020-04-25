@@ -12,7 +12,7 @@ class InstagramProfile extends React.Component {
   componentDidMount() {
     if (
       this.context.stgIgUsersProf.length < 1 ||
-      this.context.updateUrl.includes('/stg/instagram/profile')
+      this.context.updateUrl === '/stg/instagram/profile'
     ) {
       getStgInstagramUsers()
         .then((res) => {

@@ -10,13 +10,17 @@ class InstagramBatch extends React.Component {
   static contextType = UiContext
 
   componentDidMount() {
-    if (this.context.prodIgUsersBatch.length < 1) {
+    if (
+      this.context.prodIgUsersBatch.length < 1 ||
+      this.context.updateUrl === '/prod/instagram/batch'
+    ) {
       getProdInstagramUsers()
         .then((res) => {
           return processInstagramBatch(res)
         })
         .then((data) => {
           this.context.setProdIgUsersBatch(data)
+          this.context.setUpdateUrl('')
         })
     }
   }

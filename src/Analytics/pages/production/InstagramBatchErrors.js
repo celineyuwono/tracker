@@ -10,13 +10,17 @@ class InstagramBatchErrors extends React.Component {
   static contextType = UiContext
 
   componentDidMount() {
-    if (this.context.prodIgUsersBatchErr.length < 1) {
+    if (
+      this.context.prodIgUsersBatchErr.length < 1 ||
+      this.context.updateUrl === '/prod/instagram/batch/errors'
+    ) {
       getProdInstagramUsers()
         .then((res) => {
           return processInstagramBatchErrors(res)
         })
         .then((data) => {
           this.context.setProdIgUsersBatchErr(data)
+          this.context.setUpdateUrl('')
         })
     }
   }
