@@ -108,21 +108,21 @@ export const processInstagramProfile = (res) => {
     igUsers[idx]++
     if (
       user.last_scraped &&
-      moment(user.last_scraped) > moment().startOf('month') &&
+      moment(user.last_scraped).isAfter(moment().startOf('month')) &&
       !user.scrape_error_code
     ) {
       updateSucceeded[idx]++
       updateCompleted[idx]++
     } else if (
       user.last_scraped &&
-      moment(user.last_scraped) > moment().startOf('month') &&
+      moment(user.last_scraped).isAfter(moment().startOf('month')) &&
       user.scrape_error_code
     ) {
       updateFailed[idx]++
       updateCompleted[idx]++
     } else if (
       !user.last_scraped ||
-      moment(user.last_scraped) < moment().startOf('month')
+      moment(user.last_scraped).isBefore(moment().startOf('month'))
     ) {
       updatePending[idx]++
     }
@@ -136,7 +136,7 @@ export const processInstagramProfile = (res) => {
 
     if (
       user.last_scraped &&
-      (!lastInvoked[idx] || moment(user.last_scraped) > lastInvoked[idx])
+      (!lastInvoked[idx] || moment(user.last_scraped).isAfter(lastInvoked[idx]))
     ) {
       lastInvoked[idx] = moment(user.last_scraped)
     }
