@@ -11,7 +11,6 @@ class InstagramBatch extends React.Component {
 
   componentDidMount() {
     if (this.context.stgIgUsersBatch.length < 1) {
-      console.log(this.context.stgIgUsersBatch)
       getStgInstagramUsers()
         .then((res) => {
           return processInstagramBatch(res)

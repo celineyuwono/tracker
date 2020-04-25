@@ -34,22 +34,3 @@ class PrivateRouteWrapper extends Component<Props> {
 }
 
 export default PrivateRouteWrapper
-
-// const PrivateRouteWrapper = ({ children }) => {
-//   return (
-//     <UiContext.Consumer>
-//       {(context) =>
-//         context.token && jwt.decode(context.token) ? (
-//           <Route>{children}</Route>
-//         ) : (
-//           <Redirect
-//             to={{
-//               pathname: '/login',
-//             }}
-//           />
-//         )}
-//     </UiContext.Consumer>
-//   )
-// }
-
-// export default PrivateRouteWrapper
