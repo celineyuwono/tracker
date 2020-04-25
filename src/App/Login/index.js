@@ -39,8 +39,7 @@ class Login extends React.Component {
     })
   }
   componentDidMount() {
-    this.context.setAuth(false)
-    this.context.setStgIgUsersBatch([]) // Bob don't forget this or put it in home page
+    localStorage.clear()
   }
 
   async login() {
@@ -55,16 +54,17 @@ class Login extends React.Component {
       let prodToken = ''
       try {
         stgToken = await getStgToken({ email: email, password: password })
+        this.context.setToken(stgToken)
       } catch {
         stgToken = ''
       }
       try {
         prodToken = await getProdToken({ email: email, password: password })
+        this.context.setToken(prodToken)
       } catch {
         prodToken = ''
       }
       if (stgToken || prodToken) {
-        this.context.setAuth(true)
         history.push('/')
       } else {
         this.setState({

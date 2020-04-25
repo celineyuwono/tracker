@@ -7,7 +7,7 @@ import {
 } from '@utils'
 
 const GlobalStateWrapper = ({ children }) => {
-  const [auth, setAuth] = useLocalStorage('auth', false)
+  const [token, setToken] = useLocalStorage('token', '')
   const [stgIgUsersBatch, setStgIgUsersBatch] = useLocalStorage(
     'stgIgUsersBatch',
     []
@@ -43,8 +43,8 @@ const GlobalStateWrapper = ({ children }) => {
   return (
     <UiContext.Provider
       value={{
-        auth,
-        setAuth,
+        token,
+        setToken,
         stgIgUsersBatch,
         setStgIgUsersBatch,
         stgIgUsersBatchErr,

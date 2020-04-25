@@ -6,10 +6,10 @@ class PrivateRouteWrapper extends Component<Props> {
   static contextType = UiContext
 
   render() {
-    const auth = this.context.auth
+    const token = this.context.token
     const { children } = this.props
 
-    if (auth) {
+    if (token) {
       return <Route>{children}</Route>
     } else {
       return (
