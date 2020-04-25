@@ -7,6 +7,7 @@ import {
   Button,
 } from '@duik/it'
 import { Link } from 'react-router-dom'
+import { UiContext } from '@context'
 import cls from './analytics-header.module.scss'
 
 const prodIgMenuLinks = [
@@ -66,57 +67,57 @@ const path = window.location.pathname
 const igProd = path.includes('prod/instagram/')
 const igStg = path.includes('stg/instagram/')
 
-const clearLocalState = () => {
-  const token = localStorage.getItem('token')
-  localStorage.clear()
-  localStorage.setItem('token', token)
-  window.location.reload()
-}
-
 const AnalyticsHeader = (props) => (
-  <TopBar className={cls['analytics-header-links']}>
-    <TopBarSection>
-      <TopBarLinkContainer>
-        {igProd &&
-          prodIgMenuLinks.map((link) => (
-            <TopBarLink
-              key={link.name}
-              href={link.active ? link.url : '/under-construction'}
-            >
-              {link.text}
-            </TopBarLink>
-          ))}
-        {igStg &&
-          stgIgMenuLinks.map((link) => (
-            <TopBarLink
-              key={link.name}
-              href={link.active ? link.url : '/under-construction'}
-            >
-              {link.text}
-            </TopBarLink>
-          ))}
-      </TopBarLinkContainer>
-    </TopBarSection>
-    <TopBarSection>
-      <Link to={window.location.pathname} style={{ color: 'gray' }}>
-        {igProd || igStg ? (
-          <Button
-            style={{ marginRight: '10px' }}
-            onClick={() => clearLocalState()}
-          >
-            Update
-          </Button>
-        ) : (
-          ''
-        )}
-      </Link>
-      <Link to="/login" style={{ color: 'white' }}>
-        <Button primary style={{ backgroundColor: '#303FA0' }}>
-          Logout
-        </Button>
-      </Link>
-    </TopBarSection>
-  </TopBar>
+  <UiContext.Consumer>
+    {(context) => (
+      <TopBar className={cls['analytics-header-links']}>
+        <TopBarSection>
+          <TopBarLinkContainer>
+            {igProd &&
+              prodIgMenuLinks.map((link) => (
+                <TopBarLink
+                  key={link.name}
+                  href={link.active ? link.url : '/under-construction'}
+                >
+                  {link.text}
+                </TopBarLink>
+              ))}
+            {igStg &&
+              stgIgMenuLinks.map((link) => (
+                <TopBarLink
+                  key={link.name}
+                  href={link.active ? link.url : '/under-construction'}
+                >
+                  {link.text}
+                </TopBarLink>
+              ))}
+          </TopBarLinkContainer>
+        </TopBarSection>
+        <TopBarSection>
+          <Link to={window.location.pathname} style={{ color: 'gray' }}>
+            {igProd || igStg ? (
+              <Button
+                style={{ marginRight: '10px' }}
+                onClick={() => {
+                  context.setUpdateUrl(path)
+                  window.location.reload()
+                }}
+              >
+                Update
+              </Button>
+            ) : (
+              ''
+            )}
+          </Link>
+          <Link to="/login" style={{ color: 'white' }}>
+            <Button primary style={{ backgroundColor: '#303FA0' }}>
+              Logout
+            </Button>
+          </Link>
+        </TopBarSection>
+      </TopBar>
+    )}
+  </UiContext.Consumer>
 )
 
 export default AnalyticsHeader

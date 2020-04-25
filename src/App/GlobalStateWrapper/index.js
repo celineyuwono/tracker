@@ -4,6 +4,7 @@ import { useLocalStorage } from '@utils'
 
 const GlobalStateWrapper = ({ children }) => {
   const [token, setToken] = useLocalStorage('token', '')
+  const [updateUrl, setUpdateUrl] = useLocalStorage('updateUrl', '')
   const [stgIgUsersBatch, setStgIgUsersBatch] = useLocalStorage(
     'stgIgUsersBatch',
     []
@@ -41,6 +42,8 @@ const GlobalStateWrapper = ({ children }) => {
       value={{
         token,
         setToken,
+        updateUrl,
+        setUpdateUrl,
         stgIgUsersBatch,
         setStgIgUsersBatch,
         stgIgUsersBatchErr,

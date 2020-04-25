@@ -10,13 +10,17 @@ class InstagramProfile extends React.Component {
   static contextType = UiContext
 
   componentDidMount() {
-    if (this.context.stgIgUsersProf.length < 1) {
+    if (
+      this.context.stgIgUsersProf.length < 1 ||
+      this.context.updateUrl.includes('/stg/instagram/profile')
+    ) {
       getStgInstagramUsers()
         .then((res) => {
           return processInstagramProfile(res)
         })
         .then((data) => {
           this.context.setStgIgUsersProf(data)
+          this.context.setUpdateUrl('')
         })
     }
   }
