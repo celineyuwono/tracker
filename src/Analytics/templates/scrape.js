@@ -98,7 +98,7 @@ class ScrapeTable extends React.Component {
           filterTable: 'フィルター',
         },
         filter: {
-          all: '全部',
+          all: '全プログラム',
           title: 'フィルター',
           reset: 'リセット',
         },

@@ -101,7 +101,6 @@ const AnalyticsHeader = (props) => (
                 style={{ marginRight: '10px', width: '80px' }}
                 onClick={() => {
                   context.setUpdateUrl(path)
-                  window.location.reload()
                 }}
               >
                 {!context.updateUrl ? (

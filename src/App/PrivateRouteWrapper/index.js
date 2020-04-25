@@ -9,9 +9,12 @@ class PrivateRouteWrapper extends Component<Props> {
   componentDidMount() {
     const decoded = jwt.decode(this.context.token)
     // Expires in 1 day after login
-    const expiryDate = moment(new Date(decoded.exp))
-
-    if (moment().isAfter(expiryDate)) {
+    if (decoded) {
+      const expiryDate = moment(new Date(decoded.exp))
+      if (moment().isAfter(expiryDate)) {
+        window.location.pathname = '/login'
+      }
+    } else {
       window.location.pathname = '/login'
     }
   }
