@@ -19,7 +19,7 @@
     "mui-datatables": "^2.14.0",
     "node-gzip": "^1.1.2",
     "pako": "^1.0.11",
-    "prismjs": "^1.16.0",
+    "prismjs": "^1.23.0",
     "react": "^16.9.0",
     "react-chartjs-2": "^2.7.6",
     "react-dom": "^16.9.0",
