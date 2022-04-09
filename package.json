@@ -15,7 +15,7 @@
     "downloadjs": "^1.4.7",
     "jsonwebtoken": "^8.5.1",
     "lodash.defaultsdeep": "^4.6.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "mui-datatables": "^2.14.0",
     "node-gzip": "^1.1.2",
     "pako": "^1.0.11",
